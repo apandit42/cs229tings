@@ -438,7 +438,7 @@ def get_fh_info():
         player_elems = player_page.select('.content.player-item.font-24')
         player_elems = {x.select_one('.player-name').get_text().strip().lower(): x for x in player_elems if x.select_one('.player-name').get_text().strip() != ''}
         player_directory.update(player_elems)
-    return player_info_dict
+    return player_directory
 
 
 def model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory):
