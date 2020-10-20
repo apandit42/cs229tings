@@ -5,8 +5,13 @@ from selenium.webdriver.common.by import By
 from selenium.webdriver.common.keys import Keys
 from peewee import *
 import json
-import time
 import string
+from pathlib import Path
+import pickle
+import sys
+
+
+sys.setrecursionlimit(100000)
 
 
 driver = webdriver.Firefox()
@@ -456,9 +461,11 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                     simple_league_name = league_key,
                     stage_id = stage_id,
                 )
+
             player_name = player['name'].lower()
             if player_name not in fh_basic_directory:
                 raise Exception("We're in trouble bub... Can't find the player in the futhead directory")
+            
             print(f'Building models for player {player_name}...')
             
             fh_specific_player_data = get_actual_player_info(fh_basic_directory[player_name])
@@ -556,8 +563,7 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
             )
             
 
-def build_stage_players():
-    fh_basic_directory = get_fh_info()
+def build_stage_players(fh_basic_directory):
     stage_dicts = load_stageId_files()
     for league_key in stage_dicts:
         for season_key in stage_dicts[league_key]:
@@ -572,11 +578,13 @@ def build_stage_players():
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
-    build_stage_players()
-    # player_fh_dict = get_fh_info()
-    # with open('testing_da_dict.txt', mode='w') as fp:
-    #     fp.write(str(player_fh_dict))
-    # build_stage_players()
+    fh_pickle = Path('fh_data.pickle')
+    if fh_pickle.exists():
+        fh_directory = pickle.loads(fh_pickle.read_bytes())
+    else:
+        fh_directory = get_fh_info()
+        fh_pickle.write_bytes(pickle.dumps(fh_directory))
+    build_stage_players(fh_directory)
 finally:
     driver.quit()
     print('ALL DONE')
