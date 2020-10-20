@@ -569,6 +569,7 @@ def build_stage_players():
             super_summary = merge_summaries(summary_subcat, summary_def, summary_off, summary_pass)
             model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory)
 
+db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
     build_stage_players()
@@ -580,4 +581,3 @@ finally:
     driver.quit()
     print('ALL DONE')
 
-db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
