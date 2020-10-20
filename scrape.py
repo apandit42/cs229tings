@@ -9,8 +9,8 @@ import time
 import string
 
 
-# driver = webdriver.Firefox()
-# driver.get('http://google.com')
+driver = webdriver.Firefox()
+driver.get('http://google.com')
 db = SqliteDatabase('fifa.db')
 db.connect()
 
@@ -568,18 +568,16 @@ def build_stage_players():
             summary_pass = get_subcat_json('passing', stageId)
             super_summary = merge_summaries(summary_subcat, summary_def, summary_off, summary_pass)
             model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory)
-            break
-        break
 
 
 try:
-    # build_stage_players()
-    player_fh_dict = get_fh_info()
-    with open('testing_da_dict.txt', mode='w') as fp:
-        fp.write(str(player_fh_dict))
     build_stage_players()
+    # player_fh_dict = get_fh_info()
+    # with open('testing_da_dict.txt', mode='w') as fp:
+    #     fp.write(str(player_fh_dict))
+    # build_stage_players()
 finally:
-    # driver.quit()
+    driver.quit()
     print('ALL DONE')
 
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
