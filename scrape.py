@@ -7,11 +7,8 @@ from peewee import *
 import json
 import string
 from pathlib import Path
-import pickle
+from sklearn.externals import joblib
 import sys
-
-
-sys.setrecursionlimit(100000)
 
 
 driver = webdriver.Firefox()
@@ -578,12 +575,11 @@ def build_stage_players(fh_basic_directory):
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
-    fh_pickle = Path('fh_data.pickle')
     if fh_pickle.exists():
-        fh_directory = pickle.loads(fh_pickle.read_bytes())
+        fh_directory = joblib.load('fh_data.pickle')
     else:
         fh_directory = get_fh_info()
-        fh_pickle.write_bytes(pickle.dumps(fh_directory))
+        joblib.dump(fh_directory, 'fh_data.pickle')
     build_stage_players(fh_directory)
 finally:
     driver.quit()
