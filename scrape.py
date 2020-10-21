@@ -7,10 +7,10 @@ from peewee import *
 import json
 import string
 from pathlib import Path
-import joblib
+import dill
 import sys
 
-# sys.setrecursionlimit(100000)
+sys.setrecursionlimit(10000)
 
 driver = webdriver.Firefox()
 driver.get('http://google.com')
@@ -457,7 +457,7 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                     last_name = super_summary[player]['lastName'],
                     player_id = super_summary[player]['playerId'],
                     simple_league_name = league_key,
-                    stage_id = stage_id,
+                    stage_id = stageId,
                 )
 
             player_name = super_summary[player]['name'].lower()
@@ -576,13 +576,13 @@ def build_stage_players(fh_basic_directory):
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
-    # fh_pickle = Path('fh_data.pickle')
-    # if fh_pickle.exists():
-    #     fh_directory = joblib.load('fh_data.pickle')
-    # else:
-    #     fh_directory = get_fh_info()
-    #     joblib.dump(fh_directory, 'fh_data.pickle')
-    fh_directory = get_fh_info()
+    fh_pickle = Path('fh_data.pickle', mode='rw')
+    if fh_pickle.exists():
+        fh_directory = dill.load(fh_pickle.read_bytes())
+    else:
+        fh_directory = get_fh_info()
+        fh_pickle.write_bytes(dill.dumps(fh_directory))
+    # fh_directory = get_fh_info()
     build_stage_players(fh_directory)
 finally:
     driver.quit()
