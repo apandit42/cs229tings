@@ -7,9 +7,10 @@ from peewee import *
 import json
 import string
 from pathlib import Path
-from sklearn.externals import joblib
+import joblib
 import sys
 
+# sys.setrecursionlimit(100000)
 
 driver = webdriver.Firefox()
 driver.get('http://google.com')
@@ -446,20 +447,20 @@ def get_fh_info():
 def model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory):
     with db.atomic():
         for player in super_summary:
-            query = AllYearPlayerStats.select().where(User.player_id == player['playerId'])
+            query = AllYearPlayerStats.select().where(AllYearPlayerStats.player_id == player)
             if query.exists():
                 all_year_player_model = query.get()
             else:
                 all_year_player_model = AllYearPlayerStats.create(
-                    name = player['name'],
-                    first_name = player['firstName'],
-                    last_name = player['lastName'],
-                    player_id = player['playerId'],
+                    name = super_summary[player]['name'],
+                    first_name = super_summary[player]['firstName'],
+                    last_name = super_summary[player]['lastName'],
+                    player_id = super_summary[player]['playerId'],
                     simple_league_name = league_key,
                     stage_id = stage_id,
                 )
 
-            player_name = player['name'].lower()
+            player_name = super_summary[player]['name'].lower()
             if player_name not in fh_basic_directory:
                 raise Exception("We're in trouble bub... Can't find the player in the futhead directory")
             
@@ -470,51 +471,51 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
             player_stat_model = PlayerStats.create(
                 base_player = all_year_player_model,
                 base_year = int(season_key.split('/')[0]),
-                name = player['name'],
-                first_name = player['firstName'],
-                last_name = player['lastName'],
-                player_id = player['playerId'],
-                season_name = player['seasonName'],
-                region_name = player['tournamentRegionName'],
-                tournament_name = player['tournamentName'],
-                team_name = player['teamName'],
-                team_region = player['teamRegionName'],
-                age = player['age'],
-                height = player['height'],
-                weight = player['weight'],
-                rank = player['ranking'],
-                played_positions = player['playedPositions'],
-                appearances = player['apps'],
-                subs_on = player['subOn'],
-                minutes_played = player['minsPlayed'],
-                goals = player['goal'],
-                assists_total = player['assistsTotal'],
-                yellow_cards = player['yellowCard'],
-                red_cards = player['redCard'],
-                shots_per_game = player['shotsPerGame'],
-                aerials_won_per_game = player['aerialWonPerGame'],
-                man_of_match = player['manOfTheMatch'],
-                pass_success = player['passSuccess'],
+                name = super_summary[player]['name'],
+                first_name = super_summary[player]['firstName'],
+                last_name = super_summary[player]['lastName'],
+                player_id = super_summary[player]['playerId'],
+                season_name = super_summary[player]['seasonName'],
+                region_name = super_summary[player]['tournamentRegionName'],
+                tournament_name = super_summary[player]['tournamentName'],
+                team_name = super_summary[player]['teamName'],
+                team_region = super_summary[player]['teamRegionName'],
+                age = super_summary[player]['age'],
+                height = super_summary[player]['height'],
+                weight = super_summary[player]['weight'],
+                rank = super_summary[player]['ranking'],
+                played_positions = super_summary[player]['playedPositions'],
+                appearances = super_summary[player]['apps'],
+                subs_on = super_summary[player]['subOn'],
+                minutes_played = super_summary[player]['minsPlayed'],
+                goals = super_summary[player]['goal'],
+                assists_total = super_summary[player]['assistsTotal'],
+                yellow_cards = super_summary[player]['yellowCard'],
+                red_cards = super_summary[player]['redCard'],
+                shots_per_game = super_summary[player]['shotsPerGame'],
+                aerials_won_per_game = super_summary[player]['aerialWonPerGame'],
+                man_of_match = super_summary[player]['manOfTheMatch'],
+                pass_success = super_summary[player]['passSuccess'],
 
-                tackles_per_game = player['tacklePerGame'],
-                interceptions_per_game = player['interceptionPerGame'],
-                fouls_per_game = player['foulsPerGame'],
-                offsides_won_per_game = player['offsideWonPerGame'],
-                was_dribbled_per_game = player['dribbleWonPerGame'],
-                outfielder_blocked_per_game = player['outfielderBlockPerGame'],
-                goal_own = player['goalOwn'],
+                tackles_per_game = super_summary[player]['tacklePerGame'],
+                interceptions_per_game = super_summary[player]['interceptionPerGame'],
+                fouls_per_game = super_summary[player]['foulsPerGame'],
+                offsides_won_per_game = super_summary[player]['offsideWonPerGame'],
+                was_dribbled_per_game = super_summary[player]['dribbleWonPerGame'],
+                outfielder_blocked_per_game = super_summary[player]['outfielderBlockPerGame'],
+                goal_own = super_summary[player]['goalOwn'],
 
-                key_pass_per_game = player['keyPassPerGame'],
-                dribbles_won_per_game = player['dribbleWonPerGame'],
-                fouls_given_per_game = player['foulGivenPerGame'],
-                offsides_given_per_game = player['offsideGivenPerGame'],
-                dispossessed_per_game = player['dispossessedPerGame'],
-                turnovers_per_game = player['turnoverPerGame'],
+                key_pass_per_game = super_summary[player]['keyPassPerGame'],
+                dribbles_won_per_game = super_summary[player]['dribbleWonPerGame'],
+                fouls_given_per_game = super_summary[player]['foulGivenPerGame'],
+                offsides_given_per_game = super_summary[player]['offsideGivenPerGame'],
+                dispossessed_per_game = super_summary[player]['dispossessedPerGame'],
+                turnovers_per_game = super_summary[player]['turnoverPerGame'],
 
-                total_passes_per_game = player['totalPassesPerGame'],
-                accurate_crosses_per_game = player['accurateCrossesPerGame'],
-                accurate_long_passes_per_game = player['accurateLongPassPerGame'],
-                accurate_through_ball_per_game = player['accurateThroughBallPerGame'],
+                total_passes_per_game = super_summary[player]['totalPassesPerGame'],
+                accurate_crosses_per_game = super_summary[player]['accurateCrossesPerGame'],
+                accurate_long_passes_per_game = super_summary[player]['accurateLongPassPerGame'],
+                accurate_through_ball_per_game = super_summary[player]['accurateThroughBallPerGame'],
 
                 fh_pace = fh_specific_player_data['fh_pace'],
                 fh_acceleration = fh_specific_player_data['fh_acceleration'],
@@ -575,11 +576,13 @@ def build_stage_players(fh_basic_directory):
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
-    if fh_pickle.exists():
-        fh_directory = joblib.load('fh_data.pickle')
-    else:
-        fh_directory = get_fh_info()
-        joblib.dump(fh_directory, 'fh_data.pickle')
+    # fh_pickle = Path('fh_data.pickle')
+    # if fh_pickle.exists():
+    #     fh_directory = joblib.load('fh_data.pickle')
+    # else:
+    #     fh_directory = get_fh_info()
+    #     joblib.dump(fh_directory, 'fh_data.pickle')
+    fh_directory = get_fh_info()
     build_stage_players(fh_directory)
 finally:
     driver.quit()
