@@ -7,10 +7,9 @@ from peewee import *
 import json
 import string
 from pathlib import Path
-import dill
-import sys
+import hashlib
 
-sys.setrecursionlimit(10000)
+
 
 driver = webdriver.Firefox()
 driver.get('http://google.com')
@@ -201,7 +200,7 @@ def load_stageId_files():
                 season, stageId = line.split()
                 season = season.strip()[:-1]
                 stageId = stageId.strip()
-                output_dict[currKey][season]= stageId
+                output_dict[currKey][season] = stageId
     return output_dict
 
 
@@ -243,7 +242,7 @@ def get_actual_player_info(player):
     base_url = 'https://www.futhead.com'
     specific_player_url = base_url + player.a['href']
     specific_page = BeautifulSoup(requests.get(specific_player_url).text, 'lxml')
-    player_name = specific_page.select_one('ul.nav.pull-left.hidden-sm.hidden-xs li.dropdown.active').get_text().strip().lower()
+    player_name = specific_page.select_one('ul.nav.pull-left.hidden-sm.hidden-xs li.dropdown.active a').get_text().strip().lower()
     player_info_dict = {}
     print(f'Collecting Futhead data for {player_name}...')
     card_years = specific_page.select('li.media.list-group-item div.row')
@@ -397,7 +396,7 @@ def get_actual_player_info(player):
                         player_info_dict[player_year]['fh_heading'] = int(line)
                         input_num += 1
                     elif input_num == 2:
-                        player_info_dict[player_year]['fh_marking'] = int(line)
+                        player_info_dict[player_year]['fh_def_awareness'] = int(line)
                         input_num += 1
                     elif input_num == 3:
                         player_info_dict[player_year]['fh_standing_tackle'] = int(line)
@@ -430,17 +429,33 @@ def get_actual_player_info(player):
 
 
 def get_fh_info():
+    dirroot = Path('fh_data/')
+    if not dirroot.is_dir():
+        dirroot.mkdir()
     player_directory = {}
     link = 'https://www.futhead.com/players/?page='
     base_url = 'https://www.futhead.com'
     for i in range(1, 941):
         link_i = link + str(i)
-        player_page = requests.get(link_i)
-        print(f"Building Futhead directory on link {link_i}...")
-        player_page = BeautifulSoup(player_page.text, 'lxml')
+        hasher = hashlib.md5()
+        hasher.update(link_i.encode('utf-8'))
+        link_file = dirroot / (hasher.hexdigest() + '.txt')
+        if link_file.is_file():
+            player_page = link_file.read_text()
+            print(f'Using cached Futhead directory for link {link_i}...')
+        else:
+            player_page = requests.get(link_i).text
+            link_file.write_text(player_page)
+            print(f'Downloading Futhead directory data for link {link_i}...')
+        player_page = BeautifulSoup(player_page, 'lxml')
         player_elems = player_page.select('.content.player-item.font-24')
+        player_elem_db = 
+        for player in player_elems:
+
         player_elems = {x.select_one('.player-name').get_text().strip().lower(): x for x in player_elems if x.select_one('.player-name').get_text().strip() != ''}
         player_directory.update(player_elems)
+    print(player_directory['thiago'])
+    raise Exception("L")
     return player_directory
 
 
@@ -467,6 +482,8 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
             print(f'Building models for player {player_name}...')
             
             fh_specific_player_data = get_actual_player_info(fh_basic_directory[player_name])
+            print(fh_specific_player_data.keys())
+            player_yr = int(season_key.split('/')[1]) + 1
 
             player_stat_model = PlayerStats.create(
                 base_player = all_year_player_model,
@@ -489,7 +506,7 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                 subs_on = super_summary[player]['subOn'],
                 minutes_played = super_summary[player]['minsPlayed'],
                 goals = super_summary[player]['goal'],
-                assists_total = super_summary[player]['assistsTotal'],
+                assists_total = super_summary[player]['assistTotal'],
                 yellow_cards = super_summary[player]['yellowCard'],
                 red_cards = super_summary[player]['redCard'],
                 shots_per_game = super_summary[player]['shotsPerGame'],
@@ -517,47 +534,47 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                 accurate_long_passes_per_game = super_summary[player]['accurateLongPassPerGame'],
                 accurate_through_ball_per_game = super_summary[player]['accurateThroughBallPerGame'],
 
-                fh_pace = fh_specific_player_data['fh_pace'],
-                fh_acceleration = fh_specific_player_data['fh_acceleration'],
-                fh_spring_speed = fh_specific_player_data['fh_sprint_speed'],
+                fh_pace = fh_specific_player_data[player_yr]['fh_pace'],
+                fh_acceleration = fh_specific_player_data[player_yr]['fh_acceleration'],
+                fh_spring_speed = fh_specific_player_data[player_yr]['fh_sprint_speed'],
                 
-                fh_shooting = fh_specific_player_data['fh_shooting'],
-                fh_positioning = fh_specific_player_data['fh_positioning'],
-                fh_shot_power = fh_specific_player_data['fh_shot_power'],
-                fh_long_shots = fh_specific_player_data['fh_long_shots'],
-                fh_volleys = fh_specific_player_data['fh_volleys'],
-                fh_penalties = fh_specific_player_data['fh_penalties'],
+                fh_shooting = fh_specific_player_data[player_yr]['fh_shooting'],
+                fh_positioning = fh_specific_player_data[player_yr]['fh_positioning'],
+                fh_shot_power = fh_specific_player_data[player_yr]['fh_shot_power'],
+                fh_long_shots = fh_specific_player_data[player_yr]['fh_long_shots'],
+                fh_volleys = fh_specific_player_data[player_yr]['fh_volleys'],
+                fh_penalties = fh_specific_player_data[player_yr]['fh_penalties'],
                 
-                fh_passing = fh_specific_player_data['fh_passing'],
-                fh_vision = fh_specific_player_data['fh_vision'],
-                fh_crossing = fh_specific_player_data['fh_crossing'],
-                fh_free_kick = fh_specific_player_data['fh_free_kick'],
-                fh_short_passing = fh_specific_player_data['fh_short_passing'],
-                fh_long_passing = fh_specific_player_data['fh_long_passing'],
-                fh_curve = fh_specific_player_data['fh_curve'],
+                fh_passing = fh_specific_player_data[player_yr]['fh_passing'],
+                fh_vision = fh_specific_player_data[player_yr]['fh_vision'],
+                fh_crossing = fh_specific_player_data[player_yr]['fh_crossing'],
+                fh_free_kick = fh_specific_player_data[player_yr]['fh_free_kick'],
+                fh_short_passing = fh_specific_player_data[player_yr]['fh_short_passing'],
+                fh_long_passing = fh_specific_player_data[player_yr]['fh_long_passing'],
+                fh_curve = fh_specific_player_data[player_yr]['fh_curve'],
 
-                fh_dribbling = fh_specific_player_data['fh_dribbling'],
-                fh_agility = fh_specific_player_data['fh_agility'],
-                fh_balance = fh_specific_player_data['fh_balance'],
-                fh_reactions = fh_specific_player_data['fh_reactions'],
-                fh_ball_control = fh_specific_player_data['fh_ball_control'],
-                fh_dribbling_min = fh_specific_player_data['fh_dribbling_min'],
-                fh_composure = fh_specific_player_data['fh_composure'],
+                fh_dribbling = fh_specific_player_data[player_yr]['fh_dribbling'],
+                fh_agility = fh_specific_player_data[player_yr]['fh_agility'],
+                fh_balance = fh_specific_player_data[player_yr]['fh_balance'],
+                fh_reactions = fh_specific_player_data[player_yr]['fh_reactions'],
+                fh_ball_control = fh_specific_player_data[player_yr]['fh_ball_control'],
+                fh_dribbling_min = fh_specific_player_data[player_yr]['fh_dribbling_min'],
+                fh_composure = fh_specific_player_data[player_yr]['fh_composure'],
                 
-                fh_defense = fh_specific_player_data['fh_defense'],
-                fh_interceptions = fh_specific_player_data['fh_interceptions'],
-                fh_heading = fh_specific_player_data['fh_heading'],
-                fh_def_awareness = fh_specific_player_data['fh_def_awareness'],
-                fh_standing_tackle = fh_specific_player_data['fh_standing_tackle'],
-                fh_sliding_tackle = fh_specific_player_data['fh_sliding_tackle'],
+                fh_defense = fh_specific_player_data[player_yr]['fh_defense'],
+                fh_interceptions = fh_specific_player_data[player_yr]['fh_interceptions'],
+                fh_heading = fh_specific_player_data[player_yr]['fh_heading'],
+                fh_def_awareness = fh_specific_player_data[player_yr]['fh_def_awareness'],
+                fh_standing_tackle = fh_specific_player_data[player_yr]['fh_standing_tackle'],
+                fh_sliding_tackle = fh_specific_player_data[player_yr]['fh_sliding_tackle'],
 
-                fh_physical = fh_specific_player_data['fh_physical'],
-                fh_jumping = fh_specific_player_data['fh_jumping'],
-                fh_stamina = fh_specific_player_data['fh_stamina'],
-                fh_strength = fh_specific_player_data['fh_strength'],
-                fh_aggression = fh_specific_player_data['fh_aggression'],
+                fh_physical = fh_specific_player_data[player_yr]['fh_physical'],
+                fh_jumping = fh_specific_player_data[player_yr]['fh_jumping'],
+                fh_stamina = fh_specific_player_data[player_yr]['fh_stamina'],
+                fh_strength = fh_specific_player_data[player_yr]['fh_strength'],
+                fh_aggression = fh_specific_player_data[player_yr]['fh_aggression'],
 
-                fh_overall_score = fh_specific_player_data['fh_overall_score'],
+                fh_overall_score = fh_specific_player_data[player_yr]['fh_overall_score'],
             )
             
 
@@ -576,13 +593,7 @@ def build_stage_players(fh_basic_directory):
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 try:
-    fh_pickle = Path('fh_data.pickle', mode='rw')
-    if fh_pickle.exists():
-        fh_directory = dill.load(fh_pickle.read_bytes())
-    else:
-        fh_directory = get_fh_info()
-        fh_pickle.write_bytes(dill.dumps(fh_directory))
-    # fh_directory = get_fh_info()
+    fh_directory = get_fh_info()
     build_stage_players(fh_directory)
 finally:
     driver.quit()
