@@ -124,3 +124,27 @@ _wait@resource://gre/modules/AsyncShutdown.jsm:878:15
 wait@resource://gre/modules/AsyncShutdown.jsm:859:34
 observe@resource://gre/modules/AsyncShutdown.jsm:536:10
 
+1603491806971	geckodriver	INFO	Listening on 127.0.0.1:53329
+1603491807974	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofilebmdHbI"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603491809619	Marionette	INFO	Listening on port 37809
+1603491809715	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603491907641	Marionette	INFO	Stopped listening on port 37809
+1603492078205	geckodriver	INFO	Listening on 127.0.0.1:35549
+1603492079209	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileai4I2H"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603492081386	Marionette	INFO	Listening on port 37853
+1603492081441	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603492284412	Marionette	INFO	Stopped listening on port 37853
+1603492349717	geckodriver	INFO	Listening on 127.0.0.1:49051
+1603492350721	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileWuDn8d"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603492352468	Marionette	INFO	Listening on port 43045
+1603492352544	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603492640175	Marionette	INFO	Stopped listening on port 43045
+1603494948087	geckodriver	INFO	Listening on 127.0.0.1:48763
+1603494949090	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile0pRpZc"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603494950788	Marionette	INFO	Listening on port 38899
+1603494950818	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603495045686	Marionette	INFO	Stopped listening on port 38899
