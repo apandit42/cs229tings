@@ -487,7 +487,7 @@ def get_player_name_data(player_url):
     if player_link_data.status_code != requests.codes.ok:
         return None
     card_page_link = base_url + BeautifulSoup(player_link_data.text, 'lxml').select_one('li.media.list-group-item div.row a')['href']
-    card_page_link = base_url + unidecode.unidecode(card_page_link.strip()).lower()
+    card_page_link = unidecode.unidecode(card_page_link.strip()).lower()
     print(f'Getting player names while building Futhead directory data for link {card_page_link}...')
     player_name_req = requests.get(card_page_link, headers=header)
     if player_name_req.status_code != requests.codes.ok:
