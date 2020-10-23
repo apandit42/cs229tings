@@ -106,3 +106,21 @@ console.warn: SearchSettings: "get: No settings file exists, new profile?" (new 
 1603490214691	Marionette	WARN	TLS certificate errors will be ignored for this session
 JavaScript error: resource://gre/modules/URIFixup.jsm, line 271: NS_ERROR_FAILURE: Should pass a non-null uri
 1603490315028	Marionette	INFO	Stopped listening on port 36409
+1603490755133	geckodriver	INFO	Listening on 127.0.0.1:36577
+1603490755135	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileZC5SSp"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603490756919	Marionette	INFO	Listening on port 40049
+1603490756962	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603491177117	Marionette	INFO	Stopped listening on port 40049
+console.error: services.settings: 
+  security-state/intermediates Signature failed  Error: Shutdown, aborting read-only worker requests.
+console.error: services.settings: 
+  Message: Error: Shutdown, aborting read-only worker requests.
+  Stack:
+    _abortCancelableRequests@resource://services-settings/RemoteSettingsWorker.jsm:143:19
+@resource://services-settings/RemoteSettingsWorker.jsm:219:28
+trigger@resource://gre/modules/AsyncShutdown.jsm:726:23
+_wait@resource://gre/modules/AsyncShutdown.jsm:878:15
+wait@resource://gre/modules/AsyncShutdown.jsm:859:34
+observe@resource://gre/modules/AsyncShutdown.jsm:536:10
+
