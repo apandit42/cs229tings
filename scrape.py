@@ -433,44 +433,88 @@ def get_actual_player_info(player_url):
 
 
 def get_fh_info():
-    dirroot = Path('fh_data/')
-    if not dirroot.is_dir():
-        dirroot.mkdir()
-    player_directory = {}
-    link = 'https://www.futhead.com/players/?page='
-    base_url = 'https://www.futhead.com'
-    player_elems = []
-    for i in range(1, 941):
-        link_i = link + str(i)
-        hasher = hashlib.md5()
-        hasher.update(link_i.encode('utf-8'))
-        link_file = dirroot / (hasher.hexdigest() + '.txt')
-        if link_file.is_file():
-            player_page = link_file.read_text()
-            print(f'Using cached Futhead directory for link {link_i}...')
-        else:
-            player_page = requests.get(link_i).text
-            link_file.write_text(player_page)
-            print(f'Downloading Futhead directory data for link {link_i}...')
-        player_page = BeautifulSoup(player_page, 'lxml')
-        player_elems += [x['href'] for x in player_page.select('.content.player-item.font-24 a')]
+    player_elem_file = Path('fh_player_elem_json.json')
+    if player_elem_file.is_file():
+        player_elems = json.load(player_elem_file.open())
+    else:
+        dirroot = Path('fh_data/')
+        if not dirroot.is_dir():
+            dirroot.mkdir()
+        player_directory = {}
+        link = 'https://www.futhead.com/players/?page='
+        base_url = 'https://www.futhead.com'
+        player_elems = []
+        for i in range(1, 941):
+            link_i = link + str(i)
+            hasher = hashlib.md5()
+            hasher.update(link_i.encode('utf-8'))
+            link_file = dirroot / (hasher.hexdigest() + '.txt')
+            if link_file.is_file():
+                player_page = link_file.read_text()
+                print(f'Using cached Futhead directory for link {link_i}...')
+            else:
+                player_page = requests.get(link_i).text
+                link_file.write_text(player_page)
+                print(f'Downloading Futhead directory data for link {link_i}...')
+            player_page = BeautifulSoup(player_page, 'lxml')
+            player_elems += [x['href'] for x in player_page.select('.content.player-item.font-24 a')]
+            json.dump(player_elems, player_elem_file.open())
+    
+    print("BOI, YOU GOT ", len(player_elems), " playing ball right now son. L.")
+    b1_file = Path('batch_1.json')
+    batch_1 = player_elems[:10000]
+    b2_file = Path('batch_2.json')
+    batch_2 = player_elems[10000:20000]
+    b3_file = Path('batch_3.json')
+    batch_3 = player_elems[20000:30000]
+    b4_file = Path('batch_4.json')
+    batch_4 = player_elems[30000:]
 
     with Pool(BEYBLADE_LEVEL) as pool:
-        player_multi_data = pool.map(get_player_name_data, player_elems)
-    player_directory = dict(player_multi_data)
+        if b1_file.is_file():
+            player_multi_data_1 = json.load(b1_file.open())
+        else:
+            player_multi_data_1 = pool.map(get_player_name_data, batch_1)
+            player_multi_data_1 = dict(player_multi_data_1)
+            json.dump(b1_file.open())
+        
+        if b2_file.is_file():
+            player_multi_data_2 = json.load(b2_file.open())
+        else:
+            player_multi_data_2 = pool.map(get_player_name_data, batch_2)
+            player_multi_data_2 = dict(player_multi_data_2)
+            json.dump(b2_file.open())
+        
+        if b3_file.is_file():
+            player_multi_data_3 = json.load(b3_file.open())
+        else:
+            player_multi_data_3 = pool.map(get_player_name_data, batch_3)
+            player_multi_data_3 = dict(player_multi_data_3)
+            json.dump(b3_file.open())
+        
+        if b4_file.is_file():
+            player_multi_data_4 = json.load(b4_file.open())
+        else:
+            player_multi_data_4 = pool.map(get_player_name_data, batch4)
+            player_multi_data_4 = dict(player_multi_data_4)
+            json.dump(b4_file.open())
+
+    player_directory = {**player_multi_data_1, **player_multi_data_2, **player_multi_data_3, **player_multi_data_4}
     return player_directory
 
+
 def get_player_name_data(player_url):
+    header = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
     base_url = 'https://www.futhead.com'
     player_link = base_url + player_url
-    player_link_data = requests.get(player_link)
+    player_link_data = requests.get(player_link, headers=header)
     if player_link_data.status_code != requests.codes.ok:
         return None
     card_page_link = base_url + BeautifulSoup(player_link_data.text, 'lxml').select_one('li.media.list-group-item div.row a')['href']
     print(f'Getting player names while building Futhead directory data for link {card_page_link}...')
-    player_name_req = requests.get(card_page_link)
+    player_name_req = requests.get(card_page_link, headers=header)
     if player_name_req.status_code != requests.codes.ok:
-        raise Exception(f'ERROR: URL retrieval failed for player name at {player_name_req.url}')
+        raise Exception(f'ERROR: URL retrieval failed for player name at {player_name_req.url}, error {player_name_req.status_code}.')
     player_name = BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red a')
     if player_name is None:
         print(BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red'))
@@ -481,6 +525,7 @@ def get_player_name_data(player_url):
         raise Exception(f'Ya done fucked up the name chief at {player_name_req.url}')
     player_name = unidecode.unidecode(player_name).lower()
     return (player_name, player_link)
+
 
 def model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory):
     with db.atomic():
@@ -625,7 +670,7 @@ try:
     else:
         fh_directory = get_fh_info()
         json.dump(fh_directory, fh_data_file.open())
-    build_stage_players(fh_directory)
+    # build_stage_players(fh_directory)
 finally:
     driver.quit()
     print('ALL DONE')

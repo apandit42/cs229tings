@@ -17,3 +17,10 @@ Exiting due to channel error.
 console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
 1603472190733	Marionette	INFO	Listening on port 37039
 1603472190829	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603474065556	Marionette	INFO	Stopped listening on port 37039
+1603474550782	geckodriver	INFO	Listening on 127.0.0.1:34449
+1603474551786	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofile3ixJFN"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603474553893	Marionette	INFO	Listening on port 45679
+1603474554013	Marionette	WARN	TLS certificate errors will be ignored for this session
+1603476714233	Marionette	INFO	Stopped listening on port 45679
