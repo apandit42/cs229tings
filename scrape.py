@@ -8,7 +8,8 @@ import json
 import string
 from pathlib import Path
 import hashlib
-
+import unidecode
+from multiprocessing.pool import Pool
 
 
 driver = webdriver.Firefox()
@@ -177,6 +178,7 @@ def get_subcat_json(subcategory, stageId):
     for key in payload:
         link += key + '=' + payload[key] + '&'
     link = link[:-1]
+    print(link)
     driver.get(link)
     json_body = json.loads(driver.find_element(By.CSS_SELECTOR, 'body').text)
     total_results = json_body['paging']['totalResults']
@@ -238,9 +240,9 @@ def merge_summaries(summary_subcat, summary_def, summary_off, summary_pass):
     return merged_final_dict
     
 
-def get_actual_player_info(player):
+def get_actual_player_info(player_url):
     base_url = 'https://www.futhead.com'
-    specific_player_url = base_url + player.a['href']
+    specific_player_url = base_url + player_url
     specific_page = BeautifulSoup(requests.get(specific_player_url).text, 'lxml')
     player_name = specific_page.select_one('ul.nav.pull-left.hidden-sm.hidden-xs li.dropdown.active a').get_text().strip().lower()
     player_info_dict = {}
@@ -435,6 +437,7 @@ def get_fh_info():
     player_directory = {}
     link = 'https://www.futhead.com/players/?page='
     base_url = 'https://www.futhead.com'
+    player_elems = []
     for i in range(1, 941):
         link_i = link + str(i)
         hasher = hashlib.md5()
@@ -448,16 +451,34 @@ def get_fh_info():
             link_file.write_text(player_page)
             print(f'Downloading Futhead directory data for link {link_i}...')
         player_page = BeautifulSoup(player_page, 'lxml')
-        player_elems = player_page.select('.content.player-item.font-24')
-        player_elem_db = 
-        for player in player_elems:
+        player_elems += [x['href'] for x in player_page.select('.content.player-item.font-24 a')]
 
-        player_elems = {x.select_one('.player-name').get_text().strip().lower(): x for x in player_elems if x.select_one('.player-name').get_text().strip() != ''}
-        player_directory.update(player_elems)
-    print(player_directory['thiago'])
-    raise Exception("L")
+    with Pool(128) as pool:
+        player_multi_data = pool.map(get_player_name_data, player_elems)
+    player_directory = dict(player_multi_data)
     return player_directory
 
+def get_player_name_data(player_url):
+    base_url = 'https://www.futhead.com'
+    player_link = base_url + player_url
+    player_link_data = requests.get(player_link)
+    if player_link_data.status_code != requests.codes.ok:
+        return None
+    card_page_link = base_url + BeautifulSoup(player_link_data.text, 'lxml').select_one('li.media.list-group-item div.row a')['href']
+    print(f'Getting player names while building Futhead directory data for link {card_page_link}...')
+    try:
+        player_name_req = requests.get(card_page_link)
+        if player_name_req.status_code != requests.codes.ok:
+            raise Exception(f'ERROR: URL retrieval failed for player name at {player_name_req.url}')
+        player_name = BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red a')
+        if player_name is None:
+            raise Exception(f'ERROR: Page parsing for player failed at {player_name}')
+        player_name = player_name.get_text().strip()
+    except:
+        print(f'FAILED FOR LINK {card_page_link}...')
+        raise Exception(f'Failed link {card_page_link}')
+    player_name = unidecode.unidecode(player_name).lower()
+    return (player_name, player_link)
 
 def model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory):
     with db.atomic():
@@ -466,8 +487,9 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
             if query.exists():
                 all_year_player_model = query.get()
             else:
+                name = unidecode.unidecode(super_summary[player]['firstName'] + " " + super_summary[player]['lastName']).strip().lower()
                 all_year_player_model = AllYearPlayerStats.create(
-                    name = super_summary[player]['name'],
+                    name = name,
                     first_name = super_summary[player]['firstName'],
                     last_name = super_summary[player]['lastName'],
                     player_id = super_summary[player]['playerId'],
@@ -475,7 +497,7 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                     stage_id = stageId,
                 )
 
-            player_name = super_summary[player]['name'].lower()
+            player_name = unidecode.unidecode(super_summary[player]['firstName'] + " " + super_summary[player]['lastName']).strip().lower()
             if player_name not in fh_basic_directory:
                 raise Exception("We're in trouble bub... Can't find the player in the futhead directory")
             
@@ -488,7 +510,7 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
             player_stat_model = PlayerStats.create(
                 base_player = all_year_player_model,
                 base_year = int(season_key.split('/')[0]),
-                name = super_summary[player]['name'],
+                name = player_name,
                 first_name = super_summary[player]['firstName'],
                 last_name = super_summary[player]['lastName'],
                 player_id = super_summary[player]['playerId'],
@@ -590,10 +612,17 @@ def build_stage_players(fh_basic_directory):
             super_summary = merge_summaries(summary_subcat, summary_def, summary_off, summary_pass)
             model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory)
 
+
 db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
+
 try:
-    fh_directory = get_fh_info()
+    fh_data_file = Path('fh_data_json.json',)
+    if fh_data_file.is_file():
+        fh_directory = json.load(fh_data_file.open())
+    else:
+        fh_directory = get_fh_info()
+        json.dump(fh_directory, fh_data_file.open())
     build_stage_players(fh_directory)
 finally:
     driver.quit()
