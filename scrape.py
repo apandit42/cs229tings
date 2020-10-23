@@ -458,7 +458,7 @@ def get_fh_info():
                 print(f'Downloading Futhead directory data for link {link_i}...')
             player_page = BeautifulSoup(player_page, 'lxml')
             player_elems += [x['href'] for x in player_page.select('.content.player-item.font-24 a')]
-            json.dump(player_elems, player_elem_file.open())
+        json.dump(player_elems, player_elem_file.open(mode='w'))
     
     print("BOI, YOU GOT ", len(player_elems), " playing ball right now son. L.")
     b1_file = Path('batch_1.json')
@@ -476,28 +476,28 @@ def get_fh_info():
         else:
             player_multi_data_1 = pool.map(get_player_name_data, batch_1)
             player_multi_data_1 = dict(player_multi_data_1)
-            json.dump(b1_file.open())
+            json.dump(b1_file.open(mode='w'))
         
         if b2_file.is_file():
             player_multi_data_2 = json.load(b2_file.open())
         else:
             player_multi_data_2 = pool.map(get_player_name_data, batch_2)
             player_multi_data_2 = dict(player_multi_data_2)
-            json.dump(b2_file.open())
+            json.dump(b2_file.open(mode='w'))
         
         if b3_file.is_file():
             player_multi_data_3 = json.load(b3_file.open())
         else:
             player_multi_data_3 = pool.map(get_player_name_data, batch_3)
             player_multi_data_3 = dict(player_multi_data_3)
-            json.dump(b3_file.open())
+            json.dump(b3_file.open(mode='w'))
         
         if b4_file.is_file():
             player_multi_data_4 = json.load(b4_file.open())
         else:
             player_multi_data_4 = pool.map(get_player_name_data, batch4)
             player_multi_data_4 = dict(player_multi_data_4)
-            json.dump(b4_file.open())
+            json.dump(b4_file.open(mode='w'))
 
     player_directory = {**player_multi_data_1, **player_multi_data_2, **player_multi_data_3, **player_multi_data_4}
     return player_directory
@@ -664,12 +664,12 @@ db.create_tables([PlayerBase, AllYearPlayerStats, PlayerStats])
 
 
 try:
-    fh_data_file = Path('fh_data_json.json',)
+    fh_data_file = Path('fh_data_json.json')
     if fh_data_file.is_file():
         fh_directory = json.load(fh_data_file.open())
     else:
         fh_directory = get_fh_info()
-        json.dump(fh_directory, fh_data_file.open())
+        json.dump(fh_directory, fh_data_file.open(mode='w'))
     # build_stage_players(fh_directory)
 finally:
     driver.quit()
