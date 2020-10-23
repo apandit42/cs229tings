@@ -461,56 +461,33 @@ def get_fh_info():
         json.dump(player_elems, player_elem_file.open(mode='w'))
     
     print("BOI, YOU GOT ", len(player_elems), " playing ball right now son. L.")
-    b1_file = Path('batch_1.json')
-    batch_1 = player_elems[:10000]
-    b2_file = Path('batch_2.json')
-    batch_2 = player_elems[10000:20000]
-    b3_file = Path('batch_3.json')
-    batch_3 = player_elems[20000:30000]
-    b4_file = Path('batch_4.json')
-    batch_4 = player_elems[30000:]
+    
+    player_directory = {}
 
     with Pool(BEYBLADE_LEVEL) as pool:
-        if b1_file.is_file():
-            player_multi_data_1 = json.load(b1_file.open())
-        else:
-            player_multi_data_1 = pool.map(get_player_name_data, batch_1)
-            player_multi_data_1 = dict(player_multi_data_1)
-            json.dump(b1_file.open(mode='w'))
+        batches = [player_elems[i:i + 1000] for i in range(0, len(player_elems), 1000)]
+        for i in range(len(batches)):
+            batch_path = Path(f'batch_{i}.json')
+            if batch_path.is_file():
+                player_multi_data = json.load(batch_path.open())
+            else:
+                player_multi_data = pool.map(get_player_name_data, batches[i])
+                player_multi_data = dict(player_multi_data)
+                json.dump(player_multi_data, batch_path.open(mode='w'))
+            player_directory.update(player_multi_data)
         
-        if b2_file.is_file():
-            player_multi_data_2 = json.load(b2_file.open())
-        else:
-            player_multi_data_2 = pool.map(get_player_name_data, batch_2)
-            player_multi_data_2 = dict(player_multi_data_2)
-            json.dump(b2_file.open(mode='w'))
-        
-        if b3_file.is_file():
-            player_multi_data_3 = json.load(b3_file.open())
-        else:
-            player_multi_data_3 = pool.map(get_player_name_data, batch_3)
-            player_multi_data_3 = dict(player_multi_data_3)
-            json.dump(b3_file.open(mode='w'))
-        
-        if b4_file.is_file():
-            player_multi_data_4 = json.load(b4_file.open())
-        else:
-            player_multi_data_4 = pool.map(get_player_name_data, batch4)
-            player_multi_data_4 = dict(player_multi_data_4)
-            json.dump(b4_file.open(mode='w'))
-
-    player_directory = {**player_multi_data_1, **player_multi_data_2, **player_multi_data_3, **player_multi_data_4}
     return player_directory
 
 
 def get_player_name_data(player_url):
     header = {'user-agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/86.0.4240.111 Safari/537.36'}
     base_url = 'https://www.futhead.com'
-    player_link = base_url + player_url
+    player_link = base_url + unidecode.unidecode(player_url.strip()).lower()
     player_link_data = requests.get(player_link, headers=header)
     if player_link_data.status_code != requests.codes.ok:
         return None
     card_page_link = base_url + BeautifulSoup(player_link_data.text, 'lxml').select_one('li.media.list-group-item div.row a')['href']
+    card_page_link = base_url + unidecode.unidecode(card_page_link.strip()).lower()
     print(f'Getting player names while building Futhead directory data for link {card_page_link}...')
     player_name_req = requests.get(card_page_link, headers=header)
     if player_name_req.status_code != requests.codes.ok:
