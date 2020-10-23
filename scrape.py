@@ -472,7 +472,7 @@ def get_fh_info():
                 player_multi_data = json.load(batch_path.open())
             else:
                 player_multi_data = pool.map(get_player_name_data, batches[i])
-                player_multi_data = dict(player_multi_data)
+                player_multi_data = dict(list(filter(None, player_multi_data)))
                 json.dump(player_multi_data, batch_path.open(mode='w'))
             player_directory.update(player_multi_data)
         
