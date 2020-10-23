@@ -11,6 +11,8 @@ import hashlib
 import unidecode
 from multiprocessing.pool import Pool
 
+BEYBLADE_LEVEL = 64
+
 
 driver = webdriver.Firefox()
 driver.get('http://google.com')
@@ -453,7 +455,7 @@ def get_fh_info():
         player_page = BeautifulSoup(player_page, 'lxml')
         player_elems += [x['href'] for x in player_page.select('.content.player-item.font-24 a')]
 
-    with Pool(128) as pool:
+    with Pool(BEYBLADE_LEVEL) as pool:
         player_multi_data = pool.map(get_player_name_data, player_elems)
     player_directory = dict(player_multi_data)
     return player_directory
@@ -466,17 +468,17 @@ def get_player_name_data(player_url):
         return None
     card_page_link = base_url + BeautifulSoup(player_link_data.text, 'lxml').select_one('li.media.list-group-item div.row a')['href']
     print(f'Getting player names while building Futhead directory data for link {card_page_link}...')
-    try:
-        player_name_req = requests.get(card_page_link)
-        if player_name_req.status_code != requests.codes.ok:
-            raise Exception(f'ERROR: URL retrieval failed for player name at {player_name_req.url}')
-        player_name = BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red a')
-        if player_name is None:
-            raise Exception(f'ERROR: Page parsing for player failed at {player_name}')
-        player_name = player_name.get_text().strip()
-    except:
-        print(f'FAILED FOR LINK {card_page_link}...')
-        raise Exception(f'Failed link {card_page_link}')
+    player_name_req = requests.get(card_page_link)
+    if player_name_req.status_code != requests.codes.ok:
+        raise Exception(f'ERROR: URL retrieval failed for player name at {player_name_req.url}')
+    player_name = BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red a')
+    if player_name is None:
+        print(BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red'))
+        raise Exception(f'ERROR: Page parsing for player failed at {player_name_req.url}')
+    player_name = player_name.get_text().strip()
+    if player_name is None:
+        print(BeautifulSoup(player_name_req.text, 'lxml').select_one('.row div.font-16.fh-red'))
+        raise Exception(f'Ya done fucked up the name chief at {player_name_req.url}')
     player_name = unidecode.unidecode(player_name).lower()
     return (player_name, player_link)
 
