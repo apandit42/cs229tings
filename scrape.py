@@ -475,7 +475,8 @@ def get_fh_info():
                 player_multi_data = dict(list(filter(None, player_multi_data)))
                 json.dump(player_multi_data, batch_path.open(mode='w'))
             player_directory.update(player_multi_data)
-        
+    
+    print("BRUDDA WE FUCKIN DID IT, WHAT A MISSION, DICT KOMPLETE!")
     return player_directory
 
 
