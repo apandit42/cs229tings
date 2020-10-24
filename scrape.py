@@ -11,7 +11,7 @@ import hashlib
 import unidecode
 from multiprocessing.pool import Pool
 
-BEYBLADE_LEVEL = 64
+BEYBLADE_LEVEL = 256
 
 
 driver = webdriver.Firefox()
