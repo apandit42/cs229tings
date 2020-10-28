@@ -92,9 +92,15 @@
                         a.document.write('<script src="https://hb.vntsm.com/v3/live/ad-manager.min.js" type="text/javascript" async>'+'</scr'+'ipt>');
                         a.document.close()
                     })();
+<<<<<<< HEAD
                 </script><style type="text/css">:root audio[data-vhcbvk5js],
 :root   img[data-vhcbvk5js],
 :root video[data-vhcbvk5js] {
+=======
+                </script><style type="text/css">:root audio[data-emr3vb857],
+:root   img[data-emr3vb857],
+:root video[data-emr3vb857] {
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
 border: 1px dotted red !important;
 box-sizing: border-box !important;
 cursor: zoom-in !important;
@@ -113,7 +119,11 @@ outline: none !important;
 
 
 
+<<<<<<< HEAD
     <meta name="general_csrf-name" content="8ccbf1a8c8deec84755e45f89891431ffb824854258822c8b28c4aa3189b6867684c66d76f2a8c486bf62be5bd2be05d5c567ed1399b125c1896983ed5fb43dc"><meta name="general_csrf-value" content="bbfde2fa2dc74e2e126d0bb97551a22f29dd564e07866dbfbba90790e0dda24b5d1c61d485dfb4afb18259836fe0232184e458c0c6f6b6cbf930b10856a8c20f">    
+=======
+    <meta name="general_csrf-name" content="78126b16301c5e9fbb90e8da06e6b2e2539561f695f083e51407f9c60c1f20e4d9b050311872bc16ddeb2ab8ef538b711ba31e239b222d0ea374aeff10e1d147"><meta name="general_csrf-value" content="9db57e0d8d63b4378246de26ad163c65a3c2be899db679314d46852596f2a95468c948a0137244b313c9e973ab8a2c534dab1a943034d8205f8ad64eec9bafbb">    
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
 
 
             <!-- Begin Cookie Consent plugin by Silktide - http://silktide.com/cookieconsent -->
@@ -412,7 +422,11 @@ outline: none !important;
                     <li><a href="/squad-battles/points" class="waves-effect"><img alt="sb" style="width: 20px;" src="/design/img/sb_small_19.png"> Squad Battles</a></li>
                     <li><a href="/champions/leaderboard" class="waves-effect"><img alt="p" style="width: 22px;" src="/design/img/champs_small_19.png"> FUT Champions</a></li>
                     <li> <a href="/perfect-chemistry"><i class="fas fa-link"></i> Perfect Chemistry</a></li>
+<<<<<<< HEAD
                     <li><a href="/picks" class="waves-effect"><img alt="p" style="width: 22px;" src="/design/img/shapes/picks/picks-icon.png" data-vhcbvk5js=""> Picks</a></li>
+=======
+                    <li><a href="/picks" class="waves-effect"><img alt="p" style="width: 22px;" src="/design/img/shapes/picks/picks-icon.png" data-emr3vb857=""> Picks</a></li>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
 
                     <!-- Packs MENU  -->
                     <li><a class="collapsible-header waves-effect arrow-r"><i class="icon-stack4"></i>  Packs <i class="fa fa-angle-down rotate-icon"></i></a>
@@ -430,12 +444,21 @@ outline: none !important;
                             <ul>
                                 <li><a href="/market/auctions" class="waves-effect"><i class="icon-stats-dots"></i>  Auctions</a></li>
                                 <li><a href="/market" class="waves-effect"><i class="icon-chart"></i>  Index100</a></li>
+<<<<<<< HEAD
                                 <li><a href="/market/Special" class="waves-effect"> <img alt="Market Gold" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/goldinform.png?v=2" data-vhcbvk5js=""> IndexSpecial</a></li>
                                 <li><a href="/market/OnesToWatch" class="waves-effect"><img alt="Market OTW" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/otw.png?v=2" data-vhcbvk5js=""> IndexOnesToWatch</a></li>
                                 <li><a href="/market/Gold" class="waves-effect"><img alt="Market IF" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/goldrnif.png?v=2" data-vhcbvk5js=""> IndexGold</a></li>
                                 <li><a href="/market/Icons" class="waves-effect"><img alt="Market Icons" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/icon.png?v=2" data-vhcbvk5js=""> IndexIcons</a></li>
                                 <li><a href="/market/UCL" class="waves-effect"><img alt="Market UCL" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/ucl_rare.png?v=2" data-vhcbvk5js=""> IndexUCL</a></li>
                                 <li><a href="/market/UCLLive" class="waves-effect"><img alt="Market Live UCL" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/ucl_live.png?v=2" data-vhcbvk5js=""> IndexLiveUCL</a></li>
+=======
+                                <li><a href="/market/Special" class="waves-effect"> <img alt="Market Gold" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/goldinform.png?v=2" data-emr3vb857=""> IndexSpecial</a></li>
+                                <li><a href="/market/OnesToWatch" class="waves-effect"><img alt="Market OTW" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/otw.png?v=2" data-emr3vb857=""> IndexOnesToWatch</a></li>
+                                <li><a href="/market/Gold" class="waves-effect"><img alt="Market IF" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/goldrnif.png?v=2" data-emr3vb857=""> IndexGold</a></li>
+                                <li><a href="/market/Icons" class="waves-effect"><img alt="Market Icons" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/icon.png?v=2" data-emr3vb857=""> IndexIcons</a></li>
+                                <li><a href="/market/UCL" class="waves-effect"><img alt="Market UCL" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/ucl_rare.png?v=2" data-emr3vb857=""> IndexUCL</a></li>
+                                <li><a href="/market/UCLLive" class="waves-effect"><img alt="Market Live UCL" class="market-nav-card" src="https://cdn.futbin.com/content/fifa21/img/cards/tiny/ucl_live.png?v=2" data-emr3vb857=""> IndexLiveUCL</a></li>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                 <li><a href="/market/86" class="waves-effect">Index86</a></li>
                                 <li><a href="/market/85" class="waves-effect">Index85</a></li>
                                 <li><a href="/market/84" class="waves-effect">Index84</a></li>
@@ -606,7 +629,11 @@ outline: none !important;
                             <li><a href="/popular" class="dropdown-item"><i class="icon-fire popular-nav"></i> Popular </a></li>
                             <li><a href="/latest" class="dropdown-item"><i class="icon-new new-players-nav"></i> New FIFA 21 Players</a></li>
                             <li> <a class="dropdown-item" href="/perfect-chemistry"><i class="fas fa-link"></i> Perfect Chemistry</a></li>
+<<<<<<< HEAD
                             <li> <a class="dropdown-item" href="/picks"><img alt="sbc_logo" class="sbc_nav desk-nav-img" style="width: 20px;" src="/design/img/shapes/picks/picks-icon.png" data-vhcbvk5js=""> Picks</a></li>
+=======
+                            <li> <a class="dropdown-item" href="/picks"><img alt="sbc_logo" class="sbc_nav desk-nav-img" style="width: 20px;" src="/design/img/shapes/picks/picks-icon.png" data-emr3vb857=""> Picks</a></li>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                             <li><a href="/special/Transfers" class="dropdown-item"><i class="icon-tab"></i> Transfers</a></li>
                             <li><a href="/priceranges" class="dropdown-item"><img src="/design/img/coins_bin.png" style="width: 15px;"> Price Range Updates</a></li>
                             <li><a class="dropdown-item" href="/squads">TOTWs</a></li>
@@ -802,7 +829,11 @@ outline: none !important;
 
                     <li class="nav-item dropdown">
                         <a href="/updater" class="nav-link" id="navbarDropdowUpdater" data-hover="dropdown" data-delay="0" data-close-others="false">
+<<<<<<< HEAD
                             <img style="width: 20px; position: relative; top: -2px;" class="desk-nav-img" src="https://cdn.futbin.com/design/img/futbin_updater_icon_red.png" alt="up" data-vhcbvk5js="">
+=======
+                            <img style="width: 20px; position: relative; top: -2px;" class="desk-nav-img" src="https://cdn.futbin.com/design/img/futbin_updater_icon_red.png" alt="up" data-emr3vb857="">
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                         </a>
                         <div class="dropdown-menu dropdown-primary" aria-labelledby="navbarDropdowUpdater">
                             <a class="dropdown-item" href="/updater"> FUTBIN Updater</a>
@@ -1165,8 +1196,13 @@ outline: none !important;
             <div class="side-bar-tab active" id="latest_watched_tab">Watched Players</div>
 
             
+<<<<<<< HEAD
             <div class="latest-squads-csrf-name hidden" data-value="e3835d0af661ffac50a04c6073d075ff545c1ee1075b30bbf5bd21b132ffb96a2006070bd8df0ac3bba836819bd6633529eb9c4fa0a1f3420252f9f65f88f427" style="display: none;"></div>
             <div class="latest-squads-csrf-value hidden" data-value="a6920f5618b3c33a41d9ef6ac4996f0ecc2b74517f9e939450b629554af3421fcca50a16be50e6ec1091a693b7690fe04435092e60f42fefe8b2faeb3b64bd8a" style="display: none;"></div>
+=======
+            <div class="latest-squads-csrf-name hidden" data-value="18017c9c6d7f97fcf54d9902af89ddcce16fc5785c5b69caeff294626d61b62b46a7474e8d2bf74134bf31f80aecab26c4e41c072b7d94444b73e280403ca6de" style="display: none;"></div>
+            <div class="latest-squads-csrf-value hidden" data-value="1639fcd4046f070125e6e9fcdaec32929c7ae9489f27fc3de6a2cea0be8f9e584f614c6602202c8ca462c861d647ea16a5cb1902fbfe21218ea457ae53914298" style="display: none;"></div>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
 
             <div class="side-bar-tab" id="user_latest_squads_tab">My Squads</div>
             <div class="side-bar-tab" id="user_latest_public_squads_tab">Watched Squads</div>
@@ -1933,7 +1969,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">CB</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">1.1K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">950 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>2<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>3<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2212,7 +2252,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">LW</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">800 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">700 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>2<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2305,7 +2349,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">CM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">1.1K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">800 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>3<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>4<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2398,7 +2446,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">LM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">700 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">650 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>3<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2491,7 +2543,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">CM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">1.2K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">1.1K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>3<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2677,7 +2733,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">RM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">2.8K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">600 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>4<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2770,7 +2830,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">RB</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">950 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">750 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>3<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>2<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2863,7 +2927,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">LM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">600 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">550 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>4<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -2942,7 +3010,11 @@ outline: none !important;
 
                                        <div>
                                               <span class="players_club_nation" style="display: inline-block;">
+<<<<<<< HEAD
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=112429" data-original-title="Guangzhou R&amp;F" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/112429.png" data-vhcbvk5js=""></a>
+=======
+                                                <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=112429" data-original-title="Guangzhou R&amp;F" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/112429.png" data-emr3vb857=""></a>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;nation=37" data-original-title="Poland" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/nation/37.png"></a>
                                                                                                       <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;league=2012" data-original-title="Chinese FA Super L. (CHN 1)" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/league/2012.png"></a>
                                                                                                </span>
@@ -2956,7 +3028,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">CAM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">650 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">700 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>4<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>4<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -3128,7 +3204,11 @@ outline: none !important;
 
                                        <div>
                                               <span class="players_club_nation" style="display: inline-block;">
+<<<<<<< HEAD
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=73" data-original-title="Paris SG" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/73.png" data-vhcbvk5js=""></a>
+=======
+                                                <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=73" data-original-title="Paris SG" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/73.png" data-emr3vb857=""></a>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;nation=103" data-original-title="Cameroon" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/nation/103.png"></a>
                                                                                                       <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;league=16" data-original-title="Ligue 1 Conforama" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/league/16.png"></a>
                                                                                                </span>
@@ -3221,7 +3301,11 @@ outline: none !important;
 
                                        <div>
                                               <span class="players_club_nation" style="display: inline-block;">
+<<<<<<< HEAD
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=21" data-original-title="FC Bayern" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/21.png" data-vhcbvk5js=""></a>
+=======
+                                                <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;club=21" data-original-title="FC Bayern" data-toggle="tooltip" data-placement="top"><img style="width:20px;" src="https://cdn.futbin.com/content/fifa21/img/clubs/21.png" data-emr3vb857=""></a>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                 <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;nation=103" data-original-title="Cameroon" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/nation/103.png"></a>
                                                                                                       <a href="/21/players?page=1&amp;version=gold&amp;showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression&amp;league=19" data-original-title="Bundesliga" data-toggle="tooltip" data-placement="top"><img style="width: 24px;" src="https://cdn.futbin.com/content/fifa21/img/league/19.png"></a>
                                                                                                </span>
@@ -3328,7 +3412,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">CM</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">1K <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">950 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>3<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>3<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -3514,7 +3602,11 @@ outline: none !important;
                                     <td><span class="form rating ut21  gold non-rare">75</span></td>
                                     <td class="">LW</td>
                                     <td class="mobile-hide-table-col">non-rare</td>
+<<<<<<< HEAD
                                                                           <td><span class="ps4_color font-weight-bold">450 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+=======
+                                                                          <td><span class="ps4_color font-weight-bold">500 <img alt="c" class="small-coins-icon" src="/design/img/coins_bin.png"></span> </td>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                                                                                                                                   
                                                                                                                                                                                         <td>3<i style="font-size: 10px;" class="icon-star-full stars-"></i></td>
                                     <td>5<i style="font-size: 10px;" class="icon-star-full stars"></i></td>
@@ -4174,12 +4266,20 @@ outline: none !important;
                             <div class="row">
                                 <div class="col-md-6">
                                     <div style="color: #ff0054;" class="mb-2">Ublock:</div>
+<<<<<<< HEAD
                                     <div><img style="width: 150px;" src="/design/img/gif/ublock.gif" data-vhcbvk5js=""></div>
+=======
+                                    <div><img style="width: 150px;" src="/design/img/gif/ublock.gif" data-emr3vb857=""></div>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                 </div>
 
                                 <div class="col-md-6">
                                     <div style="color: #ff0054;" class="mb-2">Adblock:</div>
+<<<<<<< HEAD
                                     <div><img style="width: 150px;" src="/design/img/gif/adblock.gif" data-vhcbvk5js=""></div>
+=======
+                                    <div><img style="width: 150px;" src="/design/img/gif/adblock.gif" data-emr3vb857=""></div>
+>>>>>>> 23b06d763706ff8c2f83a8337ddda6be532f68b4
                                 </div>
 
                             </div>
