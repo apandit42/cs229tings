@@ -158,12 +158,12 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
-        profile = webdriver.FirefoxProfile('/home/ayush/.mozilla/firefox/r4phf2h5.default-release')
+        profile = webdriver.FirefoxProfile('/Users/daniel/Library/Application Support/Firefox/Profiles/rzsevy5k.default-release')
         self.driver = webdriver.Firefox(firefox_profile=profile)
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
-        card_type_list = ['gold', 'silver', 'bronze']
+        card_type_list = ['gold']
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
