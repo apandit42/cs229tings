@@ -1,7 +1,7 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.keys import Keys
+from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 from pathlib import Path
 import hashlib
@@ -93,13 +93,11 @@ class WhoScoredData():
                 link += key + '=' + payload[key] + '&'
             link = link[:-1]
             self.driver.get(link)
-            # time.sleep(2)
             json_body = json.loads(self.driver.find_element(By.CSS_SELECTOR, 'body').text)
             total_results = json_body['paging']['totalResults']
             link = link[:-1] + str(total_results)
             self.driver.get(link)
             print(f'Scraping link {link}...')
-            # time.sleep(2)
             json_body = json.loads(self.driver.find_element(By.CSS_SELECTOR, 'body').text)
             all_json_results.append(json_body)
         return all_json_results
@@ -158,6 +156,7 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
+<<<<<<< HEAD
         # profile = webdriver.FirefoxProfile('/home/ubuntu/.mozilla/firefox/jet3o1l4.default-release')
         # self.driver = webdriver.Firefox(firefox_profile=profile)
         self.driver = webdriver.Firefox()
@@ -165,6 +164,17 @@ class FutBinData():
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
         card_type_list = ['bronze']
+=======
+        # profile = webdriver.FirefoxProfile('/home/ayush/.mozilla/firefox/r4phf2h5.default-release')
+        # self.driver = webdriver.Firefox(firefox_profile=profile)
+        caps = DesiredCapabilities().FIREFOX
+        caps["pageLoadStrategy"] = "eager"
+        self.driver = webdriver.Firefox(desired_capabilities=caps)
+        input('Ready to proceed?')
+        # Collecting all of the links from each of the years
+        year_list = ['21', '20', '19', '18']
+        card_type_list = ['silver']
+>>>>>>> 775a977d785a0aeefe5ce8bd6f498ad1d20fdd23
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
@@ -201,93 +211,58 @@ class FutBinData():
         page_file = Path('futbin/' + hasher.hexdigest() + '.txt')
         if page_file.is_file():
             page = BeautifulSoup(page_file.read_text(),'lxml')
-            player_rows = page.select('#repTb tbody tr')
-            flag_download = True
         else:
+<<<<<<< HEAD
             # time.sleep(random.randint(0, 3) + random.random())
+=======
+            time.sleep(random.randint(0, 1) + random.random())
+            print("BINK")
+>>>>>>> 775a977d785a0aeefe5ce8bd6f498ad1d20fdd23
             self.driver.get(page_url)
+            print("BONK")
             page_file.write_text(self.driver.page_source)
-            player_rows = self.driver.find_elements(By.CSS_SELECTOR, '#repTb tbody tr')
-            flag_download = False
+            page = BeautifulSoup(self.driver.page_source, 'lxml')
+        player_rows = page.select('#repTb tbody tr')
         page_player_data = []
         for player in player_rows:
             player_dict = {}
-            if flag_download:
-                player_row_data = player.select('td')
-                player_dict['player_name'] = player_row_data[0].get_text().strip()
-                player_dict['overall_rating'] = player_row_data[1].get_text().strip()
-                player_dict['player_position'] = player_row_data[2].get_text().strip()
-                player_dict['pac'] = player_row_data[8].get_text().strip()
-                player_dict['sho'] = player_row_data[9].get_text().strip()
-                player_dict['pas'] = player_row_data[10].get_text().strip()
-                player_dict['dri'] = player_row_data[11].get_text().strip()
-                player_dict['def'] = player_row_data[12].get_text().strip()
-                player_dict['phy'] = player_row_data[13].get_text().strip()
-                player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
-                player_dict['age'] = player_row_data[18].get_text().strip()
-                player_dict['weight'] = player_row_data[19].get_text().strip().replace('kg', '')
-                player_dict['acceleration'] = player_row_data[20].get_text().strip()
-                player_dict['aggression'] = player_row_data[21].get_text().strip()
-                player_dict['agility'] = player_row_data[22].get_text().strip()
-                player_dict['balance'] = player_row_data[23].get_text().strip()
-                player_dict['ball_control'] = player_row_data[24].get_text().strip()
-                player_dict['crossing'] = player_row_data[25].get_text().strip()
-                player_dict['curve'] = player_row_data[26].get_text().strip()
-                player_dict['dribbling'] = player_row_data[27].get_text().strip()
-                player_dict['heading_accuracy'] = player_row_data[28].get_text().strip()
-                player_dict['interceptions'] = player_row_data[29].get_text().strip()
-                player_dict['jumping'] = player_row_data[30].get_text().strip()
-                player_dict['long_passing'] = player_row_data[31].get_text().strip()
-                player_dict['long_shots'] = player_row_data[32].get_text().strip()
-                player_dict['marking'] = player_row_data[33].get_text().strip()
-                player_dict['penalties'] = player_row_data[34].get_text().strip()
-                player_dict['positioning'] = player_row_data[35].get_text().strip()
-                player_dict['reactions'] = player_row_data[36].get_text().strip()
-                player_dict['short_passing'] = player_row_data[37].get_text().strip()
-                player_dict['fk_accuracy'] = player_row_data[38].get_text().strip()
-                player_dict['shot_power'] = player_row_data[39].get_text().strip()
-                player_dict['sliding_tackle'] = player_row_data[40].get_text().strip()
-                player_dict['sprint_speed'] = player_row_data[41].get_text().strip()
-                player_dict['standing_tackle'] = player_row_data[42].get_text().strip()
-                player_dict['stamina'] = player_row_data[43].get_text().strip()
-            else:
-                player_row_data = player.find_elements(By.CSS_SELECTOR, 'td')
-                player_dict['player_name'] = player_row_data[0].text.strip()
-                player_dict['overall_rating'] = player_row_data[1].text.strip()
-                player_dict['player_position'] = player_row_data[2].text.strip()
-                player_dict['pac'] = player_row_data[8].text.strip()
-                player_dict['sho'] = player_row_data[9].text.strip()
-                player_dict['pas'] = player_row_data[10].text.strip()
-                player_dict['dri'] = player_row_data[11].text.strip()
-                player_dict['def'] = player_row_data[12].text.strip()
-                player_dict['phy'] = player_row_data[13].text.strip()
-                player_dict['height'] = player_row_data[14].text.split()[0].replace('cm', '')
-                player_dict['age'] = player_row_data[18].text.strip()
-                player_dict['weight'] = player_row_data[19].text.strip().replace('kg', '')
-                player_dict['acceleration'] = player_row_data[20].text.strip()
-                player_dict['aggression'] = player_row_data[21].text.strip()
-                player_dict['agility'] = player_row_data[22].text.strip()
-                player_dict['balance'] = player_row_data[23].text.strip()
-                player_dict['ball_control'] = player_row_data[24].text.strip()
-                player_dict['crossing'] = player_row_data[25].text.strip()
-                player_dict['curve'] = player_row_data[26].text.strip()
-                player_dict['dribbling'] = player_row_data[27].text.strip()
-                player_dict['heading_accuracy'] = player_row_data[28].text.strip()
-                player_dict['interceptions'] = player_row_data[29].text.strip()
-                player_dict['jumping'] = player_row_data[30].text.strip()
-                player_dict['long_passing'] = player_row_data[31].text.strip()
-                player_dict['long_shots'] = player_row_data[32].text.strip()
-                player_dict['marking'] = player_row_data[33].text.strip()
-                player_dict['penalties'] = player_row_data[34].text.strip()
-                player_dict['positioning'] = player_row_data[35].text.strip()
-                player_dict['reactions'] = player_row_data[36].text.strip()
-                player_dict['short_passing'] = player_row_data[37].text.strip()
-                player_dict['fk_accuracy'] = player_row_data[38].text.strip()
-                player_dict['shot_power'] = player_row_data[39].text.strip()
-                player_dict['sliding_tackle'] = player_row_data[40].text.strip()
-                player_dict['sprint_speed'] = player_row_data[41].text.strip()
-                player_dict['standing_tackle'] = player_row_data[42].text.strip()
-                player_dict['stamina'] = player_row_data[43].text.strip()
+            player_row_data = player.select('td')
+            player_dict['player_name'] = player_row_data[0].get_text().strip()
+            player_dict['overall_rating'] = player_row_data[1].get_text().strip()
+            player_dict['player_position'] = player_row_data[2].get_text().strip()
+            player_dict['pac'] = player_row_data[8].get_text().strip()
+            player_dict['sho'] = player_row_data[9].get_text().strip()
+            player_dict['pas'] = player_row_data[10].get_text().strip()
+            player_dict['dri'] = player_row_data[11].get_text().strip()
+            player_dict['def'] = player_row_data[12].get_text().strip()
+            player_dict['phy'] = player_row_data[13].get_text().strip()
+            player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
+            player_dict['age'] = player_row_data[18].get_text().strip()
+            player_dict['weight'] = player_row_data[19].get_text().strip().replace('kg', '')
+            player_dict['acceleration'] = player_row_data[20].get_text().strip()
+            player_dict['aggression'] = player_row_data[21].get_text().strip()
+            player_dict['agility'] = player_row_data[22].get_text().strip()
+            player_dict['balance'] = player_row_data[23].get_text().strip()
+            player_dict['ball_control'] = player_row_data[24].get_text().strip()
+            player_dict['crossing'] = player_row_data[25].get_text().strip()
+            player_dict['curve'] = player_row_data[26].get_text().strip()
+            player_dict['dribbling'] = player_row_data[27].get_text().strip()
+            player_dict['heading_accuracy'] = player_row_data[28].get_text().strip()
+            player_dict['interceptions'] = player_row_data[29].get_text().strip()
+            player_dict['jumping'] = player_row_data[30].get_text().strip()
+            player_dict['long_passing'] = player_row_data[31].get_text().strip()
+            player_dict['long_shots'] = player_row_data[32].get_text().strip()
+            player_dict['marking'] = player_row_data[33].get_text().strip()
+            player_dict['penalties'] = player_row_data[34].get_text().strip()
+            player_dict['positioning'] = player_row_data[35].get_text().strip()
+            player_dict['reactions'] = player_row_data[36].get_text().strip()
+            player_dict['short_passing'] = player_row_data[37].get_text().strip()
+            player_dict['fk_accuracy'] = player_row_data[38].get_text().strip()
+            player_dict['shot_power'] = player_row_data[39].get_text().strip()
+            player_dict['sliding_tackle'] = player_row_data[40].get_text().strip()
+            player_dict['sprint_speed'] = player_row_data[41].get_text().strip()
+            player_dict['standing_tackle'] = player_row_data[42].get_text().strip()
+            player_dict['stamina'] = player_row_data[43].get_text().strip()
             page_player_data.append(player_dict)
         return page_player_data
 
@@ -297,7 +272,7 @@ class FutBinData():
     def get_player_count(self):
         total_players = 0
         for year in self.player_data:
-            for card_type in year:
+            for card_type in self.player_data[year]:
                 total_players += len(self.player_data[year][card_type].keys())
         return total_players
 
