@@ -10,8 +10,9 @@ from pathlib import Path
 import hashlib
 import unidecode
 from multiprocessing.pool import Pool
+import time
 
-BEYBLADE_LEVEL = 256
+BEYBLADE_LEVEL = 64
 
 
 driver = webdriver.Firefox()
@@ -99,54 +100,54 @@ class PlayerStats(PlayerBase):
 
     # FUTHEAD player
     # PACE
-    fh_pace = IntegerField(null=True)
-    fh_accleration = IntegerField(null=True)
-    fh_sprint_speed = IntegerField(null=True)
+    fifa_pace = IntegerField(null=True)
+    fifa_accleration = IntegerField(null=True)
+    fifa_sprint_speed = IntegerField(null=True)
 
     # SHOOTING
-    fh_shooting = IntegerField(null=True)
-    fh_positioning = IntegerField(null=True)
-    fh_finishing = IntegerField(null=True)
-    fh_shot_power = IntegerField(null=True)
-    fh_long_shots = IntegerField(null=True)
-    fh_volleys = IntegerField(null=True)
-    fh_penalties = IntegerField(null=True)
+    fifa_shooting = IntegerField(null=True)
+    fifa_positioning = IntegerField(null=True)
+    fifa_finishing = IntegerField(null=True)
+    fifa_shot_power = IntegerField(null=True)
+    fifa_long_shots = IntegerField(null=True)
+    fifa_volleys = IntegerField(null=True)
+    fifa_penalties = IntegerField(null=True)
 
     # PASSING
-    fh_passing = IntegerField(null=True)
-    fh_vision = IntegerField(null=True)
-    fh_crossing = IntegerField(null=True)
-    fh_free_kick = IntegerField(null=True)
-    fh_short_passing = IntegerField(null=True)
-    fh_long_passing = IntegerField(null=True)
-    fh_curve = IntegerField(null=True)
+    fifa_passing = IntegerField(null=True)
+    fifa_vision = IntegerField(null=True)
+    fifa_crossing = IntegerField(null=True)
+    fifa_free_kick = IntegerField(null=True)
+    fifa_short_passing = IntegerField(null=True)
+    fifa_long_passing = IntegerField(null=True)
+    fifa_curve = IntegerField(null=True)
 
     # DRIBBLING
-    fh_dribbling = IntegerField(null=True)
-    fh_agility = IntegerField(null=True)
-    fh_balance = IntegerField(null=True)
-    fh_reactions = IntegerField(null=True)
-    fh_ball_control = IntegerField(null=True)
-    fh_dribbling_min = IntegerField(null=True)
-    fh_composure = IntegerField(null=True)
+    fifa_dribbling = IntegerField(null=True)
+    fifa_agility = IntegerField(null=True)
+    fifa_balance = IntegerField(null=True)
+    fifa_reactions = IntegerField(null=True)
+    fifa_ball_control = IntegerField(null=True)
+    fifa_dribbling_min = IntegerField(null=True)
+    fifa_composure = IntegerField(null=True)
 
     # DEFENSE
-    fh_defense = IntegerField(null=True)
-    fh_interceptions = IntegerField(null=True)
-    fh_heading = IntegerField(null=True)
-    fh_def_awareness = IntegerField(null=True)
-    fh_standing_tackle = IntegerField(null=True)
-    fh_sliding_tackle = IntegerField(null=True)
+    fifa_defense = IntegerField(null=True)
+    fifa_interceptions = IntegerField(null=True)
+    fifa_heading = IntegerField(null=True)
+    fifa_def_awareness = IntegerField(null=True)
+    fifa_standing_tackle = IntegerField(null=True)
+    fifa_sliding_tackle = IntegerField(null=True)
 
     # PHYSICAL
-    fh_physical = IntegerField(null=True)
-    fh_jumping = IntegerField(null=True)
-    fh_stamina = IntegerField(null=True)
-    fh_strength = IntegerField(null=True)
-    fh_aggression = IntegerField(null=True)
+    fifa_physical = IntegerField(null=True)
+    fifa_jumping = IntegerField(null=True)
+    fifa_stamina = IntegerField(null=True)
+    fifa_strength = IntegerField(null=True)
+    fifa_aggression = IntegerField(null=True)
 
     # OVERALL
-    fh_overall_score = IntegerField(null=True)
+    fifa_overall_score = IntegerField(null=True)
 
 
 def get_subcat_json(subcategory, stageId):
@@ -180,7 +181,6 @@ def get_subcat_json(subcategory, stageId):
     for key in payload:
         link += key + '=' + payload[key] + '&'
     link = link[:-1]
-    print(link)
     driver.get(link)
     json_body = json.loads(driver.find_element(By.CSS_SELECTOR, 'body').text)
     total_results = json_body['paging']['totalResults']
@@ -244,7 +244,7 @@ def merge_summaries(summary_subcat, summary_def, summary_off, summary_pass):
 
 def get_actual_player_info(player_url):
     base_url = 'https://www.futhead.com'
-    specific_player_url = base_url + player_url
+    specific_player_url = player_url
     specific_page = BeautifulSoup(requests.get(specific_player_url).text, 'lxml')
     player_name = specific_page.select_one('ul.nav.pull-left.hidden-sm.hidden-xs li.dropdown.active a').get_text().strip().lower()
     player_info_dict = {}
@@ -268,22 +268,22 @@ def get_actual_player_info(player_url):
             else:
                 line = line.strip().split()
                 if len(line) == 1:
-                    if line[0].isnumeric() == True and 'fh_overall_score' not in player_info_dict[player_year]:
-                        player_info_dict[player_year]['fh_overall_score'] = int(line[0])
+                    if line[0].isnumeric() == True and 'fifa_overall_score' not in player_info_dict[player_year]:
+                        player_info_dict[player_year]['fifa_overall_score'] = int(line[0])
                 elif len(line) == 2:
                     if line[0].isalpha() == False:
                         if line[1].strip() == 'PAC':
-                            player_info_dict[player_year]['fh_pace'] = int(line[0])
+                            player_info_dict[player_year]['fifa_pace'] = int(line[0])
                         elif line[1].strip() == 'SHO':
-                            player_info_dict[player_year]['fh_shooting'] = int(line[0])
+                            player_info_dict[player_year]['fifa_shooting'] = int(line[0])
                         elif line[1].strip() == 'PAS':
-                            player_info_dict[player_year]['fh_passing'] = int(line[0])
+                            player_info_dict[player_year]['fifa_passing'] = int(line[0])
                         elif line[1].strip() == 'DRI':
-                            player_info_dict[player_year]['fh_dribbling'] = int(line[0])
+                            player_info_dict[player_year]['fifa_dribbling'] = int(line[0])
                         elif line[1].strip() == 'DEF':
-                            player_info_dict[player_year]['fh_defense'] = int(line[0])
+                            player_info_dict[player_year]['fifa_defense'] = int(line[0])
                         elif line[1].strip() == 'PHY':
-                            player_info_dict[player_year]['fh_physical'] = int(line[0])
+                            player_info_dict[player_year]['fifa_physical'] = int(line[0])
         
         # Get sub stats
         player_sub_stats = year_card_page.select('div.col-lg-2.col-sm-4.col-xs-6')
@@ -298,10 +298,10 @@ def get_actual_player_info(player_url):
                 line = line.strip().lower().replace(" ", "")
                 if line.isalpha() == False:
                     if input_num == 0:
-                        player_info_dict[player_year]['fh_acceleration'] = int(line)
+                        player_info_dict[player_year]['fifa_acceleration'] = int(line)
                         input_num += 1
                     elif input_num == 1:
-                        player_info_dict[player_year]['fh_sprint_speed'] = int(line)
+                        player_info_dict[player_year]['fifa_sprint_speed'] = int(line)
                         input_num += 1
         
         sho_sub = sho_sub.get_text().splitlines()
@@ -313,22 +313,22 @@ def get_actual_player_info(player_url):
                 line = line.strip().lower().replace(" ", "")
                 if line.isalpha() == False:
                     if input_num == 0:
-                        player_info_dict[player_year]['fh_positioning'] = int(line)
+                        player_info_dict[player_year]['fifa_positioning'] = int(line)
                         input_num += 1
                     elif input_num == 1:
-                        player_info_dict[player_year]['fh_finishing'] = int(line)
+                        player_info_dict[player_year]['fifa_finishing'] = int(line)
                         input_num += 1
                     elif input_num == 2:
-                        player_info_dict[player_year]['fh_shot_power'] = int(line)
+                        player_info_dict[player_year]['fifa_shot_power'] = int(line)
                         input_num += 1
                     elif input_num == 3:
-                        player_info_dict[player_year]['fh_long_shots'] = int(line)
+                        player_info_dict[player_year]['fifa_long_shots'] = int(line)
                         input_num += 1
                     elif input_num == 4:
-                        player_info_dict[player_year]['fh_volleys'] = int(line)
+                        player_info_dict[player_year]['fifa_volleys'] = int(line)
                         input_num += 1
                     elif input_num == 5:
-                        player_info_dict[player_year]['fh_penalties'] = int(line)
+                        player_info_dict[player_year]['fifa_penalties'] = int(line)
                         input_num += 1
         
         pass_sub = pass_sub.get_text().splitlines()
@@ -467,7 +467,7 @@ def get_fh_info():
     with Pool(BEYBLADE_LEVEL) as pool:
         batches = [player_elems[i:i + 1000] for i in range(0, len(player_elems), 1000)]
         for i in range(len(batches)):
-            batch_path = Path(f'batch_{i}.json')
+            batch_path = Path(f'batch/batch_{i}.json')
             if batch_path.is_file():
                 player_multi_data = json.load(batch_path.open())
             else:
@@ -521,10 +521,11 @@ def model_build_players(super_summary, season_key, league_key, stageId, fh_basic
                     simple_league_name = league_key,
                     stage_id = stageId,
                 )
-
-            player_name = unidecode.unidecode(super_summary[player]['firstName'] + " " + super_summary[player]['lastName']).strip().lower()
+            
+            player_name = unidecode.unidecode(super_summary[player]['firstName'].strip() + " " + super_summary[player]['lastName'].strip()).strip().lower()
+            player_name = player_name.replace('junior', 'jr.')
             if player_name not in fh_basic_directory:
-                raise Exception("We're in trouble bub... Can't find the player in the futhead directory")
+                raise Exception(f"We're in trouble bub... Can't find the player {player_name} in the futhead directory")
             
             print(f'Building models for player {player_name}...')
             
@@ -635,6 +636,7 @@ def build_stage_players(fh_basic_directory):
             summary_off = get_subcat_json('offensive', stageId)
             summary_pass = get_subcat_json('passing', stageId)
             super_summary = merge_summaries(summary_subcat, summary_def, summary_off, summary_pass)
+            print(len(super_summary.keys()))
             model_build_players(super_summary, season_key, league_key, stageId, fh_basic_directory)
 
 
@@ -648,7 +650,7 @@ try:
     else:
         fh_directory = get_fh_info()
         json.dump(fh_directory, fh_data_file.open(mode='w'))
-    # build_stage_players(fh_directory)
+    build_stage_players(fh_directory)
 finally:
     driver.quit()
     print('ALL DONE')
