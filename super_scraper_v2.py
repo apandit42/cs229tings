@@ -262,7 +262,7 @@ class FutBinData():
         total_players = 0
         for year in self.player_data:
             for card_type in self.player_data[year]:
-                total_players += len(self.player_data[year][card_type].keys())
+                total_players += len(self.player_data[year][card_type])
         return total_players
 
 
