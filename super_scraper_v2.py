@@ -17,7 +17,7 @@ Description: Class that controls scraping for whoscored.com data. Builds out JSO
 """
 class WhoScoredData():
     def __init__(self):
-        data_path = Path('who_scored_data.json')
+        data_path = Path('init_data/who_scored_data.json')
         if data_path.is_file():
             self.player_data = json.load(data_path.open())
         else:
@@ -148,7 +148,7 @@ Description: Class that controls scraping for futbin.com data. Builds out JSON f
 """
 class FutBinData():
     def __init__(self):
-        data_path = Path('fut_bin_data.json')
+        data_path = Path('init_data/fut_bin_data.json')
         if data_path.is_file():
             self.player_data = json.load(data_path.open())
         else:
@@ -162,7 +162,7 @@ class FutBinData():
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
-        card_type_list = ['gold', 'silver']
+        card_type_list = ['gold', 'silver', 'bronze']
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
