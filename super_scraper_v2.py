@@ -156,15 +156,14 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
-        # profile = webdriver.FirefoxProfile('/home/ayush/.mozilla/firefox/r4phf2h5.default-release')
-        # self.driver = webdriver.Firefox(firefox_profile=profile)
+        profile = webdriver.FirefoxProfile('/home/ubuntu/.mozilla/firefox/jet3o1l4.default-release/')
         caps = DesiredCapabilities().FIREFOX
         caps["pageLoadStrategy"] = "eager"
-        self.driver = webdriver.Firefox(desired_capabilities=caps)
+        self.driver = webdriver.Firefox(desired_capabilities=caps, firefox_profile=profile)
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
-        card_type_list = ['silver']
+        card_type_list = ['bronze']
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
@@ -202,7 +201,7 @@ class FutBinData():
         if page_file.is_file():
             page = BeautifulSoup(page_file.read_text(),'lxml')
         else:
-            time.sleep(random.randint(0, 1) + random.random())
+            # time.sleep(random.randint(0, 1) + random.random())
             print("BINK")
             self.driver.get(page_url)
             print("BONK")
