@@ -156,25 +156,14 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
-<<<<<<< HEAD
-        # profile = webdriver.FirefoxProfile('/home/ubuntu/.mozilla/firefox/jet3o1l4.default-release')
-        # self.driver = webdriver.Firefox(firefox_profile=profile)
-        self.driver = webdriver.Firefox()
+        profile = webdriver.FirefoxProfile('/home/ubuntu/.mozilla/firefox/jet3o1l4.default-release/')
+        caps = DesiredCapabilities().FIREFOX
+        caps["pageLoadStrategy"] = "eager"
+        self.driver = webdriver.Firefox(desired_capabilities=caps, firefox_profile=profile)
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
         card_type_list = ['bronze']
-=======
-        # profile = webdriver.FirefoxProfile('/home/ayush/.mozilla/firefox/r4phf2h5.default-release')
-        # self.driver = webdriver.Firefox(firefox_profile=profile)
-        caps = DesiredCapabilities().FIREFOX
-        caps["pageLoadStrategy"] = "eager"
-        self.driver = webdriver.Firefox(desired_capabilities=caps)
-        input('Ready to proceed?')
-        # Collecting all of the links from each of the years
-        year_list = ['21', '20', '19', '18']
-        card_type_list = ['silver']
->>>>>>> 775a977d785a0aeefe5ce8bd6f498ad1d20fdd23
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
@@ -212,12 +201,8 @@ class FutBinData():
         if page_file.is_file():
             page = BeautifulSoup(page_file.read_text(),'lxml')
         else:
-<<<<<<< HEAD
-            # time.sleep(random.randint(0, 3) + random.random())
-=======
-            time.sleep(random.randint(0, 1) + random.random())
+            # time.sleep(random.randint(0, 1) + random.random())
             print("BINK")
->>>>>>> 775a977d785a0aeefe5ce8bd6f498ad1d20fdd23
             self.driver.get(page_url)
             print("BONK")
             page_file.write_text(self.driver.page_source)
@@ -236,7 +221,10 @@ class FutBinData():
             player_dict['dri'] = player_row_data[11].get_text().strip()
             player_dict['def'] = player_row_data[12].get_text().strip()
             player_dict['phy'] = player_row_data[13].get_text().strip()
-            player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
+            try:
+                player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
+            except:
+                player_dict['height'] = ''  # Something to consider when matching players...
             player_dict['age'] = player_row_data[18].get_text().strip()
             player_dict['weight'] = player_row_data[19].get_text().strip().replace('kg', '')
             player_dict['acceleration'] = player_row_data[20].get_text().strip()
@@ -273,7 +261,7 @@ class FutBinData():
         total_players = 0
         for year in self.player_data:
             for card_type in self.player_data[year]:
-                total_players += len(self.player_data[year][card_type].keys())
+                total_players += len(self.player_data[year][card_type])
         return total_players
 
 
