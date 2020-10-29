@@ -34,8 +34,8 @@ class WhoScoredData():
             all_player_who_scored_data[league_key] = {}
             for season_key in stage_id_dict[league_key]:
                 stage_id = stage_id_dict[league_key][season_key]
-                summary_stats_json = self.get_json(stage_id)
-                summary_dict = self.merge_summaries(*summary_stats_json)
+                summary_all, summary_def, summary_off, summary_pass = self.get_json(stage_id)
+                summary_dict = self.merge_summaries(summary_all, summary_def, summary_off, summary_pass)
                 all_player_who_scored_data[league_key][season_key] = summary_dict
         self.driver.quit()
         return all_player_who_scored_data
@@ -156,14 +156,13 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
-        profile = webdriver.FirefoxProfile('/home/ubuntu/.mozilla/firefox/jet3o1l4.default-release/')
         caps = DesiredCapabilities().FIREFOX
         caps["pageLoadStrategy"] = "eager"
-        self.driver = webdriver.Firefox(desired_capabilities=caps, firefox_profile=profile)
+        self.driver = webdriver.Firefox(desired_capabilities=caps)
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
-        card_type_list = ['bronze']
+        card_type_list = ['gold', 'silver']
         year_list_dict = {}
         for year in year_list:
             year_list_dict[f'20{year}'] = {}
@@ -200,8 +199,10 @@ class FutBinData():
         page_file = Path('futbin/' + hasher.hexdigest() + '.txt')
         if page_file.is_file():
             page = BeautifulSoup(page_file.read_text(),'lxml')
-        else:
-            # time.sleep(random.randint(0, 1) + random.random())
+            if len(page.select('#repTb tbody tr')) == 0:
+                page_file.unlink()
+        if not page_file.is_file():
+            time.sleep(random.randint(0, 1) + random.random())
             print("BINK")
             self.driver.get(page_url)
             print("BONK")
