@@ -1595,3 +1595,280 @@ JavaScript error: https://www.futbin.com/18/players?page=97&version=gold&showSta
 JavaScript error: https://www.futbin.com/18/players?page=97&version=gold&showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression, line 11765: ReferenceError: getCookie is not defined
 JavaScript error: https://www.futbin.com/18/players?page=97&version=gold&showStats=Weight,Age,Acceleration,Sprintspeed,Positioning,Finishing,Shotpower,Longshots,Volleys,Penalties,Dribbling,Agility,Balance,Reactions,Ballcontrol,Composure,Interceptions,Headingaccuracy,Marking,Standingtackle,Slidingtackle,Vision,Crossing,Freekickaccuracy,Shortpassing,Longpassing,Curve,Jumping,Stamina,Strength,Aggression, line 118: TypeError: window.cookieconsent is undefined
 1603922115730	Marionette	INFO	Stopped listening on port 56013
+1603928761664	geckodriver	INFO	Listening on 127.0.0.1:52485
+1603928761669	mozrunner::runner	INFO	Running command: "/usr/bin/firefox" "--marionette" "-foreground" "-no-remote" "-profile" "/tmp/rust_mozprofileK3EHRO"
+console.warn: SearchSettings: "get: No settings file exists, new profile?" (new Error("", "(unknown module)"))
+1603928763776	Marionette	INFO	Listening on port 35793
+1603928763895	Marionette	WARN	TLS certificate errors will be ignored for this session
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript error: https://07296a8392d23b2962b80d89f511859b.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript warning: https://cdn.futbin.com/design/js/custom.min.js?v=112261020185715, line 2: unreachable code after return statement
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://ee530b7aa8424ecac6c2bbe0aa8ec999.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: buildAdSlot is not defined
+JavaScript error: https://ee530b7aa8424ecac6c2bbe0aa8ec999.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: TypeError: _.y is not a function
+JavaScript error: https://ee530b7aa8424ecac6c2bbe0aa8ec999.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: buildRichmediaAd is not defined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://devtools/client/jsonview/Sniffer.jsm, line 56: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIChannel.contentType]
+JavaScript error: https://08660999a25d90fffc40f736238e996e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: buildAdSlot is not defined
+JavaScript error: https://08660999a25d90fffc40f736238e996e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: TypeError: _.y is not a function
+JavaScript error: https://08660999a25d90fffc40f736238e996e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: buildRichmediaAd is not defined
+JavaScript error: https://08660999a25d90fffc40f736238e996e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://5fe89163b9ca6310e21f8894cf3ec62d.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://hb.vntsm.com/v3/live/ad-manager.min.js, line 35: TypeError: h.a.getTopMostParentWindow().avPlayer is not a constructor
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://cc6ec182faa017dee31e93c261a5eea0.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: TypeError: eE is undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://3d7355ea97d9cfce677ceb63ea3bd487.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://c2e28783c66b0d5dcae201b58a2c6623.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://devtools/client/jsonview/Sniffer.jsm, line 56: NS_ERROR_NOT_AVAILABLE: Component returned failure code: 0x80040111 (NS_ERROR_NOT_AVAILABLE) [nsIChannel.contentType]
+JavaScript error: https://867cd1e38a9328f68da3381baeb9b5c5.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://958a0d8255cde670ae3cf7fefc9e3135.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://f10366c5f433b687647098497a86a9e7.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://a1b2fe1774043a401fe9de082541cf1e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://7a1bf49208a75538c65deb10531cc37c.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://a5419def95e61f4be01b61d636ca6aca.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://www.gstatic.com/mysidia/be33ddb094458f3c1a33be4c394e1e44.js?tag=text/jean_grey_v2_och, line 9: ReferenceError: mys is not defined
+JavaScript error: https://1f05c5b279f0faf1fbb393d36fabfd6d.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html, line 8: ReferenceError: mys is not defined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://e493a9d597814c2f5d0794491c0bb6fe.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://vpaid.springserve.com/production/vpaid_81392595.js, line 1: NS_ERROR_UNEXPECTED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://527201d0a2ade36637eb96740c566d9a.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: https://b7ee7d289988c24aceaf28b6c3472f45.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://17d601c8391179519a85a9224964676e.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: https://78300b1742b23e734811ccd45356ff80.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://27cbea2c73851421df22cf45b5931c00.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://d1oykxszdrgjgl.cloudfront.net/script.js line 1 > eval, line 1: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://s0.2mdn.net/ads/richmedia/studio/pv2/61573065/20200930162543037/scripts/bundle.js, line 1: ReferenceError: gsap is not defined
+JavaScript error: https://3f32003c76d29e93ef8271baba45a480.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://17d072865cd5ccd73b096c41fabab6de.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: https://0d2d04df53e606122f21df04210e72ef.safeframe.googlesyndication.com/safeframe/1-0-37/html/container.html line 7 > injectedScript, line 8: NS_ERROR_NOT_INITIALIZED: 
+JavaScript error: , line 0: uncaught exception: undefined
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable
+JavaScript error: resource://gre/actors/PictureInPictureChild.jsm, line 150: InvalidStateError: An attempt was made to use an object that is not, or is no longer, usable

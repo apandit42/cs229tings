@@ -222,7 +222,10 @@ class FutBinData():
             player_dict['dri'] = player_row_data[11].get_text().strip()
             player_dict['def'] = player_row_data[12].get_text().strip()
             player_dict['phy'] = player_row_data[13].get_text().strip()
-            player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
+            try:
+                player_dict['height'] = player_row_data[14].get_text().split()[0].replace('cm', '')
+            except:
+                player_dict['height'] = ''  # Something to consider when matching players...
             player_dict['age'] = player_row_data[18].get_text().strip()
             player_dict['weight'] = player_row_data[19].get_text().strip().replace('kg', '')
             player_dict['acceleration'] = player_row_data[20].get_text().strip()
