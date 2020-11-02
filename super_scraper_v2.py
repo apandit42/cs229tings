@@ -8,6 +8,7 @@ import hashlib
 import unidecode
 import time
 import random
+import peewee as pw
 
 # Take 2 at this bungus
 
@@ -144,7 +145,8 @@ class WhoScoredData():
 
 """
 Class FutBinData()
-Description: Class that controls scraping for futbin.com data. Builds out JSON file containing all data as it is scraped.
+Description: Class that controls scraping for futbin.com data. Builds out JSON file containing all 
+             data as it is scraped.
 """
 class FutBinData():
     def __init__(self):
@@ -252,6 +254,11 @@ class FutBinData():
             player_dict['sprint_speed'] = player_row_data[41].get_text().strip()
             player_dict['standing_tackle'] = player_row_data[42].get_text().strip()
             player_dict['stamina'] = player_row_data[43].get_text().strip()
+            player_dict['strength'] = player_row_data[44].get_text().strip()
+            player_dict['vision'] = player_row_data[45].get_text().strip()
+            player_dict['volleys'] = player_row_data[46].get_text().strip()
+            player_dict['finishing'] = player_row_data[47].get_text().strip()
+            player_dict['composure'] = player_row_data[48].get_text().strip()
             page_player_data.append(player_dict)
         return page_player_data
 
@@ -264,6 +271,165 @@ class FutBinData():
             for card_type in self.player_data[year]:
                 total_players += len(self.player_data[year][card_type])
         return total_players
+
+
+"""
+Class BasePlayer()
+Description: Base class for season and player values.
+"""
+class BasePlayer(pw.Model):
+    class Meta:
+        database = pw.SqliteDatabase('fifa.db')
+
+
+"""
+Class Season()
+Description: Season class contains all players from the same season.
+"""
+class Season(BasePlayer):
+    season_name = pw.CharField()
+    base_year = pw.IntegerField()
+
+
+"""
+Class PlayerStatistics
+Description: PlayerStatistics class contains all players, with all of their real life and FIFA statistics.
+             Is season specific, and may be duplicated across years.
+"""
+class PlayerStatistics(BasePlayer):
+    # Season() Connections
+    season = pw.ForeignKeyField(model=Season, backref='players')
+    base_year = pw.IntegerField()
+
+    # Base player
+    # Generic player information
+    name = pw.CharField()
+    first_name = pw.CharField()
+    last_name = pw.CharField()
+    player_id = pw.IntegerField()
+    season_name = pw.CharField()
+    region_name = pw.CharField()
+    tournament_name = pw.CharField()
+    team_name = pw.CharField()
+    team_region = pw.CharField()
+    age = pw.IntegerField()
+    height = pw.IntegerField()
+    weight = pw.IntegerField()
+    
+    # Base Player 
+    # Category Summary, Subcategory All
+    rank = pw.IntegerField()    
+    played_positions = pw.CharField()
+    appearances = pw.IntegerField()
+    subs_on = pw.IntegerField()
+    minutes_played = pw.IntegerField()
+    goals = pw.IntegerField()
+    assists_total = pw.IntegerField()
+    yellow_cards = pw.IntegerField()
+    red_cards = pw.IntegerField()
+    shots_per_game = pw.DoubleField()
+    aerials_won_per_game = pw.DoubleField()
+    man_of_match = pw.IntegerField()
+    pass_success = pw.DoubleField()
+
+    # Base player
+    # Category Summary, Subcategory Defensive
+    tackles_per_game = pw.IntegerField()
+    interceptions_per_game = pw.DoubleField()
+    fouls_per_game = pw.DoubleField()
+    offsides_won_per_game = pw.DoubleField()
+    was_dribbled_per_game = pw.DoubleField()
+    outfielder_blocked_per_game = pw.DoubleField()
+    goal_own = pw.IntegerField()
+
+    # Base player
+    # Category Summary, Subcategory Offensive
+    key_pass_per_game = pw.DoubleField()
+    dribbles_won_per_game = pw.DoubleField()
+    fouls_given_per_game = pw.DoubleField()
+    offsides_given_per_game = pw.DoubleField()
+    dispossessed_per_game = pw.DoubleField()
+    turnovers_per_game = pw.DoubleField()
+
+    # Base player
+    # Category Summary, Subcategory Passing
+    total_passes_per_game = pw.DoubleField()
+    accurate_crosses_per_game = pw.DoubleField()
+    accurate_long_passes_per_game = pw.DoubleField()
+    accurate_through_ball_per_game = pw.DoubleField()
+
+    # Futbin player
+    # PACE
+    fifa_pace = pw.IntegerField()
+    fifa_accleration = pw.IntegerField()
+    fifa_sprint_speed = pw.IntegerField()
+
+    # SHOOTING
+    fifa_shooting = pw.IntegerField()
+    fifa_positioning = pw.IntegerField()
+    fifa_finishing = pw.IntegerField()
+    fifa_shot_power = pw.IntegerField()
+    fifa_long_shots = pw.IntegerField()
+    fifa_volleys = pw.IntegerField()
+    fifa_penalties = pw.IntegerField()
+
+    # PASSING
+    fifa_passing = pw.IntegerField()
+    fifa_vision = pw.IntegerField()
+    fifa_crossing = pw.IntegerField()
+    fifa_free_kick = pw.IntegerField()
+    fifa_short_passing = pw.IntegerField()
+    fifa_long_passing = pw.IntegerField()
+    fifa_curve = pw.IntegerField()
+
+    # DRIBBLING
+    fifa_dribbling = pw.IntegerField()
+    fifa_agility = pw.IntegerField()
+    fifa_balance = pw.IntegerField()
+    fifa_reactions = pw.IntegerField()
+    fifa_ball_control = pw.IntegerField()
+    fifa_dribbling_min = pw.IntegerField()
+    fifa_composure = pw.IntegerField()
+
+    # DEFENSE
+    fifa_defense = pw.IntegerField()
+    fifa_interceptions = pw.IntegerField()
+    fifa_heading = pw.IntegerField()
+    fifa_def_awareness = pw.IntegerField()
+    fifa_standing_tackle = pw.IntegerField()
+    fifa_sliding_tackle = pw.IntegerField()
+
+    # PHYSICAL
+    fifa_physical = pw.IntegerField()
+    fifa_jumping = pw.IntegerField()
+    fifa_stamina = pw.IntegerField()
+    fifa_strength = pw.IntegerField()
+    fifa_aggression = pw.IntegerField()
+
+    # OVERALL
+    fifa_overall_score = pw.IntegerField()
+
+
+"""
+Class DbManager()
+Description: Class that manages creating and populating the database. Builds and verifies database integrity.
+"""
+class DbManager():
+    def __init__(self):
+        db_path = Path('fifa.db')
+        if not db_path.is_file():
+            self.init_db(db_path)
+        else:
+            db = pw.SqliteDatabase(db_path)
+            db.connect()
+    
+    def init_db(self, db_path):
+        db = pw.SqliteDatabase(db_path)
+        db.connect()
+        db.create_tables([Season, PlayerStatistics])
+
+    def build_db(self, who_scored_data, fifa_card_data):
+        pass
 
 
 if __name__ == '__main__':
