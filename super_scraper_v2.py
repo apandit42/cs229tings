@@ -5,10 +5,12 @@ from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 from pathlib import Path
 import hashlib
-import unidecode
+from unidecode import unidecode
 import time
 import random
 import peewee as pw
+import uuid
+import numpy as np
 
 # Take 2 at this bungus
 
@@ -141,6 +143,15 @@ class WhoScoredData():
             for season_key in self.player_data[league_key]:
                 total_players += len(self.player_data[league_key][season_key].keys())
         return total_players
+    
+    def get_player_by_name(self, name):
+        for league_key in self.player_data:
+            for season_key in self.player_data[league_key]:
+                for player in self.player_data[league_key][season_key]:
+                    if self.player_data[league_key][season_key][player]['name'] == name:
+                        print(f'Player {name} found for {league_key} in {season_key}...')
+                        return player
+        return None
 
 
 """
@@ -205,9 +216,7 @@ class FutBinData():
                 page_file.unlink()
         if not page_file.is_file():
             time.sleep(random.randint(0, 1) + random.random())
-            print("BINK")
             self.driver.get(page_url)
-            print("BONK")
             page_file.write_text(self.driver.page_source)
             page = BeautifulSoup(self.driver.page_source, 'lxml')
         player_rows = page.select('#repTb tbody tr')
@@ -215,6 +224,7 @@ class FutBinData():
         for player in player_rows:
             player_dict = {}
             player_row_data = player.select('td')
+            player_dict['unique_player_id'] = str(uuid.uuid4())
             player_dict['player_name'] = player_row_data[0].get_text().strip()
             player_dict['overall_rating'] = player_row_data[1].get_text().strip()
             player_dict['player_position'] = player_row_data[2].get_text().strip()
@@ -271,6 +281,15 @@ class FutBinData():
             for card_type in self.player_data[year]:
                 total_players += len(self.player_data[year][card_type])
         return total_players
+    
+    def get_player_by_name(self, name):
+        for year in self.player_data:
+            for card_type in self.player_data[year]:
+                for player in self.player_data[year][card_type]:
+                    if player['player_name'] == name:
+                        print(f'Player {name} found in {card_type} for {year}...')
+                        return player
+        return None
 
 
 """
@@ -408,6 +427,7 @@ class PlayerStatistics(BasePlayer):
 
     # OVERALL
     fifa_overall_score = pw.IntegerField()
+    fifa_overall_category = pw.IntegerField()
 
 
 """
@@ -420,16 +440,105 @@ class DbManager():
         if not db_path.is_file():
             self.init_db(db_path)
         else:
-            db = pw.SqliteDatabase(db_path)
-            db.connect()
+            self.db = pw.SqliteDatabase(db_path)
+            self.db.connect()
     
     def init_db(self, db_path):
-        db = pw.SqliteDatabase(db_path)
-        db.connect()
-        db.create_tables([Season, PlayerStatistics])
+        self.db = pw.SqliteDatabase(db_path)
+        self.db.connect()
+        self.db.create_tables([Season, PlayerStatistics])
+    
+    def check_db(self, who_scored_data):
+        pass
 
     def build_db(self, who_scored_data, fifa_card_data):
-        pass
+        for league_key in who_scored_data:
+            for season_key in who_scored_data[league_key]:
+                for player_id in who_scored_data[league_key][season_key]:
+                    curr_player = who_scored_data[league_key][season_key][player_id]
+                    fifa_year = str(int(season_key.split('/')[1]) + 1)
+                    fifa_card_subset = fifa_card_data[fifa_year]
+                    self.get_fifa_match(curr_player, fifa_card_subset)
+                    # break
+                break
+            break
+    
+    def get_fifa_match(self, curr_player, fifa_card_subset):
+        player_matches = []
+        print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}), ",end="")
+        for card_type in fifa_card_subset:
+            for player in fifa_card_subset[card_type]:
+                player_match_score = 0.0
+                player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
+                player_match_score += self.age_match_threshold(curr_player['age'], player['age'])
+                player_match_score += self.weight_match_threshold(curr_player['weight'], player['weight'])
+                if player_match_score <= 32.0:
+                    short_name_score = self.name_match_score(curr_player['name'], player['player_name'])
+                    long_name_score = self.name_match_score(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name'])
+                    min_levenshtein = 2**min(short_name_score, long_name_score)
+                    player_match_score += min_levenshtein
+                    player_matches.append((player_match_score, min_levenshtein, player))
+        player_matches.sort(key=lambda x:x[0])
+        best_player_score, min_levenshtein, best_player = player_matches[0]
+        print(f"matches FIFA {best_player['player_name']} w/ score {best_player_score} and lev {min_levenshtein} ...")
+    
+    def name_match_score(self, who_scored_name, fifa_name):
+        who_scored_name = unidecode(who_scored_name).lower().replace('-', ' ').replace('jr', '').replace('junior', '')
+        who_scored_name = who_scored_name.strip()
+        fifa_name = unidecode(fifa_name).lower().replace('-', ' ').replace('jr', '').replace('junior', '')
+        fifa_name = fifa_name.strip()
+        who_scored_rows = len(who_scored_name)
+        fifa_name_cols = len(fifa_name)
+        # Implement Levenshtein Distance Metric (for string matching) Neymar Jr, Neymar de Silva Junior
+        score_matrix = np.zeros((who_scored_rows + 1, fifa_name_cols + 1))
+        for i in range(who_scored_rows + 1):
+            for j in range(fifa_name_cols + 1):
+                if i == 0:
+                    score_matrix[i][j] = j
+                elif j == 0:
+                    score_matrix[i][j] = i
+                else:
+                    delete_a_b = score_matrix[i - 1, j] + 1
+                    insert_a_b = score_matrix[i, j - 1] + 1
+                    if who_scored_name[i - 1] == fifa_name[j - 1]:
+                        match_or_mismatch = score_matrix[i - 1, j - 1]
+                    else:
+                        match_or_mismatch = score_matrix[i - 1, j - 1] + 1
+                    min_val = min(delete_a_b, insert_a_b, match_or_mismatch)
+                    if min_val == delete_a_b:
+                        score_matrix[i, j] = delete_a_b
+                    elif min_val == insert_a_b:
+                        score_matrix[i, j] = insert_a_b
+                    else:
+                        score_matrix[i, j] = match_or_mismatch
+        return score_matrix[who_scored_rows - 1, fifa_name_cols - 1]
+
+    def height_match_threshold(self, who_scored_height, fifa_height):
+        threshold_height = 3.0
+        if who_scored_height == 0:
+            return threshold_height
+        try:
+            who_scored_height = int(who_scored_height)
+            who_scored_height = int(who_scored_height)
+            fifa_height = int(fifa_height)
+            return 2**abs(who_scored_height - fifa_height)
+        except ValueError:
+            return 2**threshold_height        
+
+    def age_match_threshold(self, who_scored_age, fifa_age):
+        threshold_age = 10
+        who_scored_age = int(who_scored_age)
+        fifa_age = int(fifa_age)
+        return abs(who_scored_age - fifa_age) * threshold_age
+
+    def weight_match_threshold(self, who_scored_weight, fifa_weight):
+        threshold_weight = 2.0
+        if fifa_weight == '' or who_scored_weight == 0:
+            return 2**threshold_weight
+        else:            
+            who_scored_weight = int(who_scored_weight)
+            fifa_weight = int(fifa_weight)
+            return 2**abs(who_scored_weight - fifa_weight)              
 
 
 if __name__ == '__main__':
@@ -439,4 +548,5 @@ if __name__ == '__main__':
     # Build Futhead Data
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
-
+    db_gen = DbManager()
+    db_gen.build_db(real_athlete_data.player_data, fifa_card_data.player_data)
