@@ -33,7 +33,7 @@ class WhoScoredData():
         self.driver.get('http://google.com')
         all_player_who_scored_data = {}
         stage_id_dict = self.load_stage_ids('init_data/stage_ids.txt')
-        team_names = json.load(Path('init_data/teams_data.json').open())
+        team_names = json.load(Path('init_data/team_bomboclaat.json').open())
         for league_key in stage_id_dict:
             all_player_who_scored_data[league_key] = {}
             for season_key in stage_id_dict[league_key]:
@@ -42,6 +42,7 @@ class WhoScoredData():
                 team_key_int = abs(2019 - int(season_key.split('/')[0]))
                 print(f'Team Key: {team_key_int}')
                 team_names_subset = team_names[league_key][team_key_int]
+                print(team_names_subset)
                 summary_dict = self.merge_summaries(summary_all, summary_def, summary_off, summary_pass, team_names_subset)
                 all_player_who_scored_data[league_key][season_key] = summary_dict
         self.driver.quit()
