@@ -552,7 +552,7 @@ class DbManager():
         match_obj = pickle.load(open('match_data/interim_match_data.pickle',mode='rb'))
         verified_match_obj = {}
         verified_filename = input('Enter a name for outputted match file (in match_data_dir): ')
-        verified_filename = Path('match_data/' + verified_filename + '.pickle')
+        verified_filename = Path('init_data/' + verified_filename + '.pickle')
         if verified_filename.is_file():
             verified_match_obj = pickle.load(verified_filename.open('rb'))
         runtime = 0
@@ -565,7 +565,7 @@ class DbManager():
                 hasher = hashlib.md5()
                 file_id = season + player_id
                 hasher.update(file_id.encode('utf-8'))
-                file_path = Path('match_data/' + hasher.hexdigest + '.pickle')
+                file_path = Path('match_data/' + hasher.hexdigest() + '.pickle')
                 fifa_match_list = pickle.load(file_path.open(mode='rb'))
                 init_match_score, init_match = fifa_match_list[0]
                 if init_match_score > -6.0:
@@ -579,7 +579,6 @@ class DbManager():
                 runtime += 1
                 if runtime % 250:
                     pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
-
 
     def get_human_decision(self, season, player_id, fifa_match_list):
         curr_player = self.who_trimmed[season][player_id]
@@ -619,9 +618,11 @@ class DbManager():
                 if player['player_name'] == name and player['player_club'] == club:
                     if weight is None:
                         print(f'Player {name} found in {card_type} for {year}...')
+                        player['CARD_COLOR_RANK'] = card_type
                         return player
                     elif player['weight'] == weight:
                         print(f'Player {name} found in {card_type} for {year}...')
+                        player['CARD_COLOR_RANK'] = card_type
                         return player
         return None
 
@@ -687,13 +688,13 @@ class DbManager():
     
     def build_matches(self):
         season_list = [
-            # '2019/2020',
+            '2019/2020',
             '2018/2019',
-            # '2017/2018',
-            # '2016/2017',
+            '2017/2018',
+            '2016/2017',
         ]
         batch_len = 0
-        match_obj_path = Path('match_data/interim_match_data.pickle')
+        match_obj_path = Path('init_data/interim_match_data.pickle')
         if match_obj_path.is_file():
             match_obj = pickle.load(match_obj_path.open(mode='rb'))
         else:
@@ -707,7 +708,7 @@ class DbManager():
                 hasher = hashlib.md5()
                 file_id = season + player_id
                 hasher.update(file_id.encode('utf-8'))
-                file_path = Path('match_data/' + hasher.hexdigest + '.pickle')
+                file_path = Path('match_data/' + hasher.hexdigest() + '.pickle')
                 if file_path.is_file():
                     fifa_match_list = pickle.load(file_path.open(mode='rb'))
                     match_obj[season][player_id] = fifa_match_list[0]
@@ -726,7 +727,6 @@ class DbManager():
                 if batch_len % 500:
                     pickle.dump(match_obj, match_obj_path.open(mode='wb'))
         
-    
     def get_fifa_matches(self, curr_player, fifa_card_subset, team_subset=None):
         player_matches = []
         print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) ... ")
@@ -753,6 +753,7 @@ class DbManager():
                     self.name_match_threshold(curr_player['name'], player['player_name']),
                     self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
                 )
+                player['CARD_COLOR_RANK'] = card_type
                 player_matches.append((player_match_score, player))
         player_matches.sort(key=lambda x:x[0])
         best_player_score, best_player = player_matches[0]
