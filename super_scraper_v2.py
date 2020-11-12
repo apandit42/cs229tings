@@ -1,7 +1,6 @@
 from bs4 import BeautifulSoup
 from selenium import webdriver
 from selenium.webdriver.common.by import By
-from selenium.webdriver.common.desired_capabilities import DesiredCapabilities
 import json
 from pathlib import Path
 import hashlib
@@ -20,12 +19,18 @@ Description: Class that controls scraping for whoscored.com data. Builds out JSO
 """
 class WhoScoredData():
     def __init__(self):
-        data_path = Path('init_data/who_scored_data.json')
-        if data_path.is_file():
-            self.player_data = json.load(data_path.open())
+        trimmed_data = Path('init_data/trimmed_who_scored.json')
+        if trimmed_data.is_file():
+            self.trimmed_data = json.load(trimmed_data.open())
         else:
-            self.player_data = self.init_build_player_data()
-            json.dump(self.player_data, data_path.open(mode='w'))
+            data_path = Path('init_data/who_scored_data.json')
+            if data_path.is_file():
+                self.player_data = json.load(data_path.open())
+            else:
+                self.player_data = self.init_build_player_data()
+                json.dump(self.player_data, data_path.open(mode='w'))
+            self.trimmed_data = self.init_trim_data()
+            json.dump(self.trimmed_data, trimmed_data.open(mode='w'))
     
     def init_build_player_data(self):
         # Selenium setup
@@ -33,21 +38,78 @@ class WhoScoredData():
         self.driver.get('http://google.com')
         all_player_who_scored_data = {}
         stage_id_dict = self.load_stage_ids('init_data/stage_ids.txt')
-        team_names = json.load(Path('init_data/team_bomboclaat.json').open())
+        team_names = json.load(Path('init_data/team_name_data.json').open())
         for league_key in stage_id_dict:
             all_player_who_scored_data[league_key] = {}
             for season_key in stage_id_dict[league_key]:
                 stage_id = stage_id_dict[league_key][season_key]
                 summary_all, summary_def, summary_off, summary_pass = self.get_player_json(stage_id)
                 team_key_int = abs(2019 - int(season_key.split('/')[0]))
-                print(f'Team Key: {team_key_int}')
+                print(f'Team Key: {team_key_int}, League Key: {league_key}')
                 team_names_subset = team_names[league_key][team_key_int]
-                print(team_names_subset)
                 summary_dict = self.merge_summaries(summary_all, summary_def, summary_off, summary_pass, team_names_subset)
                 all_player_who_scored_data[league_key][season_key] = summary_dict
         self.driver.quit()
         return all_player_who_scored_data
     
+    def init_trim_data(self):
+        trimmed_data = {}
+        for league_key in self.player_data:
+            for season_key in self.player_data[league_key]:
+                if season_key not in trimmed_data:
+                    trimmed_data[season_key] = {}
+                for player in self.player_data[league_key][season_key]:
+                    if player not in trimmed_data[season_key]:
+                        trimmed_data[season_key][player] = self.player_data[league_key][season_key][player]
+                    else:
+                        duplicate_player = self.player_data[league_key][season_key][player]
+                        existing_player = trimmed_data[season_key][player]
+                        merged_data = self.merge_duplicate_players(duplicate_player, existing_player)
+                        trimmed_data[season_key][player] = merged_data
+        return trimmed_data
+    
+    def merge_duplicate_players(self, duplicate_player, existing_player):
+        merged_data = {key: value for key, value in existing_player.items()}
+        if duplicate_player['tournamentName'] == 'Champions League':
+            merged_data['tournamentName'] = existing_player['tournamentName']
+        elif existing_player['tournamentName'] == 'Champions League':
+            merged_data['tournamentName'] = duplicate_player['tournamentName']
+        if duplicate_player['playedPositions'] != existing_player['playedPositions']:
+            merged_data['playedPositions'] += duplicate_player['playedPositions'][1:]
+            merged_data['playedPositionsShort'] += '-' + duplicate_player['playedPositions']
+        merged_data['apps'] += duplicate_player['apps']
+        merged_data['subOn'] += duplicate_player['subOn']
+        merged_data['manOfTheMatch'] += duplicate_player['manOfTheMatch']
+        merged_data['goal'] += duplicate_player['goal']
+        merged_data['assistTotal'] += duplicate_player['assistTotal']
+        merged_data['shotsPerGame'] = (existing_player['shotsPerGame'] + duplicate_player['shotsPerGame']) / 2.0
+        merged_data['aerialWonPerGame'] = (existing_player['aerialWonPerGame'] + duplicate_player['aerialWonPerGame']) / 2.0
+        merged_data['rating'] = (existing_player['ranking'] + duplicate_player['ranking']) / 2.0
+        merged_data['minsPlayed'] += duplicate_player['minsPlayed']
+        merged_data['yellowCard'] += duplicate_player['yellowCard']
+        merged_data['redCard'] += duplicate_player['redCard']
+        merged_data['passSuccess'] = (existing_player['passSuccess'] + duplicate_player['passSuccess']) / 2.0
+        merged_data['ranking'] = min(existing_player['ranking'], duplicate_player['ranking'])
+        merged_data['tacklePerGame'] = (existing_player['tacklePerGame'] + duplicate_player['tacklePerGame']) / 2.0
+        merged_data['interceptionPerGame'] = (existing_player['interceptionPerGame'] + duplicate_player['interceptionPerGame']) / 2.0
+        merged_data['foulsPerGame'] = (existing_player['foulsPerGame'] + duplicate_player['foulsPerGame']) / 2.0
+        merged_data['offsideWonPerGame'] = (existing_player['offsideWonPerGame'] + duplicate_player['offsideWonPerGame']) / 2.0
+        merged_data['clearancePerGame'] = (existing_player['clearancePerGame'] + duplicate_player['clearancePerGame']) / 2.0
+        merged_data['wasDribbledPerGame'] = (existing_player['wasDribbledPerGame'] + duplicate_player['wasDribbledPerGame']) / 2.0
+        merged_data['outfielderBlockPerGame'] = (existing_player['outfielderBlockPerGame'] + duplicate_player['outfielderBlockPerGame']) / 2.0
+        merged_data['goalOwn'] += duplicate_player['goalOwn']
+        merged_data['keyPassPerGame'] = (existing_player['keyPassPerGame'] + duplicate_player['keyPassPerGame']) / 2.0
+        merged_data['dribbleWonPerGame'] = (existing_player['dribbleWonPerGame'] + duplicate_player['dribbleWonPerGame']) / 2.0
+        merged_data['foulGivenPerGame'] = (existing_player['foulGivenPerGame'] + duplicate_player['foulGivenPerGame']) / 2.0
+        merged_data['offsideGivenPerGame'] = (existing_player['offsideGivenPerGame'] + duplicate_player['offsideGivenPerGame']) / 2.0
+        merged_data['dispossessedPerGame'] = (existing_player['dispossessedPerGame'] + duplicate_player['dispossessedPerGame']) / 2.0
+        merged_data['turnoverPerGame'] = (existing_player['turnoverPerGame'] + duplicate_player['turnoverPerGame']) / 2.0
+        merged_data['totalPassesPerGame'] = (existing_player['totalPassesPerGame'] + duplicate_player['totalPassesPerGame']) / 2.0
+        merged_data['accurateCrossesPerGame'] = (existing_player['accurateCrossesPerGame'] + duplicate_player['accurateCrossesPerGame']) / 2.0
+        merged_data['accurateLongPassPerGame'] = (existing_player['accurateLongPassPerGame'] + duplicate_player['accurateLongPassPerGame']) / 2.0
+        merged_data['accurateThroughBallPerGame'] = (existing_player['accurateThroughBallPerGame'] + duplicate_player['accurateThroughBallPerGame']) / 2.0
+        return merged_data
+
     def load_stage_ids(self, file_path):
         with open(file_path) as file:
             stage_id_dict = {}
@@ -121,9 +183,15 @@ class WhoScoredData():
         for player in summary_all:
             player_short_team_name = player['teamName']
             for team in team_names:
-                if team['name'] == player_short_team_name:
-                    player['long_team_name'] = team['teamName']
-                    break
+                try:
+                    if team['name'] == player_short_team_name:
+                        player['long_team_name'] = team['teamName']
+                        break
+                except KeyError:
+                    team = team['teamTableStats'][0]
+                    if team['name'] == player_short_team_name:
+                        player['long_team_name'] = team['teamName']
+                        break
             if 'long_team_name' not in player:
                 raise Exception(f'No team match found, short ({player_short_team_name}), all teams \n{team_names}')
             merged_final_dict[player['playerId']] = {key: value for key, value in player.items()}
@@ -150,21 +218,11 @@ class WhoScoredData():
                 raise Exception('Mismatch between players in each table')
         return merged_final_dict
     
-    def get_player_count(self):
+    def get_trimmed_player_count(self):
         total_players = 0
-        for league_key in self.player_data:
-            for season_key in self.player_data[league_key]:
-                total_players += len(self.player_data[league_key][season_key].keys())
+        for season in self.trimmed_data:
+            total_players += len(self.trimmed_data[season].keys())
         return total_players
-    
-    def get_player_by_name(self, name):
-        for league_key in self.player_data:
-            for season_key in self.player_data[league_key]:
-                for player in self.player_data[league_key][season_key]:
-                    if self.player_data[league_key][season_key][player]['name'] == name:
-                        print(f'Player {name} found for {league_key} in {season_key}...')
-                        return player
-        return None
 
 
 """
@@ -182,9 +240,7 @@ class FutBinData():
             json.dump(self.player_data, data_path.open(mode='w'))
     
     def init_build_player_data(self):
-        caps = DesiredCapabilities().FIREFOX
-        caps["pageLoadStrategy"] = "eager"
-        self.driver = webdriver.Firefox(desired_capabilities=caps)
+        self.driver = webdriver.Firefox()
         input('Ready to proceed?')
         # Collecting all of the links from each of the years
         year_list = ['21', '20', '19', '18']
@@ -295,6 +351,17 @@ class FutBinData():
             for card_type in self.player_data[year]:
                 total_players += len(self.player_data[year][card_type])
         return total_players
+    
+    def club_name_dict(self):
+        player_club_names = {}
+        for year in self.player_data:
+            player_club_names[year] = {}
+            for card_type in self.player_data[year]:
+                name_set = set()
+                for player in self.player_data[year][card_type]:
+                    name_set.add(player['player_club'])
+                player_club_names[year][card_type] = name_set
+        return player_club_names
     
     def get_player_by_name(self, name):
         for year in self.player_data:
@@ -457,11 +524,12 @@ class DbManager():
             self.db = pw.SqliteDatabase(db_path)
             self.db.connect()
         if who_scored_data is not None:
-            self.who_scored_data = who_scored_data.player_data
-            self.who_scored_summary = self.get_who_scored_summary()
+            self.who_trimmed = who_scored_data.trimmed_data
         if fifa_card_data is not None:
             self.fifa_card_data = fifa_card_data.player_data
             self.fifa_card_summary = self.get_fifa_card_summary()
+        self.team_translation = json.load(open('init_data/team_translation.json'))
+        self.team_translation = self.parse_team_translation()
     
     def init_db(self, db_path):
         self.db = pw.SqliteDatabase(db_path)
@@ -470,50 +538,6 @@ class DbManager():
     
     def check_db(self, who_scored_data):
         pass
-    
-    def get_who_scored_summary(self):
-        """
-        Get summary information from who_scored_data.
-        1. # of players
-        2. Average age
-        3. Stdev age
-        4. Average height
-        5. Stdev height
-        6. Average weight
-        7. Stdev weight
-        8. Average Levenshtein (centered at 0, with stdev of 2.5, hard coded).
-        """
-        total_players = 0
-        age_list = []
-        height_list = []
-        weight_list = []
-        for league_key in self.who_scored_data:
-            for season_key in self.who_scored_data[league_key]:
-                for player_id in self.who_scored_data[league_key][season_key]:
-                    total_players += 1
-                    curr_player = self.who_scored_data[league_key][season_key][player_id]
-                    if curr_player['age'] != 0 and curr_player['age'] != '':
-                        age_list.append(int(curr_player['age']))
-                    if curr_player['height'] != 0 and curr_player['height'] != '':
-                        height_list.append(int(curr_player['height']))
-                    if curr_player['weight'] != 0 and curr_player['weight'] != '':
-                        weight_list.append(int(curr_player['weight']))
-        who_scored_summary = {}
-        who_scored_summary['total_players'] = total_players
-        age_list = np.array(age_list)
-        height_list = np.array(height_list)
-        weight_list = np.array(weight_list)
-        who_scored_summary['age_avg'] = np.mean(age_list)
-        who_scored_summary['age_stdev'] = np.std(age_list)
-        who_scored_summary['height_avg'] = np.mean(height_list)
-        who_scored_summary['height_stdev'] = np.std(height_list)
-        who_scored_summary['weight_avg'] = np.mean(weight_list)
-        who_scored_summary['weight_stdev'] = np.std(weight_list)
-        who_scored_summary['name_lev_avg'] = 0  # Hard Coded
-        who_scored_summary['name_lev_stdev'] = 3  # Hard Coded
-        who_scored_summary['club_lev_avg'] = 0 # Hard Coded
-        who_scored_summary['club_lev_stdev'] = 2.5 # Hard Coded
-        return who_scored_summary
     
     def get_fifa_card_summary(self):
         """
@@ -565,41 +589,52 @@ class DbManager():
         fifa_card_summary['club_lev_stdev'] = 2.5   # Hard Coded
         return fifa_card_summary
     
-    def build_db(self, who_scored_data=None, fifa_card_data=None):
-        if who_scored_data is not None:
-            self.who_scored_data = who_scored_data
-            self.who_scored_summary = self.get_who_scored_summary()
-        if fifa_card_data is not None:
-            self.fifa_card_data = fifa_card_data
-            self.fifa_card_summary = self.get_fifa_card_summary()
-        for league_key in self.who_scored_data:
-            for season_key in self.who_scored_data[league_key]:
-                for player_id in self.who_scored_data[league_key][season_key]:
-                    curr_player = self.who_scored_data[league_key][season_key][player_id]
-                    fifa_year = str(int(season_key.split('/')[1]) + 1)
-                    fifa_card_subset = self.fifa_card_data[fifa_year]
-                    self.get_fifa_match(curr_player, fifa_card_subset)
-                    # break
-                break
+    def parse_team_translation(self):
+        new_team_translation = {}
+        for league_key in self.team_translation:
+            for season_key in self.team_translation[league_key]:
+                if season_key not in new_team_translation:
+                    new_team_translation[season_key] = {key: value for key, value in self.team_translation[league_key][season_key].items()}
+                else:
+                    new_team_translation[season_key].update({key: value for key, value in self.team_translation[league_key][season_key].items()})
+        return new_team_translation
+    
+    def build_db(self):
+        season_list = [
+            # '2019/2020',
+            '2018/2019',
+            # '2017/2018',
+            # '2016/2017',
+        ]
+        for season in season_list:
+            for player_id in self.who_trimmed[season]:
+                curr_player = self.who_trimmed[season][player_id]
+                team_subset = self.team_translation[season]
+                fifa_year = str(int(season.split('/')[1]) + 1)
+                fifa_card_subset = self.fifa_card_data[fifa_year]
+                self.get_fifa_match(curr_player, fifa_card_subset, team_subset)
             break
     
-    def get_fifa_match(self, curr_player, fifa_card_subset):
+    def get_fifa_match(self, curr_player, fifa_card_subset, team_subset):
         player_matches = []
-        print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}), ",end="")
+        print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) ... ")
         for card_type in fifa_card_subset:
             for player in fifa_card_subset[card_type]:
                 player_match_score = 0
-                if curr_player['age'] != int(player['age']) or abs(curr_player['weight'] - int(player['weight'])) >= 6:
+                if abs(curr_player['age'] - int(player['age'])) > 2 or abs(curr_player['weight'] - int(player['weight'])) > 10:
                     continue
                 # player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
-                player_match_score += min(
-                    self.club_match_threshold(curr_player['teamName'], player['player_club']),
-                    self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
-                )
-                player_match_score += min(
-                    self.name_match_threshold(curr_player['name'], player['player_name']),
-                    self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
-                )
+                # NEW TRANSLATION
+                # club_translated = team_subset[curr_player['long_team_name']]
+                # player_match_score += min(
+                #     self.club_match_threshold(club_translated, player['player_club']),
+                #     self.club_match_threshold(curr_player['teamName'], player['player_club']),
+                #     self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
+                # )
+                # player_match_score += min(
+                #     self.name_match_threshold(curr_player['name'], player['player_name']),
+                #     self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
+                # )
                 player_matches.append((player_match_score, player))
         player_matches.sort(key=lambda x:x[0])
         best_player_score, best_player = player_matches[0]
@@ -637,9 +672,8 @@ class DbManager():
             fifa_height = int(fifa_height)
         except ValueError:
             fifa_height = self.fifa_card_summary['height_avg']
-        z_w = (who_scored_height - self.who_scored_summary['height_avg']) / self.who_scored_summary['height_stdev']
-        z_f = (fifa_height - self.fifa_card_summary['height_avg']) / self.fifa_card_summary['height_stdev']
-        return np.square(z_w - z_f)
+        z_f = (who_scored_height - fifa_height) / self.fifa_card_summary['height_stdev']
+        return np.square(z_f)
     
     def club_match_threshold(self, who_scored_club, fifa_club):
         who_scored_club = unidecode(who_scored_club).lower().replace('.','')
@@ -673,11 +707,11 @@ class DbManager():
 if __name__ == '__main__':
     # Build WhoScoredData
     real_athlete_data = WhoScoredData()
-    print(f'Collected {real_athlete_data.get_player_count()} players\' data from WhoScored.com...')
+    print(f'Collected {real_athlete_data.get_trimmed_player_count()} TRIMMED players\' data from WhoScored.com...')
     # Build Futhead Data
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
-    # db_gen = DbManager(real_athlete_data, fifa_card_data)
-    # db_gen.build_db()
+    db_gen = DbManager(real_athlete_data, fifa_card_data)
+    db_gen.build_db()
     # print(db_gen.who_scored_summary)
     # print(db_gen.fifa_card_summary)

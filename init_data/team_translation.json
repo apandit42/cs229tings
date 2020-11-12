@@ -1,0 +1,26 @@
+{
+  "La Liga": {
+    "2018/2019": {
+      "Real Betis": "Real Betis",
+      "Girona": "Girona FC",
+      "Sevilla": "Sevilla FC",
+      "Real Sociedad": "Real Sociedad",
+      "Real Valladolid": "R. Valladolid CF",
+      "Levante": "Levante UD",
+      "SD Huesca": "SD Huesca",
+      "Villarreal": "Villarreal CF",
+      "Espanyol": "RCD Espanyol",
+      "Athletic Bilbao": "Athletic Club",
+      "Eibar": "SD Eibar",
+      "Getafe": "Getafe CF",
+      "Leganes": "CD Leganés",
+      "Real Madrid": "Real Madrid",
+      "Celta Vigo": "RC Celta",
+      "Valencia": "Valencia CF",
+      "Barcelona": "FC Barcelona",
+      "Atletico Madrid": "Atlético Madrid",
+      "Deportivo Alaves": "D. Alavés",
+      "Rayo Vallecano": "Rayo Vallecano"
+    }
+  }
+}
