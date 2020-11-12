@@ -7,7 +7,7 @@ import hashlib
 from unidecode import unidecode
 import time
 import random
-import peewee as pw
+# import peewee as pw
 import uuid
 import numpy as np
 import pickle
@@ -379,142 +379,142 @@ class FutBinData():
         return None
 
 
-"""
-Class BasePlayer()
-Description: Base class for season and player values.
-"""
-class BasePlayer(pw.Model):
-    class Meta:
-        database = pw.SqliteDatabase('fifa.db')
+# """
+# Class BasePlayer()
+# Description: Base class for season and player values.
+# """
+# class BasePlayer(pw.Model):
+#     class Meta:
+#         database = pw.SqliteDatabase('fifa.db')
 
 
-"""
-Class Season()
-Description: Season class contains all players from the same season.
-"""
-class Season(BasePlayer):
-    season_name = pw.CharField()
-    base_year = pw.IntegerField()
+# """
+# Class Season()
+# Description: Season class contains all players from the same season.
+# """
+# class Season(BasePlayer):
+#     season_name = pw.CharField()
+#     base_year = pw.IntegerField()
 
 
-"""
-Class PlayerStatistics
-Description: PlayerStatistics class contains all players, with all of their real life and FIFA statistics.
-             Is season specific, and may be duplicated across years.
-"""
-class PlayerStatistics(BasePlayer):
-    # Season() Connections
-    season = pw.ForeignKeyField(model=Season, backref='players')
-    base_year = pw.IntegerField()
+# """
+# Class PlayerStatistics
+# Description: PlayerStatistics class contains all players, with all of their real life and FIFA statistics.
+#              Is season specific, and may be duplicated across years.
+# """
+# class PlayerStatistics(BasePlayer):
+#     # Season() Connections
+#     season = pw.ForeignKeyField(model=Season, backref='players')
+#     base_year = pw.IntegerField()
 
-    # Base player
-    # Generic player information
-    name = pw.CharField()
-    first_name = pw.CharField()
-    last_name = pw.CharField()
-    player_id = pw.IntegerField()
-    season_name = pw.CharField()
-    region_name = pw.CharField()
-    tournament_name = pw.CharField()
-    team_name = pw.CharField()
-    team_region = pw.CharField()
-    age = pw.IntegerField()
-    height = pw.IntegerField()
-    weight = pw.IntegerField()
+#     # Base player
+#     # Generic player information
+#     name = pw.CharField()
+#     first_name = pw.CharField()
+#     last_name = pw.CharField()
+#     player_id = pw.IntegerField()
+#     season_name = pw.CharField()
+#     region_name = pw.CharField()
+#     tournament_name = pw.CharField()
+#     team_name = pw.CharField()
+#     team_region = pw.CharField()
+#     age = pw.IntegerField()
+#     height = pw.IntegerField()
+#     weight = pw.IntegerField()
     
-    # Base Player 
-    # Category Summary, Subcategory All
-    rank = pw.IntegerField()    
-    played_positions = pw.CharField()
-    appearances = pw.IntegerField()
-    subs_on = pw.IntegerField()
-    minutes_played = pw.IntegerField()
-    goals = pw.IntegerField()
-    assists_total = pw.IntegerField()
-    yellow_cards = pw.IntegerField()
-    red_cards = pw.IntegerField()
-    shots_per_game = pw.DoubleField()
-    aerials_won_per_game = pw.DoubleField()
-    man_of_match = pw.IntegerField()
-    pass_success = pw.DoubleField()
+#     # Base Player 
+#     # Category Summary, Subcategory All
+#     rank = pw.IntegerField()    
+#     played_positions = pw.CharField()
+#     appearances = pw.IntegerField()
+#     subs_on = pw.IntegerField()
+#     minutes_played = pw.IntegerField()
+#     goals = pw.IntegerField()
+#     assists_total = pw.IntegerField()
+#     yellow_cards = pw.IntegerField()
+#     red_cards = pw.IntegerField()
+#     shots_per_game = pw.DoubleField()
+#     aerials_won_per_game = pw.DoubleField()
+#     man_of_match = pw.IntegerField()
+#     pass_success = pw.DoubleField()
 
-    # Base player
-    # Category Summary, Subcategory Defensive
-    tackles_per_game = pw.IntegerField()
-    interceptions_per_game = pw.DoubleField()
-    fouls_per_game = pw.DoubleField()
-    offsides_won_per_game = pw.DoubleField()
-    was_dribbled_per_game = pw.DoubleField()
-    outfielder_blocked_per_game = pw.DoubleField()
-    goal_own = pw.IntegerField()
+#     # Base player
+#     # Category Summary, Subcategory Defensive
+#     tackles_per_game = pw.IntegerField()
+#     interceptions_per_game = pw.DoubleField()
+#     fouls_per_game = pw.DoubleField()
+#     offsides_won_per_game = pw.DoubleField()
+#     was_dribbled_per_game = pw.DoubleField()
+#     outfielder_blocked_per_game = pw.DoubleField()
+#     goal_own = pw.IntegerField()
 
-    # Base player
-    # Category Summary, Subcategory Offensive
-    key_pass_per_game = pw.DoubleField()
-    dribbles_won_per_game = pw.DoubleField()
-    fouls_given_per_game = pw.DoubleField()
-    offsides_given_per_game = pw.DoubleField()
-    dispossessed_per_game = pw.DoubleField()
-    turnovers_per_game = pw.DoubleField()
+#     # Base player
+#     # Category Summary, Subcategory Offensive
+#     key_pass_per_game = pw.DoubleField()
+#     dribbles_won_per_game = pw.DoubleField()
+#     fouls_given_per_game = pw.DoubleField()
+#     offsides_given_per_game = pw.DoubleField()
+#     dispossessed_per_game = pw.DoubleField()
+#     turnovers_per_game = pw.DoubleField()
 
-    # Base player
-    # Category Summary, Subcategory Passing
-    total_passes_per_game = pw.DoubleField()
-    accurate_crosses_per_game = pw.DoubleField()
-    accurate_long_passes_per_game = pw.DoubleField()
-    accurate_through_ball_per_game = pw.DoubleField()
+#     # Base player
+#     # Category Summary, Subcategory Passing
+#     total_passes_per_game = pw.DoubleField()
+#     accurate_crosses_per_game = pw.DoubleField()
+#     accurate_long_passes_per_game = pw.DoubleField()
+#     accurate_through_ball_per_game = pw.DoubleField()
 
-    # Futbin player
-    # PACE
-    fifa_pace = pw.IntegerField()
-    fifa_accleration = pw.IntegerField()
-    fifa_sprint_speed = pw.IntegerField()
+#     # Futbin player
+#     # PACE
+#     fifa_pace = pw.IntegerField()
+#     fifa_accleration = pw.IntegerField()
+#     fifa_sprint_speed = pw.IntegerField()
 
-    # SHOOTING
-    fifa_shooting = pw.IntegerField()
-    fifa_positioning = pw.IntegerField()
-    fifa_finishing = pw.IntegerField()
-    fifa_shot_power = pw.IntegerField()
-    fifa_long_shots = pw.IntegerField()
-    fifa_volleys = pw.IntegerField()
-    fifa_penalties = pw.IntegerField()
+#     # SHOOTING
+#     fifa_shooting = pw.IntegerField()
+#     fifa_positioning = pw.IntegerField()
+#     fifa_finishing = pw.IntegerField()
+#     fifa_shot_power = pw.IntegerField()
+#     fifa_long_shots = pw.IntegerField()
+#     fifa_volleys = pw.IntegerField()
+#     fifa_penalties = pw.IntegerField()
 
-    # PASSING
-    fifa_passing = pw.IntegerField()
-    fifa_vision = pw.IntegerField()
-    fifa_crossing = pw.IntegerField()
-    fifa_free_kick = pw.IntegerField()
-    fifa_short_passing = pw.IntegerField()
-    fifa_long_passing = pw.IntegerField()
-    fifa_curve = pw.IntegerField()
+#     # PASSING
+#     fifa_passing = pw.IntegerField()
+#     fifa_vision = pw.IntegerField()
+#     fifa_crossing = pw.IntegerField()
+#     fifa_free_kick = pw.IntegerField()
+#     fifa_short_passing = pw.IntegerField()
+#     fifa_long_passing = pw.IntegerField()
+#     fifa_curve = pw.IntegerField()
 
-    # DRIBBLING
-    fifa_dribbling = pw.IntegerField()
-    fifa_agility = pw.IntegerField()
-    fifa_balance = pw.IntegerField()
-    fifa_reactions = pw.IntegerField()
-    fifa_ball_control = pw.IntegerField()
-    fifa_dribbling_min = pw.IntegerField()
-    fifa_composure = pw.IntegerField()
+#     # DRIBBLING
+#     fifa_dribbling = pw.IntegerField()
+#     fifa_agility = pw.IntegerField()
+#     fifa_balance = pw.IntegerField()
+#     fifa_reactions = pw.IntegerField()
+#     fifa_ball_control = pw.IntegerField()
+#     fifa_dribbling_min = pw.IntegerField()
+#     fifa_composure = pw.IntegerField()
 
-    # DEFENSE
-    fifa_defense = pw.IntegerField()
-    fifa_interceptions = pw.IntegerField()
-    fifa_heading = pw.IntegerField()
-    fifa_def_awareness = pw.IntegerField()
-    fifa_standing_tackle = pw.IntegerField()
-    fifa_sliding_tackle = pw.IntegerField()
+#     # DEFENSE
+#     fifa_defense = pw.IntegerField()
+#     fifa_interceptions = pw.IntegerField()
+#     fifa_heading = pw.IntegerField()
+#     fifa_def_awareness = pw.IntegerField()
+#     fifa_standing_tackle = pw.IntegerField()
+#     fifa_sliding_tackle = pw.IntegerField()
 
-    # PHYSICAL
-    fifa_physical = pw.IntegerField()
-    fifa_jumping = pw.IntegerField()
-    fifa_stamina = pw.IntegerField()
-    fifa_strength = pw.IntegerField()
-    fifa_aggression = pw.IntegerField()
+#     # PHYSICAL
+#     fifa_physical = pw.IntegerField()
+#     fifa_jumping = pw.IntegerField()
+#     fifa_stamina = pw.IntegerField()
+#     fifa_strength = pw.IntegerField()
+#     fifa_aggression = pw.IntegerField()
 
-    # OVERALL
-    fifa_overall_score = pw.IntegerField()
-    fifa_overall_category = pw.IntegerField()
+#     # OVERALL
+#     fifa_overall_score = pw.IntegerField()
+#     fifa_overall_category = pw.IntegerField()
 
 
 """
@@ -523,12 +523,12 @@ Description: Class that manages creating and populating the database. Builds and
 """
 class DbManager():
     def __init__(self, who_scored_data=None, fifa_card_data=None):
-        db_path = Path('fifa.db')
-        if not db_path.is_file():
-            self.init_db(db_path)
-        else:
-            self.db = pw.SqliteDatabase(db_path)
-            self.db.connect()
+        # db_path = Path('fifa.db')
+        # if not db_path.is_file():
+        #     self.init_db(db_path)
+        # else:
+        #     self.db = pw.SqliteDatabase(db_path)
+        #     self.db.connect()
         if who_scored_data is not None:
             self.who_trimmed = who_scored_data.trimmed_data
         if fifa_card_data is not None:
@@ -537,10 +537,10 @@ class DbManager():
         self.team_translation = json.load(open('init_data/team_translation.json'))
         self.team_translation = self.parse_team_translation()
     
-    def init_db(self, db_path):
-        self.db = pw.SqliteDatabase(db_path)
-        self.db.connect()
-        self.db.create_tables([Season, PlayerStatistics])
+    # def init_db(self, db_path):
+    #     self.db = pw.SqliteDatabase(db_path)
+    #     self.db.connect()
+    #     self.db.create_tables([Season, PlayerStatistics])
     
     def check_db(self):
         season_list = [
