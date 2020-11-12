@@ -11,6 +11,7 @@ import random
 import uuid
 import numpy as np
 import pickle
+from multiprocessing import Pool
 
 # Take 2 at this bungus
 
@@ -686,13 +687,16 @@ class DbManager():
                     new_team_translation[season_key].update({key: value for key, value in self.team_translation[league_key][season_key].items()})
         return new_team_translation
     
-    def build_matches(self):
-        season_list = [
-            '2019/2020',
-            '2018/2019',
-            '2017/2018',
-            '2016/2017',
-        ]
+    def build_matches(self, season_key=None):
+        if season_key is None:
+            season_list = [
+                '2019/2020',
+                '2018/2019',
+                '2017/2018',
+                '2016/2017',
+            ]
+        else:
+            season_list = [season_key]
         batch_len = 0
         match_obj_path = Path('init_data/interim_match_data.pickle')
         if match_obj_path.is_file():
@@ -727,6 +731,16 @@ class DbManager():
                 batch_len += 1
                 if batch_len % 500:
                     pickle.dump(match_obj, match_obj_path.open(mode='wb'))
+    
+    def multi_thread_build_matches(self):
+        season_list = [
+            '2019/2020',
+            '2018/2019',
+            '2017/2018',
+            '2016/2017',
+        ]
+        with Pool(4) as pools:
+            pools.map(self.build_matches, season_list)
         
     def get_fifa_matches(self, curr_player, fifa_card_subset, team_subset=None):
         player_matches = []
@@ -734,7 +748,7 @@ class DbManager():
         for card_type in fifa_card_subset:
             for player in fifa_card_subset[card_type]:
                 player_match_score = 0
-                if abs(curr_player['age'] - int(player['age'])) > 1 or abs(curr_player['weight'] - int(player['weight'])) > 8:
+                if abs(curr_player['age'] - int(player['age'])) > 3 or abs(curr_player['weight'] - int(player['weight'])) > 12:
                     continue
                 player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
                 # NEW TRANSLATION
@@ -834,4 +848,5 @@ if __name__ == '__main__':
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
-    db_gen.build_matches()
+    # db_gen.build_matches()
+    db_gen.multi_thread_build_matches()
