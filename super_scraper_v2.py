@@ -702,6 +702,7 @@ class DbManager():
         for season in season_list:
             if season not in match_obj:
                 match_obj[season] = {}
+            print(f"\n\nNOW ON SEASON {season}\n\n")
             for player_id in self.who_trimmed[season]:
                 if player_id in match_obj[season]:
                     continue
