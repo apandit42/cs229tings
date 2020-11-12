@@ -10,6 +10,7 @@ import random
 import peewee as pw
 import uuid
 import numpy as np
+import pickle
 
 # Take 2 at this bungus
 
@@ -363,11 +364,16 @@ class FutBinData():
                 player_club_names[year][card_type] = name_set
         return player_club_names
     
-    def get_player_by_name(self, name):
-        for year in self.player_data:
-            for card_type in self.player_data[year]:
-                for player in self.player_data[year][card_type]:
-                    if player['player_name'] == name:
+    def get_player_by_name(self, name, year, club, weight=None):
+        club = club.strip()
+        data = self.player_data[year]
+        for card_type in data:
+            for player in data[card_type]:
+                if player['player_name'] == name and player['player_club'] == club:
+                    if weight is None:
+                        print(f'Player {name} found in {card_type} for {year}...')
+                        return player
+                    elif player['weight'] == weight:
                         print(f'Player {name} found in {card_type} for {year}...')
                         return player
         return None
@@ -536,9 +542,89 @@ class DbManager():
         self.db.connect()
         self.db.create_tables([Season, PlayerStatistics])
     
-    def check_db(self, who_scored_data):
-        pass
-    
+    def check_db(self):
+        season_list = [
+            # '2019/2020',
+            '2018/2019',
+            # '2017/2018',
+            # '2016/2017',
+        ]
+        match_obj = pickle.load(open('match_data/interim_match_data.pickle',mode='rb'))
+        verified_match_obj = {}
+        verified_filename = input('Enter a name for outputted match file (in match_data_dir): ')
+        verified_filename = Path('match_data/' + verified_filename + '.pickle')
+        if verified_filename.is_file():
+            verified_match_obj = pickle.load(verified_filename.open('rb'))
+        runtime = 0
+        for season in season_list:
+            if season not in verified_match_obj:
+                verified_match_obj[season] = {}
+            for player_id in match_obj[season]:
+                if player_id in verified_match_obj[season]:
+                    continue
+                hasher = hashlib.md5()
+                file_id = season + player_id
+                hasher.update(file_id.encode('utf-8'))
+                file_path = Path('match_data/' + hasher.hexdigest + '.pickle')
+                fifa_match_list = pickle.load(file_path.open(mode='rb'))
+                init_match_score, init_match = fifa_match_list[0]
+                if init_match_score > -6.0:
+                    final_match = self.get_human_decision(season, player_id, fifa_match_list)
+                    if final_match == 'DISCARD':
+                        verified_match_obj[season][player_id] = False
+                    else:
+                        verified_match_obj[season][player_id] = final_match
+                else:
+                    verified_match_obj[season][player_id] = init_match
+                runtime += 1
+                if runtime % 250:
+                    pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
+
+
+    def get_human_decision(self, season, player_id, fifa_match_list):
+        curr_player = self.who_trimmed[season][player_id]
+        decision = False
+        while not decision:
+            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_club_name']}...")
+            best_score, best_match = fifa_match_list[0]
+            print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score} and club {best_match['player_club']} ...")
+            val = input("Enter y to accept match, n to reject match and iterate to next best, d to discard player, and s to specify exact match: ")
+            if val.strip().lower() == 'y':
+                decision = True
+                return best_match
+            elif val.strip().lower() == 'n':
+                fifa_match_list = fifa_match_list[1:]
+            elif val.strip().lower() == 'd':
+                return 'DISCARD'
+            elif val.strip().lower() == 's':
+                name = input("Enter exact player name: ")
+                year = input("Enter exact FIFA year: ")
+                club = input("Enter exact player club: ")
+                weight = input("Enter player weight (optional): ")
+                if weight == "":
+                    weight = None
+                selected_player = self.get_fifa_player_by_name(name, year, club, weight)
+                if selected_player is None:
+                    print('Error, please enter valid player information.')
+                else:
+                    return selected_player
+            else:
+                print('Error, please enter valid input.')
+
+    def get_fifa_player_by_name(self, name, year, club, weight=None):
+        club = club.strip()
+        data = self.fifa_card_data[year]
+        for card_type in data:
+            for player in data[card_type]:
+                if player['player_name'] == name and player['player_club'] == club:
+                    if weight is None:
+                        print(f'Player {name} found in {card_type} for {year}...')
+                        return player
+                    elif player['weight'] == weight:
+                        print(f'Player {name} found in {card_type} for {year}...')
+                        return player
+        return None
+
     def get_fifa_card_summary(self):
         """
         Get summary information from fifa_card_data.
@@ -599,46 +685,79 @@ class DbManager():
                     new_team_translation[season_key].update({key: value for key, value in self.team_translation[league_key][season_key].items()})
         return new_team_translation
     
-    def build_db(self):
+    def build_matches(self):
         season_list = [
             # '2019/2020',
             '2018/2019',
             # '2017/2018',
             # '2016/2017',
         ]
+        batch_len = 0
+        match_obj_path = Path('match_data/interim_match_data.pickle')
+        if match_obj_path.is_file():
+            match_obj = pickle.load(match_obj_path.open(mode='rb'))
+        else:
+            match_obj = {}
         for season in season_list:
+            if season not in match_obj:
+                match_obj[season] = {}
             for player_id in self.who_trimmed[season]:
-                curr_player = self.who_trimmed[season][player_id]
-                team_subset = self.team_translation[season]
-                fifa_year = str(int(season.split('/')[1]) + 1)
-                fifa_card_subset = self.fifa_card_data[fifa_year]
-                self.get_fifa_match(curr_player, fifa_card_subset, team_subset)
-            break
+                if player_id in match_obj[season]:
+                    continue
+                hasher = hashlib.md5()
+                file_id = season + player_id
+                hasher.update(file_id.encode('utf-8'))
+                file_path = Path('match_data/' + hasher.hexdigest + '.pickle')
+                if file_path.is_file():
+                    fifa_match_list = pickle.load(file_path.open(mode='rb'))
+                    match_obj[season][player_id] = fifa_match_list[0]
+                else:
+                    curr_player = self.who_trimmed[season][player_id]
+                    if season in self.team_translation:
+                        team_subset = self.team_translation[season]
+                    else:
+                        team_subset = None
+                    fifa_year = str(int(season.split('/')[1]) + 1)
+                    fifa_card_subset = self.fifa_card_data[fifa_year]
+                    fifa_match_list = self.get_fifa_matches(curr_player, fifa_card_subset, team_subset)
+                    pickle.dump(fifa_match_list, file_path.open(mode='wb'))
+                    match_obj[season][player_id] = fifa_match_list[0]
+                batch_len += 1
+                if batch_len % 500:
+                    pickle.dump(match_obj, match_obj_path.open(mode='wb'))
+        
     
-    def get_fifa_match(self, curr_player, fifa_card_subset, team_subset):
+    def get_fifa_matches(self, curr_player, fifa_card_subset, team_subset=None):
         player_matches = []
         print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) ... ")
         for card_type in fifa_card_subset:
             for player in fifa_card_subset[card_type]:
                 player_match_score = 0
-                if abs(curr_player['age'] - int(player['age'])) > 2 or abs(curr_player['weight'] - int(player['weight'])) > 10:
+                if abs(curr_player['age'] - int(player['age'])) > 1 or abs(curr_player['weight'] - int(player['weight'])) > 8:
                     continue
-                # player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
+                player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
                 # NEW TRANSLATION
-                # club_translated = team_subset[curr_player['long_team_name']]
-                # player_match_score += min(
-                #     self.club_match_threshold(club_translated, player['player_club']),
-                #     self.club_match_threshold(curr_player['teamName'], player['player_club']),
-                #     self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
-                # )
-                # player_match_score += min(
-                #     self.name_match_threshold(curr_player['name'], player['player_name']),
-                #     self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
-                # )
+                if team_subset is not None and curr_player['long_team_name'] in team_subset:
+                    club_translated = team_subset[curr_player['long_team_name']]
+                    player_match_score += min(
+                        self.club_match_threshold(club_translated, player['player_club']),
+                        self.club_match_threshold(curr_player['teamName'], player['player_club']),
+                        self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
+                    )
+                else:
+                    player_match_score += min(
+                        self.club_match_threshold(curr_player['teamName'], player['player_club']),
+                        self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
+                    )
+                player_match_score += min(
+                    self.name_match_threshold(curr_player['name'], player['player_name']),
+                    self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
+                )
                 player_matches.append((player_match_score, player))
         player_matches.sort(key=lambda x:x[0])
         best_player_score, best_player = player_matches[0]
         print(f"matches FIFA {best_player['player_name']} w/ score {best_player_score} ...")
+        return player_matches
     
     def get_levenshtein_score(self, str_a, str_b):
         # Implement Levenshtein Distance Metric (for string matching)
@@ -685,7 +804,7 @@ class DbManager():
         for i in who_scored_club.split():
             for j in fifa_club.split():
                 if i == j:
-                    z_w -= len(i)
+                    z_w -= len(i) / 2
                     break
         return z_w
 
@@ -699,7 +818,7 @@ class DbManager():
         for i in who_scored_name.split():
             for j in fifa_name.split():
                 if i == j:
-                    z_w -= len(i)
+                    z_w -= len(i) / 2
                     break
         return z_w
 
@@ -711,7 +830,6 @@ if __name__ == '__main__':
     # Build Futhead Data
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
+    # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
-    db_gen.build_db()
-    # print(db_gen.who_scored_summary)
-    # print(db_gen.fifa_card_summary)
+    db_gen.build_matches()
