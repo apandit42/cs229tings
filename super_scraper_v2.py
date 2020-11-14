@@ -535,55 +535,64 @@ class DbManager():
     def check_db(self):
         season_list = [
             # '2019/2020',
-            '2018/2019',
+            # '2018/2019',
             # '2017/2018',
             # '2016/2017',
         ]
-        match_obj = pickle.load(open('match_data/interim_match_data.pickle',mode='rb'))
-        verified_match_obj = {}
-        verified_filename = input('Enter a name for outputted match file (in match_data_dir): ')
-        verified_filename = Path('init_data/' + verified_filename + '.pickle')
-        if verified_filename.is_file():
-            verified_match_obj = pickle.load(verified_filename.open('rb'))
-        runtime = 0
         for season in season_list:
-            if season not in verified_match_obj:
-                verified_match_obj[season] = {}
-            for player_id in match_obj[season]:
-                if player_id in verified_match_obj[season]:
+            verified_filename = f'match_verified_fifa_{str(int(season[-4:]) + 1)}'
+            verified_filename = Path('init_data/' + verified_filename + '.pickle')
+            if verified_filename.is_file():
+                verified_match_obj = pickle.load(verified_filename.open('rb'))
+            else:
+                verified_match_obj = {}
+            runtime = 0
+            total_players = len(self.who_trimmed[season])
+            for player_id in self.who_trimmed[season]:
+                if player_id in verified_match_obj:
                     continue
                 hasher = hashlib.md5()
                 file_id = season + player_id
                 hasher.update(file_id.encode('utf-8'))
-                file_path = Path('match_data/' + hasher.hexdigest() + '.pickle')
+                file_path = Path('match_data/' + hasher.hexdigest() + 'raw.pickle')
                 fifa_match_list = pickle.load(file_path.open(mode='rb'))
-                init_match_score, init_match = fifa_match_list[0]
-                if init_match_score > -8.0:
-                    final_match = self.get_human_decision(season, player_id, fifa_match_list)
+                if len(fifa_match_list) > 0:
+                    init_match_score, init_match = fifa_match_list[0]
+                    if init_match_score > -8.0:
+                        final_match = self.get_human_decision(season, player_id, fifa_match_list)
+                        if final_match == 'DISCARD':
+                            verified_match_obj[player_id] = False
+                        elif final_match is False:
+                            continue
+                        else:
+                            verified_match_obj[player_id] = final_match
+                    else:
+                        verified_match_obj[player_id] = init_match
+                else:
+                    final_match = self.get_human_decision(season, fifa_match_list)
                     if final_match == 'DISCARD':
-                        verified_match_obj[season][player_id] = False
+                            verified_match_obj[player_id] = False
                     elif final_match is False:
                         continue
                     else:
-                        verified_match_obj[season][player_id] = final_match
-                else:
-                    verified_match_obj[season][player_id] = init_match
+                        verified_match_obj[player_id] = final_match
                 runtime += 1
                 if runtime % 250:
+                    print(f'Matched {runtime} out of {total_players}')
                     pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
-        pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
+            pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
     def get_human_decision(self, season, player_id, fifa_match_list):
         curr_player = self.who_trimmed[season][player_id]
         decision = False
         while not decision:
-            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_club_name']}...")
+            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_club_name']}, age {curr_player['age']}, and weight {curr_player['weight']} ...")
             if len(fifa_match_list) == 0:
                 print("Error, no possible player matches! Must enter character manually!")
             else:
                 best_score, best_match = fifa_match_list[0]
-                print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score} and club {best_match['player_club']} ...")
-            val = input("Enter y to accept match, n to reject match and iterate to next best, d to discard player, and s to specify exact match, k to skip: ")
+                print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score}, club {best_match['player_club']}, age {best_match['age']}, and weight {best_match['weight']} ...")
+            val = input("Enter y to accept match, n to reject match, d to discard player, and s to specify exact match, k to skip: ")
             if val.strip().lower() == 'y':
                 decision = True
                 return best_match
@@ -593,10 +602,10 @@ class DbManager():
             elif val.strip().lower() == 'd':
                 return 'DISCARD'
             elif val.strip().lower() == 's':
-                name = input("Enter exact player name: ")
-                year = input("Enter exact FIFA year: ")
-                club = input("Enter exact player club: ")
-                weight = input("Enter player weight (optional): ")
+                name = input("Paste exact player name: ")
+                year = input("Paste exact FIFA year: ")
+                club = input("Paste exact player club: ")
+                weight = input("Paste player weight (optional): ")
                 if weight.strip() == "":
                     weight = None
                 selected_player = self.get_fifa_player_by_name(name, year, club, weight)
@@ -819,4 +828,4 @@ if __name__ == '__main__':
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
-    db_gen.hyper_match()
+    db_gen.check_db()
