@@ -33,7 +33,7 @@ class WhoScoredData():
                 json.dump(self.player_data, data_path.open(mode='w'))
             self.trimmed_data = self.init_trim_data()
             json.dump(self.trimmed_data, trimmed_data.open(mode='w'))
-    
+            
     def init_build_player_data(self):
         # Selenium setup
         self.driver = webdriver.Firefox()
@@ -534,7 +534,7 @@ class DbManager():
     
     def check_db(self):
         season_list = [
-            # '2019/2020',
+            '2019/2020',
             # '2018/2019',
             # '2017/2018',
             # '2016/2017',
@@ -542,10 +542,9 @@ class DbManager():
         for season in season_list:
             verified_filename = f'match_verified_fifa_{str(int(season[-4:]) + 1)}'
             verified_filename = Path('init_data/' + verified_filename + '.pickle')
+            verified_match_obj = {}
             if verified_filename.is_file():
                 verified_match_obj = pickle.load(verified_filename.open('rb'))
-            else:
-                verified_match_obj = {}
             runtime = 0
             total_players = len(self.who_trimmed[season])
             for player_id in self.who_trimmed[season]:
@@ -697,9 +696,9 @@ class DbManager():
     def hyper_match(self):
         season_list = [
             '2019/2020',
-            '2018/2019',
-            '2017/2018',
-            '2016/2017',   
+            #'2018/2019',
+            #'2017/2018',
+            #'2016/2017',   
         ]
         players_to_match = self.hyper_match_player_list(season_list)
         ### CHUNGUS LEVEL ###
@@ -761,7 +760,7 @@ class DbManager():
         
         if len(match_list) != 0:
             match_list.sort(key=lambda x: x[0])        
-	pickle.dump(match_list, match_save_path.open(mode="wb"))
+        pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
         # Implement Levenshtein Distance Metric (for string matching)
