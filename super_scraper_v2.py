@@ -740,8 +740,8 @@ class DbManager():
         season_list = [
             '2019/2020',
             '2018/2019',
-            '2017/2018',
-            '2016/2017',
+            # '2017/2018',
+            # '2016/2017',
         ]
         with Pool(4) as pools:
             pools.map(self.build_matches, season_list)
