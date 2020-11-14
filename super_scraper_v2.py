@@ -7,7 +7,7 @@ import hashlib
 from unidecode import unidecode
 import time
 import random
-# import peewee as pw
+import peewee as pw
 import uuid
 import numpy as np
 import pickle
@@ -380,142 +380,142 @@ class FutBinData():
         return None
 
 
-# """
-# Class BasePlayer()
-# Description: Base class for season and player values.
-# """
-# class BasePlayer(pw.Model):
-#     class Meta:
-#         database = pw.SqliteDatabase('fifa.db')
+"""
+Class BasePlayer()
+Description: Base class for season and player values.
+"""
+class BasePlayer(pw.Model):
+    class Meta:
+        database = pw.SqliteDatabase('fifa.db')
 
 
-# """
-# Class Season()
-# Description: Season class contains all players from the same season.
-# """
-# class Season(BasePlayer):
-#     season_name = pw.CharField()
-#     base_year = pw.IntegerField()
+"""
+Class Season()
+Description: Season class contains all players from the same season.
+"""
+class Season(BasePlayer):
+    season_name = pw.CharField()
+    base_year = pw.IntegerField()
 
 
-# """
-# Class PlayerStatistics
-# Description: PlayerStatistics class contains all players, with all of their real life and FIFA statistics.
-#              Is season specific, and may be duplicated across years.
-# """
-# class PlayerStatistics(BasePlayer):
-#     # Season() Connections
-#     season = pw.ForeignKeyField(model=Season, backref='players')
-#     base_year = pw.IntegerField()
+"""
+Class PlayerStatistics
+Description: PlayerStatistics class contains all players, with all of their real life and FIFA statistics.
+             Is season specific, and may be duplicated across years.
+"""
+class PlayerStatistics(BasePlayer):
+    # Season() Connections
+    season = pw.ForeignKeyField(model=Season, backref='players')
+    base_year = pw.IntegerField()
 
-#     # Base player
-#     # Generic player information
-#     name = pw.CharField()
-#     first_name = pw.CharField()
-#     last_name = pw.CharField()
-#     player_id = pw.IntegerField()
-#     season_name = pw.CharField()
-#     region_name = pw.CharField()
-#     tournament_name = pw.CharField()
-#     team_name = pw.CharField()
-#     team_region = pw.CharField()
-#     age = pw.IntegerField()
-#     height = pw.IntegerField()
-#     weight = pw.IntegerField()
+    # Base player
+    # Generic player information
+    name = pw.CharField()
+    first_name = pw.CharField()
+    last_name = pw.CharField()
+    player_id = pw.IntegerField()
+    season_name = pw.CharField()
+    region_name = pw.CharField()
+    tournament_name = pw.CharField()
+    team_name = pw.CharField()
+    team_region = pw.CharField()
+    age = pw.IntegerField()
+    height = pw.IntegerField()
+    weight = pw.IntegerField()
     
-#     # Base Player 
-#     # Category Summary, Subcategory All
-#     rank = pw.IntegerField()    
-#     played_positions = pw.CharField()
-#     appearances = pw.IntegerField()
-#     subs_on = pw.IntegerField()
-#     minutes_played = pw.IntegerField()
-#     goals = pw.IntegerField()
-#     assists_total = pw.IntegerField()
-#     yellow_cards = pw.IntegerField()
-#     red_cards = pw.IntegerField()
-#     shots_per_game = pw.DoubleField()
-#     aerials_won_per_game = pw.DoubleField()
-#     man_of_match = pw.IntegerField()
-#     pass_success = pw.DoubleField()
+    # Base Player 
+    # Category Summary, Subcategory All
+    rank = pw.IntegerField()    
+    played_positions = pw.CharField()
+    appearances = pw.IntegerField()
+    subs_on = pw.IntegerField()
+    minutes_played = pw.IntegerField()
+    goals = pw.IntegerField()
+    assists_total = pw.IntegerField()
+    yellow_cards = pw.IntegerField()
+    red_cards = pw.IntegerField()
+    shots_per_game = pw.DoubleField()
+    aerials_won_per_game = pw.DoubleField()
+    man_of_match = pw.IntegerField()
+    pass_success = pw.DoubleField()
 
-#     # Base player
-#     # Category Summary, Subcategory Defensive
-#     tackles_per_game = pw.IntegerField()
-#     interceptions_per_game = pw.DoubleField()
-#     fouls_per_game = pw.DoubleField()
-#     offsides_won_per_game = pw.DoubleField()
-#     was_dribbled_per_game = pw.DoubleField()
-#     outfielder_blocked_per_game = pw.DoubleField()
-#     goal_own = pw.IntegerField()
+    # Base player
+    # Category Summary, Subcategory Defensive
+    tackles_per_game = pw.IntegerField()
+    interceptions_per_game = pw.DoubleField()
+    fouls_per_game = pw.DoubleField()
+    offsides_won_per_game = pw.DoubleField()
+    was_dribbled_per_game = pw.DoubleField()
+    outfielder_blocked_per_game = pw.DoubleField()
+    goal_own = pw.IntegerField()
 
-#     # Base player
-#     # Category Summary, Subcategory Offensive
-#     key_pass_per_game = pw.DoubleField()
-#     dribbles_won_per_game = pw.DoubleField()
-#     fouls_given_per_game = pw.DoubleField()
-#     offsides_given_per_game = pw.DoubleField()
-#     dispossessed_per_game = pw.DoubleField()
-#     turnovers_per_game = pw.DoubleField()
+    # Base player
+    # Category Summary, Subcategory Offensive
+    key_pass_per_game = pw.DoubleField()
+    dribbles_won_per_game = pw.DoubleField()
+    fouls_given_per_game = pw.DoubleField()
+    offsides_given_per_game = pw.DoubleField()
+    dispossessed_per_game = pw.DoubleField()
+    turnovers_per_game = pw.DoubleField()
 
-#     # Base player
-#     # Category Summary, Subcategory Passing
-#     total_passes_per_game = pw.DoubleField()
-#     accurate_crosses_per_game = pw.DoubleField()
-#     accurate_long_passes_per_game = pw.DoubleField()
-#     accurate_through_ball_per_game = pw.DoubleField()
+    # Base player
+    # Category Summary, Subcategory Passing
+    total_passes_per_game = pw.DoubleField()
+    accurate_crosses_per_game = pw.DoubleField()
+    accurate_long_passes_per_game = pw.DoubleField()
+    accurate_through_ball_per_game = pw.DoubleField()
 
-#     # Futbin player
-#     # PACE
-#     fifa_pace = pw.IntegerField()
-#     fifa_accleration = pw.IntegerField()
-#     fifa_sprint_speed = pw.IntegerField()
+    # Futbin player
+    # PACE
+    fifa_pace = pw.IntegerField()
+    fifa_accleration = pw.IntegerField()
+    fifa_sprint_speed = pw.IntegerField()
 
-#     # SHOOTING
-#     fifa_shooting = pw.IntegerField()
-#     fifa_positioning = pw.IntegerField()
-#     fifa_finishing = pw.IntegerField()
-#     fifa_shot_power = pw.IntegerField()
-#     fifa_long_shots = pw.IntegerField()
-#     fifa_volleys = pw.IntegerField()
-#     fifa_penalties = pw.IntegerField()
+    # SHOOTING
+    fifa_shooting = pw.IntegerField()
+    fifa_positioning = pw.IntegerField()
+    fifa_finishing = pw.IntegerField()
+    fifa_shot_power = pw.IntegerField()
+    fifa_long_shots = pw.IntegerField()
+    fifa_volleys = pw.IntegerField()
+    fifa_penalties = pw.IntegerField()
 
-#     # PASSING
-#     fifa_passing = pw.IntegerField()
-#     fifa_vision = pw.IntegerField()
-#     fifa_crossing = pw.IntegerField()
-#     fifa_free_kick = pw.IntegerField()
-#     fifa_short_passing = pw.IntegerField()
-#     fifa_long_passing = pw.IntegerField()
-#     fifa_curve = pw.IntegerField()
+    # PASSING
+    fifa_passing = pw.IntegerField()
+    fifa_vision = pw.IntegerField()
+    fifa_crossing = pw.IntegerField()
+    fifa_free_kick = pw.IntegerField()
+    fifa_short_passing = pw.IntegerField()
+    fifa_long_passing = pw.IntegerField()
+    fifa_curve = pw.IntegerField()
 
-#     # DRIBBLING
-#     fifa_dribbling = pw.IntegerField()
-#     fifa_agility = pw.IntegerField()
-#     fifa_balance = pw.IntegerField()
-#     fifa_reactions = pw.IntegerField()
-#     fifa_ball_control = pw.IntegerField()
-#     fifa_dribbling_min = pw.IntegerField()
-#     fifa_composure = pw.IntegerField()
+    # DRIBBLING
+    fifa_dribbling = pw.IntegerField()
+    fifa_agility = pw.IntegerField()
+    fifa_balance = pw.IntegerField()
+    fifa_reactions = pw.IntegerField()
+    fifa_ball_control = pw.IntegerField()
+    fifa_dribbling_min = pw.IntegerField()
+    fifa_composure = pw.IntegerField()
 
-#     # DEFENSE
-#     fifa_defense = pw.IntegerField()
-#     fifa_interceptions = pw.IntegerField()
-#     fifa_heading = pw.IntegerField()
-#     fifa_def_awareness = pw.IntegerField()
-#     fifa_standing_tackle = pw.IntegerField()
-#     fifa_sliding_tackle = pw.IntegerField()
+    # DEFENSE
+    fifa_defense = pw.IntegerField()
+    fifa_interceptions = pw.IntegerField()
+    fifa_heading = pw.IntegerField()
+    fifa_def_awareness = pw.IntegerField()
+    fifa_standing_tackle = pw.IntegerField()
+    fifa_sliding_tackle = pw.IntegerField()
 
-#     # PHYSICAL
-#     fifa_physical = pw.IntegerField()
-#     fifa_jumping = pw.IntegerField()
-#     fifa_stamina = pw.IntegerField()
-#     fifa_strength = pw.IntegerField()
-#     fifa_aggression = pw.IntegerField()
+    # PHYSICAL
+    fifa_physical = pw.IntegerField()
+    fifa_jumping = pw.IntegerField()
+    fifa_stamina = pw.IntegerField()
+    fifa_strength = pw.IntegerField()
+    fifa_aggression = pw.IntegerField()
 
-#     # OVERALL
-#     fifa_overall_score = pw.IntegerField()
-#     fifa_overall_category = pw.IntegerField()
+    # OVERALL
+    fifa_overall_score = pw.IntegerField()
+    fifa_overall_category = pw.IntegerField()
 
 
 """
@@ -524,12 +524,12 @@ Description: Class that manages creating and populating the database. Builds and
 """
 class DbManager():
     def __init__(self, who_scored_data=None, fifa_card_data=None):
-        # db_path = Path('fifa.db')
-        # if not db_path.is_file():
-        #     self.init_db(db_path)
-        # else:
-        #     self.db = pw.SqliteDatabase(db_path)
-        #     self.db.connect()
+        db_path = Path('fifa.db')
+        if not db_path.is_file():
+            self.init_db(db_path)
+        else:
+            self.db = pw.SqliteDatabase(db_path)
+            self.db.connect()
         if who_scored_data is not None:
             self.who_trimmed = who_scored_data.trimmed_data
         if fifa_card_data is not None:
@@ -538,10 +538,10 @@ class DbManager():
         self.team_translation = json.load(open('init_data/team_translation.json'))
         self.team_translation = self.parse_team_translation()
     
-    # def init_db(self, db_path):
-    #     self.db = pw.SqliteDatabase(db_path)
-    #     self.db.connect()
-    #     self.db.create_tables([Season, PlayerStatistics])
+    def init_db(self, db_path):
+        self.db = pw.SqliteDatabase(db_path)
+        self.db.connect()
+        self.db.create_tables([Season, PlayerStatistics])
     
     def check_db(self):
         season_list = [
@@ -573,6 +573,8 @@ class DbManager():
                     final_match = self.get_human_decision(season, player_id, fifa_match_list)
                     if final_match == 'DISCARD':
                         verified_match_obj[season][player_id] = False
+                    elif final_match is False:
+                        continue
                     else:
                         verified_match_obj[season][player_id] = final_match
                 else:
@@ -587,17 +589,18 @@ class DbManager():
         decision = False
         while not decision:
             print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_club_name']}...")
-            best_score, best_match = fifa_match_list[0]
-            print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score} and club {best_match['player_club']} ...")
-            val = input("Enter y to accept match, n to reject match and iterate to next best, d to discard player, and s to specify exact match: ")
+            if len(fifa_match_list) == 0:
+                print("Error, no possible player matches! Must enter character manually!")
+            else:
+                best_score, best_match = fifa_match_list[0]
+                print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score} and club {best_match['player_club']} ...")
+            val = input("Enter y to accept match, n to reject match and iterate to next best, d to discard player, and s to specify exact match, k to skip: ")
             if val.strip().lower() == 'y':
                 decision = True
                 return best_match
             elif val.strip().lower() == 'n':
                 if len(fifa_match_list) > 1:
                     fifa_match_list = fifa_match_list[1:]
-                else:
-                    print("ERROR, no more entries in fifa_match_list, please specify manually.")
             elif val.strip().lower() == 'd':
                 return 'DISCARD'
             elif val.strip().lower() == 's':
@@ -605,13 +608,15 @@ class DbManager():
                 year = input("Enter exact FIFA year: ")
                 club = input("Enter exact player club: ")
                 weight = input("Enter player weight (optional): ")
-                if weight == "":
+                if weight.strip() == "":
                     weight = None
                 selected_player = self.get_fifa_player_by_name(name, year, club, weight)
                 if selected_player is None:
                     print('Error, please enter valid player information.')
                 else:
                     return selected_player
+            elif val.strip().lower() == 'k':
+                return False
             else:
                 print('Error, please enter valid input.')
 
@@ -691,93 +696,74 @@ class DbManager():
                     new_team_translation[season_key].update({key: value for key, value in self.team_translation[league_key][season_key].items()})
         return new_team_translation
     
-    def build_matches(self, season_key=None):
-        if season_key is None:
-            season_list = [
-                '2019/2020',
-                '2018/2019',
-                '2017/2018',
-                '2016/2017',
-            ]
-        else:
-            season_list = [season_key]
-        batch_len = 0
-        match_obj_path = Path('init_data/interim_match_data.pickle')
-        if match_obj_path.is_file():
-            match_obj = pickle.load(match_obj_path.open(mode='rb'))
-        else:
-            match_obj = {}
-        for season in season_list:
-            if season not in match_obj:
-                match_obj[season] = {}
-            print(f"\n\nNOW ON SEASON {season}\n\n")
-            for player_id in self.who_trimmed[season]:
-                if player_id in match_obj[season]:
-                    continue
-                hasher = hashlib.md5()
-                file_id = season + player_id
-                hasher.update(file_id.encode('utf-8'))
-                file_path = Path('match_data/' + hasher.hexdigest() + '.pickle')
-                if file_path.is_file():
-                    fifa_match_list = pickle.load(file_path.open(mode='rb'))
-                    match_obj[season][player_id] = fifa_match_list[0]
-                else:
-                    curr_player = self.who_trimmed[season][player_id]
-                    if season in self.team_translation:
-                        team_subset = self.team_translation[season]
-                    else:
-                        team_subset = None
-                    fifa_year = str(int(season.split('/')[1]) + 1)
-                    fifa_card_subset = self.fifa_card_data[fifa_year]
-                    fifa_match_list = self.get_fifa_matches(curr_player, fifa_card_subset, team_subset)
-                    pickle.dump(fifa_match_list, file_path.open(mode='wb'))
-                    match_obj[season][player_id] = fifa_match_list[0]
-                batch_len += 1
-                if batch_len % 500:
-                    pickle.dump(match_obj, match_obj_path.open(mode='wb'))
-    
-    def multi_thread_build_matches(self):
+    def hyper_match(self):
         season_list = [
             '2019/2020',
             '2018/2019',
-            # '2017/2018',
-            # '2016/2017',
+            '2017/2018',
+            '2016/2017',   
         ]
-        with Pool(4) as pools:
-            pools.map(self.build_matches, season_list)
+        players_to_match = self.hyper_match_player_list(season_list)
+        ### CHUNGUS LEVEL ###
+        CHUNGUS_LVL = 64
+        with Pool(CHUNGUS_LVL) as big_chungus:
+            big_chungus.map(self.hyper_worker, players_to_match)
+    
+    def hyper_match_player_list(self, season_list):
+        players_to_match = []
+        for season in season_list:
+            for player_id in self.who_trimmed[season]:
+                players_to_match.append((player_id, season))
+        return players_to_match
+    
+    def hyper_worker(self, player_tuple):
+        player_id, season = player_tuple
+        hasher = hashlib.md5()
+        hasher.update((season + player_id).encode('utf-8'))
+        match_save_path = Path('match_data/' + hasher.hexdigest() + 'raw.pickle')
         
-    def get_fifa_matches(self, curr_player, fifa_card_subset, team_subset=None):
-        player_matches = []
-        print(f"WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) ... ")
-        for card_type in fifa_card_subset:
-            for player in fifa_card_subset[card_type]:
-                player_match_score = 0
-                if abs(curr_player['age'] - int(player['age'])) > 3 or abs(curr_player['weight'] - int(player['weight'])) > 12:
+        # Player already processed by raw matching.
+        if match_save_path.is_file():
+            return
+
+        who_player = self.who_trimmed[season][player_id]
+        fifa_year = str(int(season[-4:]) + 1)
+        match_list = []
+
+        for card_type in self.fifa_card_data[fifa_year]:
+            for fifa_player in self.fifa_card_data[fifa_year][card_type]:
+                if abs(who_player['age'] - int(fifa_player['age'])) > 1:
                     continue
-                player_match_score += self.height_match_threshold(curr_player['height'], player['height'])
-                # NEW TRANSLATION
-                if team_subset is not None and curr_player['long_team_name'] in team_subset:
-                    club_translated = team_subset[curr_player['long_team_name']]
-                    player_match_score += min(
-                        self.club_match_threshold(club_translated, player['player_club']),
-                        self.club_match_threshold(curr_player['teamName'], player['player_club']),
-                        self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
-                    )
-                else:
-                    player_match_score += min(
-                        self.club_match_threshold(curr_player['teamName'], player['player_club']),
-                        self.club_match_threshold(curr_player['long_team_name'], player['player_club'])
-                    )
-                player_match_score += min(
-                    self.name_match_threshold(curr_player['name'], player['player_name']),
-                    self.name_match_threshold(curr_player['firstName'] + ' ' + curr_player['lastName'], player['player_name']),
+                try:
+                    if abs(who_player['height'] - int(fifa_player['height'])) > 4:
+                        continue
+                except ValueError:
+                    print(f"FIFA height missing for {fifa_player['player_name']}")
+                if abs(who_player['weight'] - int(fifa_player['weight'])) > 7:
+                    continue
+
+                special_team_match = 100.0 # Some random impossibly high value
+                if season in self.team_translation:
+                    if who_player['long_team_name'] in self.team_translation[season]:
+                        special_team_match = self.club_match_threshold(
+                            self.team_translation[season][who_player['long_team_name']],
+                            fifa_player['player_club'], 
+                        )
+                curr_match_score = min(
+                    special_team_match,
+                    self.club_match_threshold(who_player['teamName'], fifa_player['player_club']),
+                    self.club_match_threshold(who_player['long_team_name'], fifa_player['player_club']),
                 )
-                player['CARD_COLOR_RANK'] = card_type
-                player_matches.append((player_match_score, player))
-        player_matches.sort(key=lambda x:x[0])
-        best_player_score, best_player = player_matches[0]
-        print(f"matches FIFA {best_player['player_name']} w/ score {best_player_score} ...")
-        return player_matches
+                curr_match_score += min(
+                    self.name_match_threshold(who_player['name'], fifa_player['player_name']),
+                    self.name_match_threshold(who_player['firstName'] + ' ' + who_player['lastName'], fifa_player['player_name']),
+                )
+                fifa_player['CARD_COLOR_RANK'] = card_type
+                match_list.append((curr_match_score, fifa_player))
+        
+        if len(match_list) != 0:
+            match_list.sort(key=lambda x:x[0])
+        pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
         # Implement Levenshtein Distance Metric (for string matching)
@@ -805,14 +791,6 @@ class DbManager():
                     else:
                         score_matrix[i, j] = match_mismatch
         return score_matrix[rows - 1, cols - 1]
-
-    def height_match_threshold(self, who_scored_height, fifa_height):
-        try:
-            fifa_height = int(fifa_height)
-        except ValueError:
-            fifa_height = self.fifa_card_summary['height_avg']
-        z_f = (who_scored_height - fifa_height) / self.fifa_card_summary['height_stdev']
-        return np.square(z_f)
     
     def club_match_threshold(self, who_scored_club, fifa_club):
         who_scored_club = unidecode(who_scored_club).lower().replace('.','')
@@ -853,4 +831,3 @@ if __name__ == '__main__':
     # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
     # db_gen.build_matches()
-    db_gen.multi_thread_build_matches()
