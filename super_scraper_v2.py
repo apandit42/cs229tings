@@ -585,7 +585,7 @@ class DbManager():
         curr_player = self.who_trimmed[season][player_id]
         decision = False
         while not decision:
-            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_club_name']}, age {curr_player['age']}, and weight {curr_player['weight']} ...")
+            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_team_name']}, age {curr_player['age']}, and weight {curr_player['weight']} ...")
             if len(fifa_match_list) == 0:
                 print("Error, no possible player matches! Must enter character manually!")
             else:
