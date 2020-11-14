@@ -761,7 +761,7 @@ class DbManager():
         
         if len(match_list) != 0:
             match_list.sort(key=lambda x: x[0])        
-	pickle.dump(match_list, match_save_path.open(mode="wb"))
+    pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
         # Implement Levenshtein Distance Metric (for string matching)
