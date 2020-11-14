@@ -576,8 +576,8 @@ class DbManager():
                     else:
                         verified_match_obj[player_id] = final_match
                 runtime += 1
-                if runtime % 250:
-                    print(f'Matched {runtime} out of {total_players}')
+                print(f'Matched {runtime} out of {total_players}')
+                if runtime % 25 == 0:
                     pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
             pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
@@ -585,12 +585,12 @@ class DbManager():
         curr_player = self.who_trimmed[season][player_id]
         decision = False
         while not decision:
-            print(f"Verifying {season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_team_name']}, age {curr_player['age']}, and weight {curr_player['weight']} ...")
+            print(f"{season} WhoScored {curr_player['name']} ({curr_player['firstName']} {curr_player['lastName']}) w/ club {curr_player['long_team_name']}, age {curr_player['age']}, and weight {curr_player['weight']} ...")
             if len(fifa_match_list) == 0:
                 print("Error, no possible player matches! Must enter character manually!")
             else:
                 best_score, best_match = fifa_match_list[0]
-                print(f"Best match w/ FIFA {best_match['player_name']} w/ score {best_score}, club {best_match['player_club']}, age {best_match['age']}, and weight {best_match['weight']} ...")
+                print(f"Best match w/ FIFA  {best_match['player_name']} w/ score {best_score}, club {best_match['player_club']}, age {best_match['age']}, and weight {best_match['weight']} ...")
             val = input("Enter y to accept match, n to reject match, d to discard player, and s to specify exact match, k to skip: ")
             if val.strip().lower() == 'y':
                 decision = True
