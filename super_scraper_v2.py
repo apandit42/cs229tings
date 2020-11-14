@@ -569,7 +569,7 @@ class DbManager():
                 file_path = Path('match_data/' + hasher.hexdigest() + '.pickle')
                 fifa_match_list = pickle.load(file_path.open(mode='rb'))
                 init_match_score, init_match = fifa_match_list[0]
-                if init_match_score > -6.0:
+                if init_match_score > -8.0:
                     final_match = self.get_human_decision(season, player_id, fifa_match_list)
                     if final_match == 'DISCARD':
                         verified_match_obj[season][player_id] = False
@@ -580,6 +580,7 @@ class DbManager():
                 runtime += 1
                 if runtime % 250:
                     pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
+        pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
     def get_human_decision(self, season, player_id, fifa_match_list):
         curr_player = self.who_trimmed[season][player_id]
@@ -593,7 +594,10 @@ class DbManager():
                 decision = True
                 return best_match
             elif val.strip().lower() == 'n':
-                fifa_match_list = fifa_match_list[1:]
+                if len(fifa_match_list) > 1:
+                    fifa_match_list = fifa_match_list[1:]
+                else:
+                    print("ERROR, no more entries in fifa_match_list, please specify manually.")
             elif val.strip().lower() == 'd':
                 return 'DISCARD'
             elif val.strip().lower() == 's':
