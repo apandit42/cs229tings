@@ -11,7 +11,7 @@ import peewee as pw
 import uuid
 import numpy as np
 import pickle
-from pathos.multiprocessing import Pool
+from multiprocessing import Pool
 
 # Take 2 at this bungus
 
@@ -524,12 +524,6 @@ Description: Class that manages creating and populating the database. Builds and
 """
 class DbManager():
     def __init__(self, who_scored_data=None, fifa_card_data=None):
-        db_path = Path('fifa.db')
-        if not db_path.is_file():
-            self.init_db(db_path)
-        else:
-            self.db = pw.SqliteDatabase(db_path)
-            self.db.connect()
         if who_scored_data is not None:
             self.who_trimmed = who_scored_data.trimmed_data
         if fifa_card_data is not None:
@@ -537,11 +531,6 @@ class DbManager():
             self.fifa_card_summary = self.get_fifa_card_summary()
         self.team_translation = json.load(open('init_data/team_translation.json'))
         self.team_translation = self.parse_team_translation()
-    
-    def init_db(self, db_path):
-        self.db = pw.SqliteDatabase(db_path)
-        self.db.connect()
-        self.db.create_tables([Season, PlayerStatistics])
     
     def check_db(self):
         season_list = [
@@ -695,7 +684,7 @@ class DbManager():
                 else:
                     new_team_translation[season_key].update({key: value for key, value in self.team_translation[league_key][season_key].items()})
         return new_team_translation
-    
+            
     def hyper_match(self):
         season_list = [
             '2019/2020',
@@ -705,10 +694,10 @@ class DbManager():
         ]
         players_to_match = self.hyper_match_player_list(season_list)
         ### CHUNGUS LEVEL ###
-        CHUNGUS_LVL = 64
+        CHUNGUS_LVL = 4
         with Pool(CHUNGUS_LVL) as big_chungus:
             big_chungus.map(self.hyper_worker, players_to_match)
-    
+
     def hyper_match_player_list(self, season_list):
         players_to_match = []
         for season in season_list:
@@ -762,7 +751,7 @@ class DbManager():
                 match_list.append((curr_match_score, fifa_player))
         
         if len(match_list) != 0:
-            match_list.sort(key=lambda x:x[0])
+            match_list = sorted(match_list)
         pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
@@ -820,7 +809,6 @@ class DbManager():
                     break
         return z_w
 
-def hyper_match_ext()
 
 if __name__ == '__main__':
     # Build WhoScoredData
