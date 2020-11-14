@@ -11,7 +11,7 @@ import peewee as pw
 import uuid
 import numpy as np
 import pickle
-from multiprocessing import Pool
+from pathos.multiprocessing import Pool
 
 # Take 2 at this bungus
 
@@ -820,6 +820,7 @@ class DbManager():
                     break
         return z_w
 
+def hyper_match_ext()
 
 if __name__ == '__main__':
     # Build WhoScoredData
@@ -830,4 +831,4 @@ if __name__ == '__main__':
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
-    # db_gen.build_matches()
+    db_gen.hyper_match()
