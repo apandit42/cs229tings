@@ -703,7 +703,7 @@ class DbManager():
         ]
         players_to_match = self.hyper_match_player_list(season_list)
         ### CHUNGUS LEVEL ###
-        CHUNGUS_LVL = 4
+        CHUNGUS_LVL = 16
         with Pool(CHUNGUS_LVL) as big_chungus:
             big_chungus.map(self.hyper_worker, players_to_match)
 
@@ -760,8 +760,8 @@ class DbManager():
                 match_list.append((curr_match_score, fifa_player))
         
         if len(match_list) != 0:
-            match_list = sorted(match_list)
-        pickle.dump(match_list, match_save_path.open(mode="wb"))
+            match_list.sort(key=lambda x: x[0])        
+	pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
         # Implement Levenshtein Distance Metric (for string matching)
@@ -828,4 +828,8 @@ if __name__ == '__main__':
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
     db_gen = DbManager(real_athlete_data, fifa_card_data)
+<<<<<<< HEAD
     db_gen.check_db()
+=======
+    db_gen.hyper_match()
+>>>>>>> 71f7af0587071dc1b4b9a0ffe96daba7a3ea7fb7
