@@ -533,7 +533,7 @@ class DbManager():
     
     def optimize_db(self):
         season_list = [
-            # '2019/2020',
+            '2019/2020',
             # '2018/2019',
             # '2017/2018',
             # '2016/2017',
@@ -567,7 +567,7 @@ class DbManager():
 
     def check_db(self):
         season_list = [
-            # '2019/2020',
+            '2019/2020',
             # '2018/2019',
             # '2017/2018',
             # '2016/2017',
@@ -637,6 +637,7 @@ class DbManager():
                 name = input("Paste exact player name: ")
                 year = str(int(season[-4:]) + 1)
                 club = input("Paste exact player club: ")
+                weight = None
                 selected_player = self.get_fifa_player_by_name(name, year, club, weight)
                 if selected_player is None:
                     print('Error, please enter valid player information.')
@@ -806,5 +807,6 @@ if __name__ == '__main__':
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
-    # db_gen = DbManager(real_athlete_data, fifa_card_data)
-    # db_gen.check_db()
+    db_gen = DbManager(real_athlete_data, fifa_card_data)
+    # db_gen.optimize_db()
+    db_gen.check_db()
