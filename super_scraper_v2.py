@@ -560,6 +560,7 @@ class DbManager():
                     init_match_score, init_match = fifa_match_list[0]
                     if init_match_score < -5.0:
                         verified_match_obj[player_id] = init_match
+                        REAL_RUNTIME += 1
                 print(f'Matched {REAL_RUNTIME} out of {total_players}')
             verified_match_obj['REAL_RUNTIME'] = REAL_RUNTIME
             pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
@@ -595,7 +596,7 @@ class DbManager():
                 else:
                     init_match_score = fifa_match_list[0][0]
 
-                if init_match_score > -8.0:
+                if init_match_score > -5.0:
                     final_match = self.get_human_decision(season, player_id, fifa_match_list)
                     if final_match == 'DISCARD':
                         verified_match_obj[player_id] = False
