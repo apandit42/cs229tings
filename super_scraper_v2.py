@@ -570,6 +570,7 @@ class DbManager():
                     else:
                         verified_match_obj[player_id] = init_match
                 else:
+                    fifa_match_list = []
                     final_match = self.get_human_decision(season, fifa_match_list)
                     if final_match == 'DISCARD':
                             verified_match_obj[player_id] = False
