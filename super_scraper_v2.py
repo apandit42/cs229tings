@@ -545,9 +545,11 @@ class DbManager():
             verified_match_obj = {}
             if verified_filename.is_file():
                 verified_match_obj = pickle.load(verified_filename.open('rb'))
-            runtime = 0
+            runtime = -1
             total_players = len(self.who_trimmed[season])
             for player_id in self.who_trimmed[season]:
+                runtime += 1
+                print(f'Matched {runtime} out of {total_players}')
                 if player_id in verified_match_obj:
                     continue
                 hasher = hashlib.md5()
@@ -575,10 +577,7 @@ class DbManager():
                         continue
                     else:
                         verified_match_obj[player_id] = final_match
-                runtime += 1
-                print(f'Matched {runtime} out of {total_players}')
-                if runtime % 25 == 0:
-                    pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
+                pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
             pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
     def get_human_decision(self, season, player_id, fifa_match_list):
