@@ -557,27 +557,25 @@ class DbManager():
                 hasher.update(file_id.encode('utf-8'))
                 file_path = Path('match_data/' + hasher.hexdigest() + 'raw.pickle')
                 fifa_match_list = pickle.load(file_path.open(mode='rb'))
-                if len(fifa_match_list) > 0:
-                    init_match_score, init_match = fifa_match_list[0]
-                    if init_match_score > -8.0:
-                        final_match = self.get_human_decision(season, player_id, fifa_match_list)
-                        if final_match == 'DISCARD':
-                            verified_match_obj[player_id] = False
-                        elif final_match is False:
-                            continue
-                        else:
-                            verified_match_obj[player_id] = final_match
-                    else:
-                        verified_match_obj[player_id] = init_match
-                else:
+                
+                if fifa_match_list is None or len(fifa_match_list) == 0:
                     fifa_match_list = []
-                    final_match = self.get_human_decision(season, fifa_match_list)
+                    init_match_score = 0
+                else:
+                    init_match_score = fifa_match_list[0][0]
+
+                if init_match_score > -8.0:
+                    final_match = self.get_human_decision(season, player_id, fifa_match_list)
                     if final_match == 'DISCARD':
-                            verified_match_obj[player_id] = False
+                        verified_match_obj[player_id] = False
                     elif final_match is False:
                         continue
                     else:
                         verified_match_obj[player_id] = final_match
+                else:
+                    final_match = fifa_match_list[0][1]
+                    verified_match_obj[player_id] = final_match
+
                 pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
             pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
