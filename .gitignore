@@ -5,4 +5,4 @@ geckodriver
 .ipynb_checkpoints/
 match_data/
 *raw.pickle
-
+*.7z
