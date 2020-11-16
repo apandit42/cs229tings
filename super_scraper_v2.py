@@ -572,6 +572,7 @@ class DbManager():
             # '2017/2018',
             # '2016/2017',
         ]
+        
         for season in season_list:
             verified_filename = f'match_verified_fifa_{str(int(season[-4:]) + 1)}'
             verified_filename = Path('init_data/' + verified_filename + '.pickle')
@@ -580,12 +581,16 @@ class DbManager():
                 verified_match_obj = pickle.load(verified_filename.open('rb'))
             if 'REAL_RUNTIME' in verified_match_obj:
                 verified_match_obj.pop('REAL_RUNTIME', None)
-
+            
             runtime = 0
-            total_players = len(list(self.who_trimmed[season].keys()))
+
             for player_id in self.who_trimmed[season]:
                 if player_id in verified_match_obj:
                     runtime += 1
+            
+            total_players = len(list(self.who_trimmed[season].keys()))
+            for player_id in self.who_trimmed[season]:
+                if player_id in verified_match_obj:
                     continue
 
                 hasher = hashlib.md5()
