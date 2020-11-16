@@ -581,10 +581,11 @@ class DbManager():
             if 'REAL_RUNTIME' in verified_match_obj:
                 verified_match_obj.pop('REAL_RUNTIME', None)
 
-            runtime = len(list(verified_match_obj.keys()))
-            total_players = len(self.who_trimmed[season])
+            runtime = 0
+            total_players = len(list(self.who_trimmed[season].keys()))
             for player_id in self.who_trimmed[season]:
                 if player_id in verified_match_obj:
+                    runtime += 1
                     continue
 
                 hasher = hashlib.md5()
