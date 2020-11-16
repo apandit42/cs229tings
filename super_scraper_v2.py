@@ -578,10 +578,14 @@ class DbManager():
             verified_match_obj = {}
             if verified_filename.is_file():
                 verified_match_obj = pickle.load(verified_filename.open('rb'))
-            runtime = verified_match_obj['REAL_RUNTIME']
+            if 'REAL_RUNTIME' in verified_match_obj:
+                verified_match_obj.pop('REAL_RUNTIME', None)
+
+            runtime = 0
             total_players = len(self.who_trimmed[season])
             for player_id in self.who_trimmed[season]:
                 if player_id in verified_match_obj:
+                    runtime += 1
                     continue
 
                 hasher = hashlib.md5()
