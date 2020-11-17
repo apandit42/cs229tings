@@ -147,7 +147,7 @@ class Db_Controller():
         season_list = [
             '2021',
             '2020',
-            # '2019',
+            '2019',
             '2018',
         ]
         true_matches = {}
@@ -165,7 +165,7 @@ class Db_Controller():
         season_list = [
             '2021',
             '2020',
-            # '2019',
+            '2019',
             '2018',
         ]
         with self.db.atomic():
