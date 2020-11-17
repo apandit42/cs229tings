@@ -6,4 +6,4 @@ geckodriver
 match_data/
 *raw.pickle
 *.7z
-__pycache__
+__pycache__/
