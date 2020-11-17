@@ -29,7 +29,9 @@ class PlayerStatistics(BasePlayer):
     name = pw.CharField()
     first_name = pw.CharField()
     last_name = pw.CharField()
-    ws_team_name = pw.CharField() 
+    ws_team_name = pw.CharField()
+    ws_tournament_name = pw.CharField()
+    ws_tournament_id = pw.IntegerField()
     ws_player_id = pw.IntegerField()
     ws_season = pw.CharField()
     age = pw.IntegerField()
@@ -191,6 +193,8 @@ class Db_Controller():
                         first_name = who_player['firstName'],
                         last_name = who_player['lastName'],
                         ws_team_name = who_player['long_team_name'],
+                        ws_tournament_name = who_player['tournamentName'],
+                        ws_tournament_id = who_player['tournamentId'],
                         ws_player_id = int(who_player['playerId']),
                         ws_season = who_player['seasonName'],
                         age = int(fifa_player['age']),
