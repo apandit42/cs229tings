@@ -6,7 +6,9 @@ import peewee as pw
 import numpy as np
 import pickle
 import re
-
+from playhouse.dataset import DataSet
+import pandas as pd
+import numpy as np
 
 """
 Class BasePlayer()
@@ -31,7 +33,6 @@ class PlayerStatistics(BasePlayer):
     last_name = pw.CharField()
     ws_team_name = pw.CharField()
     ws_tournament_name = pw.CharField()
-    ws_tournament_id = pw.IntegerField()
     ws_player_id = pw.IntegerField()
     ws_season = pw.CharField()
     age = pw.IntegerField()
@@ -43,14 +44,14 @@ class PlayerStatistics(BasePlayer):
     position = pw.CharField()
     appearances = pw.IntegerField()
     subs_on = pw.IntegerField()
-    minutes_played = pw.IntegerField()
-    goals = pw.IntegerField()
-    assists_total = pw.IntegerField()
-    yellow_cards = pw.DoubleField()
-    red_cards = pw.DoubleField()
+    min_played = pw.IntegerField()
+    goal_per_game = pw.DoubleField()
+    assists_total_per_game = pw.DoubleField()
+    yellow_cards_per_game = pw.DoubleField()
+    red_cards_per_game = pw.DoubleField()
     shots_per_game = pw.DoubleField()
     aerials_won_per_game = pw.DoubleField()
-    man_of_match = pw.IntegerField()
+    man_of_match_per_game = pw.DoubleField()
     pass_success = pw.DoubleField()
 
     # Base player
@@ -62,7 +63,7 @@ class PlayerStatistics(BasePlayer):
     clearance_per_game = pw.DoubleField()
     was_dribbled_per_game = pw.DoubleField()
     outfielder_blocked_per_game = pw.DoubleField()
-    goal_own = pw.IntegerField()
+    goal_own_per_game = pw.IntegerField()
 
     # Base player
     # Category Summary, Subcategory Offensive
@@ -187,6 +188,15 @@ class Db_Controller():
                     except:
                         player_height = int(who_player['height'])
                     
+                    # Hatem Ben Arfa
+                    if fifa_player['age'] == '120':
+                        fifa_player['age'] = 33
+                        fifa_player['weight'] = 65
+                    
+                    # Tati Tulhuk
+                    if int(fifa_player['weight']) == 0:
+                        fifa_player['weight'] = 75
+                    
                     PlayerStatistics.get_or_create(
                         fifa_year = int(season),
                         name = who_player['name'],
@@ -194,7 +204,6 @@ class Db_Controller():
                         last_name = who_player['lastName'],
                         ws_team_name = who_player['long_team_name'],
                         ws_tournament_name = who_player['tournamentName'],
-                        ws_tournament_id = who_player['tournamentId'],
                         ws_player_id = int(who_player['playerId']),
                         ws_season = who_player['seasonName'],
                         age = int(fifa_player['age']),
@@ -204,14 +213,14 @@ class Db_Controller():
                         position = fifa_player['player_position'],
                         appearances = int(who_player['apps']),
                         subs_on = int(who_player['subOn']),
-                        minutes_played = int(who_player['minsPlayed']),
-                        goals = int(who_player['goal']),
-                        assists_total = int(who_player['assistTotal']),
-                        yellow_cards = float(who_player['yellowCard']),
-                        red_cards = float(who_player['redCard']),
+                        min_played = int(who_player['minsPlayed']),
+                        goal_per_game = float(who_player['goal']) / float(who_player['apps']),
+                        assists_total_per_game = float(who_player['assistTotal']) / float(who_player['apps']), 
+                        yellow_cards_per_game = float(who_player['yellowCard']) /  float(who_player['apps']),
+                        red_cards_per_game = float(who_player['redCard']) / float(who_player['apps']) ,
                         shots_per_game = float(who_player['shotsPerGame']),
                         aerials_won_per_game = float(who_player['aerialWonPerGame']),
-                        man_of_match = int(who_player['manOfTheMatch']),
+                        man_of_match_per_game = float(who_player['manOfTheMatch']) / float(who_player['apps']),
                         pass_success = float(who_player['passSuccess']),
 
                         tackles_per_game = float(who_player['tacklePerGame']),
@@ -221,7 +230,7 @@ class Db_Controller():
                         clearance_per_game = float(who_player['clearancePerGame']),
                         was_dribbled_per_game = float(who_player['wasDribbledPerGame']),
                         outfielder_blocked_per_game = float(who_player['outfielderBlockPerGame']),
-                        goal_own = float(who_player['goalOwn']),
+                        goal_own_per_game = float(who_player['goalOwn']) / float(who_player['apps']),
                         key_pass_per_game = float(who_player['keyPassPerGame']),
                         dribbles_won_per_game = float(who_player['dribbleWonPerGame']),
                         fouls_given_per_game = float(who_player['foulGivenPerGame']),
