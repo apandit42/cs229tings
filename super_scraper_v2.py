@@ -431,7 +431,7 @@ class DbManager():
             '2019/2020',
             # '2018/2019',
             # '2017/2018',
-            # '2016/2017',
+            '2016/2017',
         ]
         
         for season in season_list:
@@ -548,7 +548,7 @@ class DbManager():
         season_list = [
             '2019/2020',
             #'2018/2019',
-            '2017/2018',
+            # '2017/2018',
             #'2016/2017',   
         ]
         players_to_match = self.hyper_match_player_list(season_list)

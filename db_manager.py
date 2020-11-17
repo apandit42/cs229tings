@@ -146,9 +146,9 @@ class Db_Controller():
     def get_true_matches(self):
         season_list = [
             '2021',
-            # '2020',
+            '2020',
             # '2019',
-            # '2018',
+            '2018',
         ]
         true_matches = {}
         for season in season_list:
@@ -158,29 +158,34 @@ class Db_Controller():
             for player_id in verified_matches:
                 if verified_matches[player_id] is not False and player_id in self.who_trimmed[f"{int(season) - 2}/{int(season) - 1}"]:
                     true_matches[season][player_id] = verified_matches[player_id]
-            print(f"Total True Matches: {len(true_matches)}")
+            print(f"Total True Matches: {len(true_matches[season])}")
         return true_matches
     
     def player_build(self):
         season_list = [
             '2021',
-            # '2020',
+            '2020',
             # '2019',
-            # '2018',
+            '2018',
         ]
         with self.db.atomic():
             for season in season_list:
                 for player_id in self.true_matches[season]:
+                    
                     who_player = self.who_trimmed[f"{int(season) - 2}/{int(season) - 1}"][player_id]
                     print(f"Building player {who_player['name']} ...")
                     fifa_player = self.true_matches[season][player_id]
+
+                    if fifa_player['acceleration'] == '' or fifa_player['composure'] == '':
+                        print(f"Missing substats ...")
+                        continue
                     
                     try:
                         player_height = int(fifa_player['height'])
                     except:
                         player_height = int(who_player['height'])
                     
-                    PlayerStatistics.create(
+                    PlayerStatistics.get_or_create(
                         fifa_year = int(season),
                         name = who_player['name'],
                         first_name = who_player['firstName'],
