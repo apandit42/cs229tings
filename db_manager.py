@@ -182,6 +182,11 @@ class Db_Controller():
                     if fifa_player['acceleration'] == '' or fifa_player['composure'] == '':
                         print(f"Missing substats ...")
                         continue
+
+                    if 'long_team_name' in who_player:
+                        team_name = who_player['long_team_name']
+                    else:
+                        team_name = who_player['teamName']
                     
                     try:
                         player_height = int(fifa_player['height'])
@@ -202,7 +207,7 @@ class Db_Controller():
                         name = who_player['name'],
                         first_name = who_player['firstName'],
                         last_name = who_player['lastName'],
-                        ws_team_name = who_player['long_team_name'],
+                        ws_team_name = team_name,
                         ws_tournament_name = who_player['tournamentName'],
                         ws_player_id = int(who_player['playerId']),
                         ws_season = who_player['seasonName'],

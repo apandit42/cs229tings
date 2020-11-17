@@ -47,7 +47,10 @@ class WhoScoredData():
                 summary_all, summary_def, summary_off, summary_pass = self.get_player_json(stage_id)
                 team_key_int = abs(2019 - int(season_key.split('/')[0]))
                 print(f'Team Key: {team_key_int}, League Key: {league_key}')
-                team_names_subset = team_names[league_key][team_key_int]
+                try:
+                    team_names_subset = team_names[league_key][team_key_int]
+                except:
+                    team_names_subset = None
                 summary_dict = self.merge_summaries(summary_all, summary_def, summary_off, summary_pass, team_names_subset)
                 all_player_who_scored_data[league_key][season_key] = summary_dict
         self.driver.quit()
@@ -173,28 +176,30 @@ class WhoScoredData():
             all_json_results.append(json_body)
         return all_json_results
 
-    def merge_summaries(self, summary_all, summary_def, summary_off, summary_pass, team_names_subset):
+    def merge_summaries(self, summary_all, summary_def, summary_off, summary_pass, team_names_subset=None):
         summary_all = summary_all['playerTableStats']
         summary_def = summary_def['playerTableStats']
         summary_off = summary_off['playerTableStats']
         summary_pass = summary_pass['playerTableStats']
-        team_names = team_names_subset['teamTableStats']
+        if team_names_subset is not None:
+            team_names = team_names_subset['teamTableStats']
 
         merged_final_dict = {}
         for player in summary_all:
             player_short_team_name = player['teamName']
-            for team in team_names:
-                try:
-                    if team['name'] == player_short_team_name:
-                        player['long_team_name'] = team['teamName']
-                        break
-                except KeyError:
-                    team = team['teamTableStats'][0]
-                    if team['name'] == player_short_team_name:
-                        player['long_team_name'] = team['teamName']
-                        break
-            if 'long_team_name' not in player:
-                raise Exception(f'No team match found, short ({player_short_team_name}), all teams \n{team_names}')
+            if team_names_subset is not None:
+                for team in team_names:
+                    try:
+                        if team['name'] == player_short_team_name:
+                            player['long_team_name'] = team['teamName']
+                            break
+                    except KeyError:
+                        team = team['teamTableStats'][0]
+                        if team['name'] == player_short_team_name:
+                            player['long_team_name'] = team['teamName']
+                            break
+                # if 'long_team_name' not in player:
+                #     raise Exception(f'No team match found, short ({player_short_team_name}), all teams \n{team_names}')
             merged_final_dict[player['playerId']] = {key: value for key, value in player.items()}
         for player in summary_def:
             if player['playerId'] in merged_final_dict:
@@ -395,9 +400,9 @@ class DbManager():
     def optimize_db(self):
         season_list = [
             '2019/2020',
-            # '2018/2019',
-            # '2017/2018',
-            # '2016/2017',
+            '2018/2019',
+            '2017/2018',
+            '2016/2017',
         ]
         for season in season_list:
             verified_filename = f'match_verified_fifa_{str(int(season[-4:]) + 1)}'
@@ -419,7 +424,7 @@ class DbManager():
                 fifa_match_list = pickle.load(file_path.open(mode='rb'))
                 if len(fifa_match_list) > 0:
                     init_match_score, init_match = fifa_match_list[0]
-                    if init_match_score < -5.0:
+                    if init_match_score <= -3.0:
                         verified_match_obj[player_id] = init_match
                         REAL_RUNTIME += 1
                 print(f'Matched {REAL_RUNTIME} out of {total_players}')
@@ -547,9 +552,9 @@ class DbManager():
     def hyper_match(self):
         season_list = [
             '2019/2020',
-            #'2018/2019',
-            # '2017/2018',
-            #'2016/2017',   
+            '2018/2019',
+            '2017/2018',
+            '2016/2017',   
         ]
         players_to_match = self.hyper_match_player_list(season_list)
         ### CHUNGUS LEVEL ###
@@ -587,20 +592,19 @@ class DbManager():
                         continue
                 except ValueError:
                     print(f"FIFA height missing for {fifa_player['player_name']}")
-                if abs(who_player['weight'] - int(fifa_player['weight'])) > 7:
+                if abs(who_player['weight'] - int(fifa_player['weight'])) > 7 and (who_player['weight'] != 0 or fifa_player['weight']):
                     continue
-
-                special_team_match = 100.0 # Some random impossibly high value
-                if season in self.team_translation:
-                    if who_player['long_team_name'] in self.team_translation[season]:
-                        special_team_match = self.club_match_threshold(
-                            self.team_translation[season][who_player['long_team_name']],
-                            fifa_player['player_club'], 
-                        )
+                # special_team_match = 100.0 # Some random impossibly high value
+                # if season in self.team_translation:
+                #     if who_player['long_team_name'] in self.team_translation[season]:
+                #         special_team_match = self.club_match_threshold(
+                #             self.team_translation[season][who_player['long_team_name']],
+                #             fifa_player['player_club'], 
+                #         )
                 curr_match_score = min(
-                    special_team_match,
+                    # special_team_match,
                     self.club_match_threshold(who_player['teamName'], fifa_player['player_club']),
-                    self.club_match_threshold(who_player['long_team_name'], fifa_player['player_club']),
+                    # self.club_match_threshold(who_player['long_team_name'], fifa_player['player_club']),
                 )
                 curr_match_score += min(
                     self.name_match_threshold(who_player['name'], fifa_player['player_name']),
@@ -610,7 +614,8 @@ class DbManager():
                 match_list.append((curr_match_score, fifa_player))
         
         if len(match_list) != 0:
-            match_list.sort(key=lambda x: x[0])        
+            match_list.sort(key=lambda x: x[0])
+            match_list = [match_list[0]]        
         pickle.dump(match_list, match_save_path.open(mode="wb"))
     
     def get_levenshtein_score(self, str_a, str_b):
@@ -650,7 +655,7 @@ class DbManager():
         for i in who_scored_club.split():
             for j in fifa_club.split():
                 if i == j:
-                    z_w -= len(i) / 2
+                    z_w -= len(i) / 2.5
                     break
         return z_w
 
@@ -664,7 +669,7 @@ class DbManager():
         for i in who_scored_name.split():
             for j in fifa_name.split():
                 if i == j:
-                    z_w -= len(i) / 2
+                    z_w -= len(i) / 1.2
                     break
         return z_w
 
@@ -677,6 +682,5 @@ if __name__ == '__main__':
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
-    db_gen = DbManager(real_athlete_data, fifa_card_data)
+    # db_gen = DbManager(real_athlete_data, fifa_card_data)
     # db_gen.optimize_db()
-    db_gen.check_db()
