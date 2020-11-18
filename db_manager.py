@@ -9,6 +9,7 @@ import re
 from playhouse.dataset import DataSet
 import pandas as pd
 import numpy as np
+import sqlite3
 
 """
 Class BasePlayer()
@@ -164,6 +165,11 @@ class Db_Controller():
             print(f"Total True Matches: {len(true_matches[season])}")
         return true_matches
     
+    def write_csv(self):
+        conn = sqlite3('fifa.db')
+        x = pd.read_sql("SELECT * from playerstatistics", conn)
+        x.write_csv('fifa_final.csv')
+    
     def player_build(self):
         season_list = [
             '2021',
@@ -291,4 +297,5 @@ class Db_Controller():
 if __name__ == '__main__':
     # Generate the Db_Controller
     db_manager = Db_Controller()
-    db_manager.player_build()
+    # db_manager.player_build()
+    db_manager.write_csv()
