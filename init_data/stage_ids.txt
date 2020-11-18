@@ -93,3 +93,27 @@ Europa League:
 	2018/2019: 16786
 	2017/2018: 15617
 	2016/2017: 14368
+
+UEFA Nations League A Grp. 1:
+	2018/2019: 18101
+
+UEFA Nations League A Grp. 2:
+	2018/2019: 15940
+
+UEFA Nations League A Grp. 3:
+	2018/2019: 15941
+
+UEFA Nations League A Grp. 4:
+	2018/2019: 15942
+
+UEFA Nations League A Champions:
+	2018/2019: 16804
+
+UEFA Nations League A Playoff:
+	2018/2019: 18101
+
+Premier League (Russia):
+	2019/2020: 17565
+	2018/2019: 16400
+	2017/2018: 15139
+	2016/2017: 13823
