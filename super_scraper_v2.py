@@ -716,6 +716,6 @@ if __name__ == '__main__':
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
-    # db_gen = DbManager(real_athlete_data, fifa_card_data)
-    # db_gen.hyper_match()
-    # db_gen.optimize_db_bronze()
+    db_gen = DbManager(real_athlete_data, fifa_card_data)
+    db_gen.hyper_match()
+    db_gen.optimize_db_bronze()
