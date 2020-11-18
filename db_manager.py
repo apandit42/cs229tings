@@ -166,9 +166,9 @@ class Db_Controller():
         return true_matches
     
     def write_csv(self):
-        conn = sqlite3('fifa.db')
+        conn = sqlite3.connect('fifa.db')
         x = pd.read_sql("SELECT * from playerstatistics", conn)
-        x.write_csv('fifa_final.csv')
+        x.to_csv('fifa_final.csv')
     
     def player_build(self):
         season_list = [
