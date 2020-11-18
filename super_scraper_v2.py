@@ -431,11 +431,45 @@ class DbManager():
             verified_match_obj['REAL_RUNTIME'] = REAL_RUNTIME
             pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
 
+    def optimize_db_bronze(self):
+        season_list = [
+            '2019/2020',
+            '2018/2019',
+            '2017/2018',
+            '2016/2017',
+        ]
+        for season in season_list:
+            verified_filename = f'match_verified_fifa_{str(int(season[-4:]) + 1)}'
+            verified_filename = Path('init_data/' + verified_filename + '.pickle')
+            if verified_filename.is_file():
+                verified_match_obj = pickle.load(verified_filename.open('rb'))
+            else:
+                verified_match_obj = {}
+            REAL_RUNTIME = 0
+            total_players = len(self.who_trimmed[season])
+            for player_id in self.who_trimmed[season]:
+                if player_id in verified_match_obj:
+                    REAL_RUNTIME += 1
+                    continue
+                hasher = hashlib.md5()
+                file_id = season + player_id
+                hasher.update(file_id.encode('utf-8'))
+                file_path = Path('match_data/' + hasher.hexdigest() + 'raw.pickle')
+                fifa_match_list = pickle.load(file_path.open(mode='rb'))
+                if len(fifa_match_list) > 0:
+                    init_match_score, init_match = fifa_match_list[0]
+                    if init_match_score <= -3.0:
+                        verified_match_obj[player_id] = init_match
+                        REAL_RUNTIME += 1
+                print(f'Matched {REAL_RUNTIME} out of {total_players}')
+            verified_match_obj['REAL_RUNTIME'] = REAL_RUNTIME
+            pickle.dump(verified_match_obj, verified_filename.open(mode='wb'))
+
     def check_db(self):
         season_list = [
             '2019/2020',
-            # '2018/2019',
-            # '2017/2018',
+            '2018/2019',
+            '2017/2018',
             '2016/2017',
         ]
         
@@ -601,11 +635,11 @@ class DbManager():
                 #             self.team_translation[season][who_player['long_team_name']],
                 #             fifa_player['player_club'], 
                 #         )
-                curr_match_score = min(
+                #curr_match_score = min(
                     # special_team_match,
-                    self.club_match_threshold(who_player['teamName'], fifa_player['player_club']),
+                curr_match_score = self.club_match_threshold(who_player['teamName'], fifa_player['player_club']),
                     # self.club_match_threshold(who_player['long_team_name'], fifa_player['player_club']),
-                )
+                #)
                 curr_match_score += min(
                     self.name_match_threshold(who_player['name'], fifa_player['player_name']),
                     self.name_match_threshold(who_player['firstName'] + ' ' + who_player['lastName'], fifa_player['player_name']),
@@ -682,5 +716,6 @@ if __name__ == '__main__':
     fifa_card_data = FutBinData()
     print(f'Collected {fifa_card_data.get_player_count()} players\' data from Futbin.com...')
     # Build Db
-    # db_gen = DbManager(real_athlete_data, fifa_card_data)
-    # db_gen.optimize_db()
+    db_gen = DbManager(real_athlete_data, fifa_card_data)
+    db_gen.hyper_match()
+    db_gen.optimize_db_bronze()
