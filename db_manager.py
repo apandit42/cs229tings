@@ -297,5 +297,5 @@ class Db_Controller():
 if __name__ == '__main__':
     # Generate the Db_Controller
     db_manager = Db_Controller()
-    # db_manager.player_build()
+    db_manager.player_build()
     db_manager.write_csv()
